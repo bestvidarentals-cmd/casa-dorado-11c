@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Casa Dorado 11C</title>
+
+  <style>
+    :root{
+      /* Beach theme */
+      --sand:#fbf5ec;
+      --foam:#ffffff;
+      --ink:#1f2a2e;
+      --muted:#516167;
+
+      --teal:#18a7a5;
+      --turq:#2cc7c2;
+      --coral:#ff6f61;
+
+      --stroke:rgba(31,42,46,.10);
+      --shadow:0 14px 36px rgba(13, 32, 32, .18);
+      --radius:26px;
+    }
+    *{ box-sizing:border-box; }
+
+    /* Luxury animated background layer */
+    .bg{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+
+      background:
+        linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
+        url("bg-pool.jpg");
+      background-size: cover;
+      background-position: center;
+
+      transform: scale(1.05);
+      animation: luxuryZoom 28s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes luxuryZoom{
+      from { transform: scale(1.05); }
+      to   { transform: scale(1.12); }
+    }
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: var(--sand); /* fallback behind the animated bg layer */
+      color: var(--ink);
+      display:flex;
+      justify-content:center;
+      padding:16px;
+    }
+
+    .phone{
+      width:min(460px, 100%);
+      background: rgba(255,255,255,.62); /* slightly richer luxury glass */
+      border: 1px solid var(--stroke);
+      border-radius: 34px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(6px);
+
+      position: relative;
+      z-index: 1; /* sits above .bg */
+    }
+
+    .topbar{
+      padding:16px 18px 12px;
+      background:
+        linear-gradient(180deg, rgba(44,199,194,.16), rgba(255,255,255,0) 70%),
+        linear-gradient(180deg, rgba(255,111,97,.10), rgba(255,255,255,0) 75%);
+      border-bottom: 1px solid var(--stroke);
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+    .topbar-left{ min-width: 0; }
+    .title{
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing:.2px;
+      margin:0;
+    }
+    .subtitle{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height:1.3;
+    }
+    .langToggle{
+      border:1px solid var(--stroke);
+      background: var(--foam);
+      border-radius: 16px;
+      padding:8px 10px;
+      font-weight:900;
+      font-size:12.5px;
+      cursor:pointer;
+      box-shadow: 0 10px 22px rgba(13, 32, 32, .10);
+      -webkit-tap-highlight-color: transparent;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .langToggle:active{ transform: scale(.99); }
+
+    .main{
+      display:grid;
+      grid-template-columns: 74px 1fr;
+      min-height: calc(100vh - 140px);
+    }
+
+    .rail{
+      padding:14px 10px;
+      border-right:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(24,167,165,.10), transparent 50%);
+    }
+    .iconBtn{
+      width:54px;
+      height:54px;
+      margin:10px auto;
+      border-radius: 18px;
+      border:1px solid var(--stroke);
+      background: var(--foam);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .08s ease, border-color .08s ease, box-shadow .08s ease;
+      box-shadow: 0 10px 22px rgba(13, 32, 32, .10);
+      font-size: 22px;
+    }
+    .iconBtn:active{ transform: scale(.98); }
+    .iconBtn.active{
+      border-color: rgba(24,167,165,.55);
+      box-shadow: 0 14px 26px rgba(13, 32, 32, .14);
+      background: linear-gradient(180deg, rgba(44,199,194,.18), #fff 65%);
+    }
+
+    .content{ padding:16px; }
+
+    .card{
+      border:1px solid var(--stroke);
+      background: var(--foam);
+      border-radius: var(--radius);
+      padding:16px 16px 14px;
+      box-shadow: 0 14px 28px rgba(13, 32, 32, .12);
+      backdrop-filter: blur(6px);
+    }
+
+    h2{
+      margin:0 0 8px;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    .meta{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.35;
+    }
+    .row{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin: 10px 0 0;
+    }
+    .pill{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(44,199,194,.10), rgba(255,255,255,0));
+      border:1px solid rgba(24,167,165,.22);
+      font-size: 13.5px;
+    }
+    .pill.coral{
+      background: linear-gradient(180deg, rgba(255,111,97,.12), rgba(255,255,255,0));
+      border:1px solid rgba(255,111,97,.25);
+    }
+    .pill .k{
+      color: rgba(31,42,46,.74);
+      font-weight:800;
+      min-width: 92px;
+    }
+    .pill .v{
+      text-align:right;
+      font-weight:650;
+    }
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .btn{
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(24,167,165,.38);
+      background: rgba(44,199,194,.16);
+      color: var(--ink);
+      text-decoration:none;
+      font-weight: 900;
+      font-size: 13.5px;
+      -webkit-tap-highlight-color: transparent;
+      user-select:none;
+    }
+    .btn.coral{
+      border:1px solid rgba(255,111,97,.45);
+      background: rgba(255,111,97,.16);
+    }
+    .btn:active{ transform: scale(.99); }
+
+    ul.clean{ margin:0; padding-left:18px; color:var(--ink); }
+    ul.clean li{ margin:6px 0; }
+
+    /* Fix alignment for bullet lists inside pills */
+    .pill ul.clean{
+      text-align: left;
+      padding-left: 18px;
+      margin: 0;
+    }
+    .pill ul.clean li{
+      text-align: left;
+    }
+
+    footer{
+      padding:12px 18px 14px;
+      border-top:1px solid var(--stroke);
+      color: rgba(31,42,46,.58);
+      font-size:12px;
+      text-align:center;
+      background: linear-gradient(0deg, rgba(44,199,194,.10), transparent 70%);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Luxury animated background -->
+  <div class="bg" aria-hidden="true"></div>
+
+  <div class="phone">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1 class="title" id="propTitle"></h1>
+        <p class="subtitle" id="propSubtitle"></p>
+      </div>
+      <div class="langToggle" id="langToggle" aria-label="Language toggle">ES</div>
+    </div>
+
+    <div class="main">
+      <nav class="rail" aria-label="Menu">
+        <div class="iconBtn active" data-page="wifi" title="Wi-Fi">📶</div>
+        <div class="iconBtn" data-page="maps" title="Directions">🗺️</div>
+        <div class="iconBtn" data-page="checkin" title="Check-in">🔑</div>
+        <div class="iconBtn" data-page="checkout" title="Check-out">✅</div>
+        <div class="iconBtn" data-page="house" title="House Guide">🏠</div>
+        <div class="iconBtn" data-page="rules" title="House Rules">📌</div>
+        <div class="iconBtn" data-page="shopping" title="Shopping">🛒</div>
+        <div class="iconBtn" data-page="food" title="Food">🍽️</div>
+        <div class="iconBtn" data-page="help" title="Help">🆘</div>
+      </nav>
+
+      <section class="content">
+        <div class="card" id="page"></div>
+      </section>
+    </div>
+
+    <footer id="footerText"></footer>
+  </div>
+
+  <script>
+    /**********************************************************
+     * EDIT ONLY THIS SECTION (CONTENT)
+     **********************************************************/
+    const CONTENT = {
+      propertyName: "Casa Dorado 11C",
+
+      wifi: { name: "DoradoGuest", pass: "b13nv3n1d0" },
+
+      maps: {
+        address: "CDA Las Nubes Edificio 11 Apt C",
+        link: "https://maps.app.goo.gl/Ufmdhn7Jatqre1Es5",
+        parkingBulletsEN: [
+          "Only use the apartment’s assigned parking spot.",
+          "Please do not use any other spaces."
+        ],
+        parkingBulletsES: [
+          "Solo utiliza el cajón de estacionamiento asignado.",
+          "Por favor no uses otros cajones."
+        ]
+      },
+
+      checkin: {
+        time: "3:00 PM",
+        doorCode: "132436",
+        bulletsEN: [
+          "Arriving early? You can drop luggage if the unit is ready.",
+          "Enter the door code, then pull/push the door firmly.",
+          "Please lock the door whenever you leave."
+        ],
+        bulletsES: [
+          "¿Llegas temprano? Puedes dejar maletas si la unidad ya está lista.",
+          "Ingresa el código y empuja/jala la puerta con firmeza.",
+          "Por favor cierra con llave cada vez que salgas."
+        ],
+        youtubeDoorHowTo: "https://youtu.be/dZfc3S7i0bk"
+      },
+
+      checkout: {
+        time: "11:00 AM",
+        bulletsEN: [
+          "Turn off A/C + lights",
+          "Leave used towels in the bathroom",
+          "Check for personal items",
+          "Lock the door behind you"
+        ],
+        bulletsES: [
+          "Apaga A/C y luces",
+          "Deja toallas usadas en el baño",
+          "Revisa que no olvides pertenencias",
+          "Cierra con llave al salir"
+        ]
+      },
+
+      house: {
+        acEN: [
+          "Recommended 23–25°C",
+          "Please turn off when you leave"
+        ],
+        acES: [
+          "Recomendado 23–25°C",
+          "Apágalo al salir"
+        ],
+        hotWaterEN: ["Allow 1–2 minutes"],
+        hotWaterES: ["Espera 1–2 minutos"],
+        trashEN: [
+          "Location: (add exact spot)",
+          "Schedule: (add pickup / instructions)"
+        ],
+        trashES: [
+          "Ubicación: (agrega el lugar exacto)",
+          "Horario: (agrega recolección / instrucciones)"
+        ],
+        videos: {
+          acRemote: "https://youtu.be/UFgrTn4xALA",
+          wallSafe: "https://youtu.be/CS53-VqRZlE",
+          trash: "https://youtu.be/jsMapNBDmdw"
+        }
+      },
+
+      rules: {
+        bulletsEN: [
+          "No smoking inside",
+          "No pets",
+          "Pool hour 8 AM - 10 PM",
+          "Guest must shower before entering Pool",
+          "Guest must have FOB to access Pool",
+          "Quiet hours: 10 PM – 8 AM"
+        ],
+        bulletsES: [
+          "No fumar dentro",
+          "No mascotas",
+          "Horario de piscina 8 AM - 10 PM",
+          "Todos deben ducharse antes de ingresar a la piscina.",
+          "Usa el FOB para acceso a la alberca",
+          "Horario de silencio: 10 PM – 8 AM"
+        ]
+      },
+
+      shopping: {
+        places: [
+          { name: "Aki", link: "https://maps.app.goo.gl/mtMzpqGACHH7ACL16" },
+          { name: "Super Chedraui", link: "https://maps.app.goo.gl/FRy6cjrsPJuGBxPx8" },
+          { name: "Live Pharmacy", link: "https://maps.app.goo.gl/BwRW93Syr668yhXt7" },
+          { name: "Farmacias Similares", link: "https://maps.app.goo.gl/xH5fbWHZ7GHYS38v8" }
+        ]
+      },
+
+      food: {
+        spots: [
+          { name:"La Bodega Verde (Breakfast)", link:"https://maps.app.goo.gl/JZapobhJJ3iQNjoH6" },
+          { name:"El Nicho (Breakfast)", link:"https://maps.app.goo.gl/qZNhAK6RA7MYN9Dg8" }
+        ]
+      },
+
+      help: {
+        hostName: "Tony",
+        whatsappE164: "13039751749",
+        emergency: "911 (Mexico)"
+      }
+    };
+
+    /**********************************************************
+     * APP (no need to edit below)
+     **********************************************************/
+    const I18N = {
+      en: {
+        subtitle: "Tap an icon for Wi-Fi, directions, check-in/out, house info, and local tips.",
+        footer: "Tip: iPhone → Share → Add to Home Screen (feels like an app).",
+        openMaps: "Open Google Maps",
+        copyPass: "Copy Password",
+        copied: "Copied ✅",
+        msgWhatsApp: "Message on WhatsApp",
+        watchVideo: "Watch video",
+        rows: {
+          network:"Network", password:"Password", address:"Address", parking:"Parking",
+          checkin:"Check-in", checkout:"Check-out", doorcode:"Door code",
+          quick:"Quick steps", rules:"Rules"
+        },
+        houseLabels: {
+          ac:"A/C", hot:"Hot water", trash:"Trash",
+          acRemote:"A/C remote", wallSafe:"Wall safe"
+        }
+      },
+      es: {
+        subtitle: "Toca un ícono para ver Wi-Fi, cómo llegar, check-in/out, guía de la casa y recomendaciones.",
+        footer: "Tip: iPhone → Compartir → Agregar a pantalla de inicio (se siente como app).",
+        openMaps: "Abrir Google Maps",
+        copyPass: "Copiar contraseña",
+        copied: "Copiado ✅",
+        msgWhatsApp: "Enviar WhatsApp",
+        watchVideo: "Ver video",
+        rows: {
+          network:"Red", password:"Contraseña", address:"Dirección", parking:"Estacionamiento",
+          checkin:"Llegada", checkout:"Salida", doorcode:"Código",
+          quick:"Pasos rápidos", rules:"Reglas"
+        },
+        houseLabels: {
+          ac:"A/C", hot:"Agua caliente", trash:"Basura",
+          acRemote:"Control de A/C", wallSafe:"Caja fuerte"
+        }
+      }
+    };
+
+    let lang = "en";
+    let currentPage = "wifi";
+
+    const pageEl = document.getElementById("page");
+    const buttons = [...document.querySelectorAll(".iconBtn")];
+    const langToggle = document.getElementById("langToggle");
+    const propTitle = document.getElementById("propTitle");
+    const propSubtitle = document.getElementById("propSubtitle");
+    const footerText = document.getElementById("footerText");
+
+    function setChrome(){
+      propTitle.textContent = CONTENT.propertyName;
+      propSubtitle.textContent = I18N[lang].subtitle;
+      footerText.textContent = I18N[lang].footer;
+      langToggle.textContent = (lang === "en") ? "ES" : "EN";
+      document.documentElement.lang = lang;
+    }
+
+    function pill(theme, k, v, mono=false){
+      return `
+        <div class="pill ${theme === 'coral' ? 'coral' : ''}">
+          <div class="k">${k}</div>
+          <div class="v ${mono ? 'mono' : ''}">${v}</div>
+        </div>
+      `;
+    }
+
+    function bullets(list){
+      return `<ul class="clean">${list.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+    }
+
+    function btn(label, href, style="teal"){
+      if(!href) return "";
+      return `<a class="btn ${style === 'coral' ? 'coral' : ''}" href="${href}" target="_blank" rel="noopener">${label} ▶</a>`;
+    }
+
+    function render(key){
+      currentPage = key;
+
+      if(key === "wifi"){
+        const title = "📶 Wi-Fi";
+        const desc = (lang==="en")
+          ? "Connect using the info below or scan the QR code."
+          : "Conéctate con la información de abajo o escanea el código QR.";
+
+        const rows = [
+          pill("teal", I18N[lang].rows.network, CONTENT.wifi.name),
+          pill("coral", I18N[lang].rows.password, CONTENT.wifi.pass, true),
+        ].join("");
+
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+
+          <div class="row">${rows}</div>
+
+          <!-- WIFI QR CODE -->
+          <div style="margin-top:16px; text-align:center;">
+            <img
+              src="wifi-qr.jpg"
+              alt="Wi-Fi QR Code"
+              style="
+                width:180px;
+                max-width:100%;
+                border-radius:18px;
+                box-shadow:0 10px 22px rgba(0,0,0,.15);
+              "
+            />
+            <p class="meta" style="margin-top:8px;">
+              ${lang==="en" ? "Scan to connect automatically" : "Escanea para conectarte automáticamente"}
+            </p>
+          </div>
+
+          <div class="btnRow">
+            <a class="btn coral" href="#" id="copyBtn">${I18N[lang].copyPass}</a>
+          </div>
+        `;
+
+        document.getElementById("copyBtn").addEventListener("click", async (e)=>{
+          e.preventDefault();
+          try{
+            await navigator.clipboard.writeText(CONTENT.wifi.pass);
+            const btnEl = e.target;
+            const original = I18N[lang].copyPass;
+            btnEl.textContent = I18N[lang].copied;
+            setTimeout(()=> btnEl.textContent = original, 1400);
+          }catch{
+            alert(lang==="en"
+              ? "Copy not supported here. Long-press the password to copy."
+              : "Aquí no se puede copiar. Mantén presionada la contraseña para copiar."
+            );
+          }
+        });
+        return;
+      }
+
+      if(key === "maps"){
+        const title = "🗺️ " + (lang==="en" ? "Directions" : "Cómo llegar");
+        const desc = (lang==="en") ? "Tap to open the map, then review parking notes." : "Toca para abrir el mapa y revisa notas de estacionamiento.";
+        const rows = [
+          pill("teal", I18N[lang].rows.address, CONTENT.maps.address),
+          pill("teal", I18N[lang].rows.parking, (lang==="en" ? bullets(CONTENT.maps.parkingBulletsEN) : bullets(CONTENT.maps.parkingBulletsES)))
+        ].join("");
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="row">${rows}</div>
+          <div class="btnRow">
+            <a class="btn" href="${CONTENT.maps.link}" target="_blank" rel="noopener">${I18N[lang].openMaps} ↗</a>
+          </div>
+        `;
+        return;
+      }
+
+      if(key === "checkin"){
+        const title = "🔑 " + (lang==="en" ? "Check-in" : "Llegada");
+        const desc = (lang==="en")
+          ? "Welcome! Here are the essentials to get you settled."
+          : "¡Bienvenidos! Aquí está lo esencial para entrar sin problema.";
+        const rows = [
+          pill("teal", I18N[lang].rows.checkin, CONTENT.checkin.time),
+          pill("coral", I18N[lang].rows.doorcode, CONTENT.checkin.doorCode, true),
+          pill("teal", I18N[lang].rows.quick, bullets(lang==="en" ? CONTENT.checkin.bulletsEN : CONTENT.checkin.bulletsES))
+        ].join("");
+
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="row">${rows}</div>
+          <div class="btnRow">
+            ${CONTENT.checkin.youtubeDoorHowTo ? `<a class="btn coral" href="${CONTENT.checkin.youtubeDoorHowTo}" target="_blank" rel="noopener">${I18N[lang].watchVideo} ▶</a>` : ""}
+          </div>
+        `;
+        return;
+      }
+
+      if(key === "checkout"){
+        const title = "✅ " + (lang==="en" ? "Check-out" : "Salida");
+        const desc = (lang==="en") ? "Thank you for staying with us — safe travels!" : "Gracias por hospedarte — ¡buen viaje!";
+        const rows = [
+          pill("teal", I18N[lang].rows.checkout, CONTENT.checkout.time),
+          pill("teal", I18N[lang].rows.quick, bullets(lang==="en" ? CONTENT.checkout.bulletsEN : CONTENT.checkout.bulletsES))
+        ].join("");
+
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="row">${rows}</div>
+        `;
+        return;
+      }
+
+      if(key === "house"){
+        const title = "🏠 " + (lang==="en" ? "House Guide" : "Guía de la casa");
+        const desc = (lang==="en") ? "Quick how-tos for common items." : "Cómo usar cosas comunes.";
+
+        const rows = [
+          pill("teal", I18N[lang].houseLabels.ac, bullets(lang==="en" ? CONTENT.house.acEN : CONTENT.house.acES)),
+          pill("teal", I18N[lang].houseLabels.hot, bullets(lang==="en" ? CONTENT.house.hotWaterEN : CONTENT.house.hotWaterES)),
+          pill("teal", I18N[lang].houseLabels.trash, bullets(lang==="en" ? CONTENT.house.trashEN : CONTENT.house.trashES))
+        ].join("");
+
+        const v = CONTENT.house.videos || {};
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="row">${rows}</div>
+
+          <div class="btnRow">
+            ${btn(`${I18N[lang].watchVideo}: ${I18N[lang].houseLabels.acRemote}`, v.acRemote, "teal")}
+            ${btn(`${I18N[lang].watchVideo}: ${I18N[lang].houseLabels.wallSafe}`, v.wallSafe, "coral")}
+            ${btn(`${I18N[lang].watchVideo}: ${I18N[lang].houseLabels.trash}`, v.trash, "teal")}
+          </div>
+        `;
+        return;
+      }
+
+      if(key === "rules"){
+        const title = "📌 " + (lang==="en" ? "House Rules" : "Reglas de la casa");
+        const desc = (lang==="en") ? "A few friendly rules to keep everyone comfortable." : "Unas reglas sencillas para que todos estén a gusto.";
+        const rows = pill("coral", I18N[lang].rows.rules, bullets(lang==="en" ? CONTENT.rules.bulletsEN : CONTENT.rules.bulletsES));
+        pageEl.innerHTML = `<h2>${title}</h2><p class="meta">${desc}</p><div class="row">${rows}</div>`;
+        return;
+      }
+
+      if(key === "shopping"){
+        const title = "🛒 " + (lang==="en" ? "Shopping" : "Compras");
+        const desc = (lang==="en") ? "Helpful nearby places." : "Lugares útiles cercanos.";
+        const links = (CONTENT.shopping.places || [])
+          .filter(p => p.name && p.link)
+          .map((p,i)=> `<a class="btn ${i%2===1?'coral':''}" href="${p.link}" target="_blank" rel="noopener">${p.name} ↗</a>`)
+          .join("");
+
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="btnRow">${links}</div>
+        `;
+        return;
+      }
+
+      if(key === "food"){
+        const title = "🍽️ " + (lang==="en" ? "Food" : "Comida");
+        const desc = (lang==="en") ? "Our favorites." : "Nuestros favoritos.";
+        const links = (CONTENT.food.spots || [])
+          .filter(s => s.name && s.link)
+          .map((s,i)=> `<a class="btn ${i%2===1?'coral':''}" href="${s.link}" target="_blank" rel="noopener">${s.name} ↗</a>`)
+          .join("");
+
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="btnRow">${links}</div>
+        `;
+        return;
+      }
+
+      if(key === "help"){
+        const title = "🆘 " + (lang==="en" ? "Help" : "Ayuda");
+        const desc = (lang==="en") ? "If you need anything, I’m happy to help." : "Si necesitas algo, con gusto te ayudo.";
+        const rows = [
+          pill("teal", (lang==="en" ? "Host" : "Anfitrión"), CONTENT.help.hostName),
+          pill("coral", "WhatsApp", "+" + CONTENT.help.whatsappE164, true),
+          pill("teal", (lang==="en" ? "Emergency" : "Emergencias"), CONTENT.help.emergency)
+        ].join("");
+
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="row">${rows}</div>
+          <div class="btnRow">
+            <a class="btn" href="https://wa.me/${CONTENT.help.whatsappE164}" target="_blank" rel="noopener">${I18N[lang].msgWhatsApp} ↗</a>
+          </div>
+        `;
+        return;
+      }
+    }
+
+    buttons.forEach(b=>{
+      b.addEventListener("click", ()=>{
+        buttons.forEach(x=>x.classList.remove("active"));
+        b.classList.add("active");
+        render(b.dataset.page);
+      });
+    });
+
+    langToggle.addEventListener("click", ()=>{
+      lang = (lang==="en") ? "es" : "en";
+      setChrome();
+      render(currentPage);
+    });
+
+    setChrome();
+    render("wifi");
+  </script>
+</body>
+</html>
