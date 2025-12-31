@@ -28,13 +28,11 @@
       position: fixed;
       inset: 0;
       z-index: 0;
-
       background:
         linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
         url("bg-pool.jpg");
       background-size: cover;
       background-position: center;
-
       transform: scale(1.05);
       animation: luxuryZoom 28s ease-in-out infinite alternate;
       will-change: transform;
@@ -47,7 +45,7 @@
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background: var(--sand); /* fallback behind the animated bg layer */
+      background: var(--sand);
       color: var(--ink);
       display:flex;
       justify-content:center;
@@ -56,15 +54,14 @@
 
     .phone{
       width:min(460px, 100%);
-      background: rgba(255,255,255,.62); /* slightly richer luxury glass */
+      background: rgba(255,255,255,.62);
       border: 1px solid var(--stroke);
       border-radius: 34px;
       box-shadow: var(--shadow);
       overflow:hidden;
       backdrop-filter: blur(6px);
-
       position: relative;
-      z-index: 1; /* sits above .bg */
+      z-index: 1;
     }
 
     .topbar{
@@ -81,7 +78,7 @@
     .topbar-left{ min-width: 0; }
     .title{
       font-size: 20px;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing:.2px;
       margin:0;
     }
@@ -89,14 +86,14 @@
       margin:6px 0 0;
       color: var(--muted);
       font-size: 13.5px;
-      line-height:1.3;
+      line-height:1.35;
     }
     .langToggle{
       border:1px solid var(--stroke);
       background: var(--foam);
       border-radius: 16px;
       padding:8px 10px;
-      font-weight:900;
+      font-weight:950;
       font-size:12.5px;
       cursor:pointer;
       box-shadow: 0 10px 22px rgba(13, 32, 32, .10);
@@ -108,18 +105,20 @@
 
     .main{
       display:grid;
-      grid-template-columns: 74px 1fr;
+      grid-template-columns: 78px 1fr;
       min-height: calc(100vh - 140px);
     }
 
     .rail{
-      padding:14px 10px;
+      padding:12px 10px;
       border-right:1px solid var(--stroke);
       background: linear-gradient(180deg, rgba(24,167,165,.10), transparent 50%);
+      overflow-y:auto;
+      -webkit-overflow-scrolling: touch;
     }
     .iconBtn{
-      width:54px;
-      height:54px;
+      width:56px;
+      height:56px;
       margin:10px auto;
       border-radius: 18px;
       border:1px solid var(--stroke);
@@ -144,7 +143,7 @@
 
     .card{
       border:1px solid var(--stroke);
-      background: var(--foam);
+      background: rgba(255,255,255,.82);
       border-radius: var(--radius);
       padding:16px 16px 14px;
       box-shadow: 0 14px 28px rgba(13, 32, 32, .12);
@@ -160,14 +159,40 @@
       margin:0 0 12px;
       color: var(--muted);
       font-size: 13px;
-      line-height:1.35;
+      line-height:1.45;
     }
+
+    .hero{
+      border-radius: 22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.55);
+      background:
+        linear-gradient(180deg, rgba(24,167,165,.18), rgba(255,255,255,0) 60%),
+        rgba(255,255,255,.35);
+      box-shadow: 0 14px 28px rgba(13, 32, 32, .10);
+      padding: 14px 14px 12px;
+      margin: 6px 0 12px;
+    }
+    .heroTitle{
+      margin:0;
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing:.2px;
+    }
+    .heroLine{
+      margin:8px 0 0;
+      font-size: 13.5px;
+      color: rgba(31,42,46,.75);
+      line-height: 1.45;
+    }
+
     .row{
       display:flex;
       flex-direction:column;
       gap:8px;
       margin: 10px 0 0;
     }
+
     .pill{
       display:flex;
       justify-content:space-between;
@@ -184,7 +209,7 @@
     }
     .pill .k{
       color: rgba(31,42,46,.74);
-      font-weight:800;
+      font-weight:900;
       min-width: 92px;
     }
     .pill .v{
@@ -193,6 +218,73 @@
     }
     .mono{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    ul.clean{ margin:0; padding-left:18px; color:var(--ink); }
+    ul.clean li{ margin:6px 0; }
+    .pill ul.clean{ text-align:left; padding-left:18px; margin:0; }
+    .pill ul.clean li{ text-align:left; }
+
+    /* Link cards */
+    .linkGrid{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:10px;
+    }
+    .linkCard{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 14px;
+      border-radius:18px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.86);
+      text-decoration:none;
+      color: var(--ink);
+      box-shadow: 0 10px 20px rgba(13, 32, 32, .10);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .linkCard:active{ transform: scale(.99); }
+    .linkLeft{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+    .linkTitle{
+      font-weight: 950;
+      font-size: 15.5px;
+      letter-spacing:.2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .linkSub{
+      font-size: 12.5px;
+      color: rgba(31,42,46,.62);
+    }
+    .linkPill{
+      flex: 0 0 auto;
+      padding:8px 10px;
+      border-radius: 999px;
+      font-weight: 950;
+      font-size: 12px;
+      border: 1px solid rgba(24,167,165,.35);
+      background: rgba(44,199,194,.16);
+    }
+    .linkPill.coral{
+      border: 1px solid rgba(255,111,97,.40);
+      background: rgba(255,111,97,.16);
+    }
+
+    .sectionTitle{
+      margin: 14px 0 6px;
+      font-size: 14px;
+      font-weight: 950;
+      letter-spacing:.2px;
+      color: rgba(31,42,46,.78);
     }
 
     .btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
@@ -207,7 +299,7 @@
       background: rgba(44,199,194,.16);
       color: var(--ink);
       text-decoration:none;
-      font-weight: 900;
+      font-weight: 950;
       font-size: 13.5px;
       -webkit-tap-highlight-color: transparent;
       user-select:none;
@@ -217,19 +309,6 @@
       background: rgba(255,111,97,.16);
     }
     .btn:active{ transform: scale(.99); }
-
-    ul.clean{ margin:0; padding-left:18px; color:var(--ink); }
-    ul.clean li{ margin:6px 0; }
-
-    /* Fix alignment for bullet lists inside pills */
-    .pill ul.clean{
-      text-align: left;
-      padding-left: 18px;
-      margin: 0;
-    }
-    .pill ul.clean li{
-      text-align: left;
-    }
 
     footer{
       padding:12px 18px 14px;
@@ -243,7 +322,6 @@
 </head>
 
 <body>
-  <!-- Luxury animated background -->
   <div class="bg" aria-hidden="true"></div>
 
   <div class="phone">
@@ -257,15 +335,16 @@
 
     <div class="main">
       <nav class="rail" aria-label="Menu">
-        <div class="iconBtn active" data-page="wifi" title="Wi-Fi">📶</div>
-        <div class="iconBtn" data-page="maps" title="Directions">🗺️</div>
-        <div class="iconBtn" data-page="checkin" title="Check-in">🔑</div>
-        <div class="iconBtn" data-page="checkout" title="Check-out">✅</div>
-        <div class="iconBtn" data-page="house" title="House Guide">🏠</div>
+        <div class="iconBtn active" data-page="home" title="Welcome">🏝️</div>
+        <div class="iconBtn" data-page="directions" title="Directions">🗺️</div>
+        <div class="iconBtn" data-page="arrival" title="Arrival & Departure">🧳</div>
+        <div class="iconBtn" data-page="wifi" title="Wi-Fi">📶</div>
+        <div class="iconBtn" data-page="house" title="Video House Guide">🎥</div>
         <div class="iconBtn" data-page="rules" title="House Rules">📌</div>
         <div class="iconBtn" data-page="shopping" title="Shopping">🛒</div>
-        <div class="iconBtn" data-page="food" title="Food">🍽️</div>
-        <div class="iconBtn" data-page="help" title="Help">🆘</div>
+        <div class="iconBtn" data-page="food" title="Restaurants">🍽️</div>
+        <div class="iconBtn" data-page="medical" title="Medical Assistance">🩺</div>
+        <div class="iconBtn" data-page="sos" title="SOS">🆘</div>
       </nav>
 
       <section class="content">
@@ -285,44 +364,34 @@
 
       wifi: { name: "DoradoGuest", pass: "b13nv3n1d0" },
 
-      maps: {
-        address: "CDA Las Nubes Edificio 11 Apt C",
-        link: "https://maps.app.goo.gl/Ufmdhn7Jatqre1Es5",
-        parkingBulletsEN: [
-          "Only use the apartment’s assigned parking spot.",
-          "Please do not use any other spaces."
-        ],
-        parkingBulletsES: [
-          "Solo utiliza el cajón de estacionamiento asignado.",
-          "Por favor no uses otros cajones."
-        ]
+      directions: {
+        addressLine1: "CDA Las Nubes Edificio 11 Apt C",
+        city: "Puerto Morelos",
+        state: "Quintana Roo",
+        zip: "77580",
+        mapLink: "https://maps.app.goo.gl/Ufmdhn7Jatqre1Es5"
       },
 
-      checkin: {
-        time: "3:00 PM",
-        doorCode: "132436",
-        bulletsEN: [
-          "Arriving early? You can drop luggage if the unit is ready.",
-          "Enter the door code, then pull/push the door firmly.",
+      arrival: {
+        checkinTime: "3:00 PM",
+        checkoutTime: "11:00 AM",
+        notesEN: [
+          "Your personal door code will be sent privately before arrival.",
+          "If you arrive early, you can drop luggage if the unit is ready.",
           "Please lock the door whenever you leave."
         ],
-        bulletsES: [
-          "¿Llegas temprano? Puedes dejar maletas si la unidad ya está lista.",
-          "Ingresa el código y empuja/jala la puerta con firmeza.",
+        notesES: [
+          "Tu código personal se enviará por privado antes de tu llegada.",
+          "Si llegas temprano, puedes dejar maletas si la unidad ya está lista.",
           "Por favor cierra con llave cada vez que salgas."
         ],
-        youtubeDoorHowTo: "https://youtu.be/dZfc3S7i0bk"
-      },
-
-      checkout: {
-        time: "11:00 AM",
-        bulletsEN: [
+        checkoutEN: [
           "Turn off A/C + lights",
           "Leave used towels in the bathroom",
           "Check for personal items",
           "Lock the door behind you"
         ],
-        bulletsES: [
+        checkoutES: [
           "Apaga A/C y luces",
           "Deja toallas usadas en el baño",
           "Revisa que no olvides pertenencias",
@@ -330,71 +399,94 @@
         ]
       },
 
-      house: {
-        acEN: [
-          "Recommended 23–25°C",
-          "Please turn off when you leave"
-        ],
-        acES: [
-          "Recomendado 23–25°C",
-          "Apágalo al salir"
-        ],
-        hotWaterEN: ["Allow 1–2 minutes"],
-        hotWaterES: ["Espera 1–2 minutos"],
-        trashEN: [
-          "Location: (add exact spot)",
-          "Schedule: (add pickup / instructions)"
-        ],
-        trashES: [
-          "Ubicación: (agrega el lugar exacto)",
-          "Horario: (agrega recolección / instrucciones)"
-        ],
-        videos: {
-          acRemote: "https://youtu.be/UFgrTn4xALA",
-          wallSafe: "https://youtu.be/CS53-VqRZlE",
-          trash: "https://youtu.be/jsMapNBDmdw"
-        }
-      },
+      houseGuideVideos: [
+        { titleEN:"Door Lock", titleES:"Cerradura de la puerta", link:"https://youtu.be/dZfc3S7i0bk" },
+        { titleEN:"A/C Remote", titleES:"Control del A/C",         link:"https://youtu.be/UFgrTn4xALA" },
+        { titleEN:"Wall Safe",  titleES:"Caja fuerte",            link:"https://youtu.be/CS53-VqRZlE" },
+        { titleEN:"Trash",      titleES:"Basura",                 link:"https://youtu.be/jsMapNBDmdw" }
+      ],
 
       rules: {
-        bulletsEN: [
-          "No smoking inside",
-          "No pets",
-          "Pool hour 8 AM - 10 PM",
-          "Guest must shower before entering Pool",
-          "Guest must have FOB to access Pool",
-          "Quiet hours: 10 PM – 8 AM"
+        parkingEN: [
+          "Only use the apartment’s assigned parking spot.",
+          "Please do not use any other spaces."
         ],
-        bulletsES: [
-          "No fumar dentro",
-          "No mascotas",
-          "Horario de piscina 8 AM - 10 PM",
-          "Todos deben ducharse antes de ingresar a la piscina.",
-          "Usa el FOB para acceso a la alberca",
-          "Horario de silencio: 10 PM – 8 AM"
-        ]
+        parkingES: [
+          "Solo utiliza el cajón de estacionamiento asignado.",
+          "Por favor no uses otros cajones."
+        ],
+        homeEN: ["No smoking inside","No pets"],
+        homeES: ["No fumar dentro","No mascotas"],
+        poolEN: [
+          "Pool hours: 8:00 AM – 10:00 PM",
+          "Shower before entering the pool",
+          "You must have the FOB to access the pool"
+        ],
+        poolES: [
+          "Horario de piscina: 8:00 AM – 10:00 PM",
+          "Dúchate antes de entrar a la piscina",
+          "Necesitas el FOB para acceso a la alberca"
+        ],
+        quietEN: ["Quiet hours: 10:00 PM – 8:00 AM"],
+        quietES: ["Horario de silencio: 10:00 PM – 8:00 AM"]
       },
 
       shopping: {
-        places: [
-          { name: "Aki", link: "https://maps.app.goo.gl/mtMzpqGACHH7ACL16" },
-          { name: "Super Chedraui", link: "https://maps.app.goo.gl/FRy6cjrsPJuGBxPx8" },
+        supermarkets: [
+          { name: "Súper Akí", link: "https://maps.app.goo.gl/mtMzpqGACHH7ACL16" },
+          { name: "Chedraui", link: "https://maps.app.goo.gl/FRy6cjrsPJuGBxPx8" },
+          { name: "Chedraui Selecto (nearby)", link: "https://www.google.com/maps/search/?api=1&query=Chedraui+Selecto+Puerto+Morelos+Quintana+Roo" }
+        ],
+        localGroceries: [
+          { name: "OXXO (nearby)", link: "https://www.google.com/maps/search/?api=1&query=OXXO+Puerto+Morelos+Quintana+Roo" }
+        ],
+        fruitStands: [
+          { name: "Fruit stand (Colonia side) #1", link: "https://www.google.com/maps/search/?api=1&query=fruteria+Colonia+Puerto+Morelos+Quintana+Roo" },
+          { name: "Fruit stand (Colonia side) #2", link: "https://www.google.com/maps/search/?api=1&query=puesto+de+frutas+Colonia+Puerto+Morelos+Quintana+Roo" }
+        ]
+      },
+
+      restaurants: {
+        breakfast: [
+          { name:"La Bodega Verde", link:"https://maps.app.goo.gl/JZapobhJJ3iQNjoH6" },
+          { name:"El Nicho", link:"https://maps.app.goo.gl/qZNhAK6RA7MYN9Dg8" },
+          { name:"Lola y Moya", link:"https://www.google.com/maps/search/?api=1&query=Lola+y+Moya+Puerto+Morelos" },
+          { name:"Mangata", link:"https://www.google.com/maps/search/?api=1&query=Mangata+Puerto+Morelos" }
+        ],
+        seafood: [
+          { name:"Los Koras", link:"https://www.google.com/maps/search/?api=1&query=Los+Koras+Puerto+Morelos" },
+          { name:"La Playita", link:"https://www.google.com/maps/search/?api=1&query=La+Playita+Puerto+Morelos" },
+          { name:"El Picudo", link:"https://www.google.com/maps/search/?api=1&query=El+Picudo+Puerto+Morelos" }
+        ],
+        dinner: [
+          { name:"Punta Corcho", link:"https://www.google.com/maps/search/?api=1&query=Punta+Corcho+Puerto+Morelos" },
+          { name:"La Sirena", link:"https://www.google.com/maps/search/?api=1&query=La+Sirena+Puerto+Morelos" },
+          { name:"Miles Kitchen", link:"https://www.google.com/maps/search/?api=1&query=Miles+Kitchen+Puerto+Morelos" }
+        ],
+        pizza: [
+          { name:"I Wanna Pizza", link:"https://www.google.com/maps/search/?api=1&query=I+Wanna+Pizza+Puerto+Morelos" },
+          { name:"La Pizza Nostra", link:"https://www.google.com/maps/search/?api=1&query=La+Pizza+Nostra+Puerto+Morelos" },
+          { name:"Oma Wood Oven Pizza", link:"https://www.google.com/maps/search/?api=1&query=Oma+Wood+Oven+Pizza+Puerto+Morelos" }
+        ]
+      },
+
+      medical: {
+        pharmacies: [
           { name: "Live Pharmacy", link: "https://maps.app.goo.gl/BwRW93Syr668yhXt7" },
           { name: "Farmacias Similares", link: "https://maps.app.goo.gl/xH5fbWHZ7GHYS38v8" }
         ]
       },
 
-      food: {
-        spots: [
-          { name:"La Bodega Verde (Breakfast)", link:"https://maps.app.goo.gl/JZapobhJJ3iQNjoH6" },
-          { name:"El Nicho (Breakfast)", link:"https://maps.app.goo.gl/qZNhAK6RA7MYN9Dg8" }
-        ]
-      },
+      sos: {
+        authoritiesEN: [{ label: "Emergency (Mexico)", value: "911" }],
+        authoritiesES: [{ label: "Emergencias (México)", value: "911" }],
 
-      help: {
-        hostName: "Tony",
-        whatsappE164: "13039751749",
-        emergency: "911 (Mexico)"
+        propertyManagers: [
+          { name: "Gerardo Garcia", whatsappE164: "525587197202" },
+          { name: "Abby Garcia", whatsappE164: "525529811958" }
+        ],
+
+        owner: { name: "Tony", whatsappE164: "13039751749" }
       }
     };
 
@@ -403,45 +495,35 @@
      **********************************************************/
     const I18N = {
       en: {
-        subtitle: "Tap an icon for Wi-Fi, directions, check-in/out, house info, and local tips.",
+        subtitle: "Tap an icon for welcome, directions, arrival, Wi‑Fi, videos, rules, and local tips.",
         footer: "Tip: iPhone → Share → Add to Home Screen (feels like an app).",
-        openMaps: "Open Google Maps",
-        copyPass: "Copy Password",
-        copied: "Copied ✅",
-        msgWhatsApp: "Message on WhatsApp",
-        watchVideo: "Watch video",
-        rows: {
-          network:"Network", password:"Password", address:"Address", parking:"Parking",
-          checkin:"Check-in", checkout:"Check-out", doorcode:"Door code",
-          quick:"Quick steps", rules:"Rules"
-        },
-        houseLabels: {
-          ac:"A/C", hot:"Hot water", trash:"Trash",
-          acRemote:"A/C remote", wallSafe:"Wall safe"
+        buttons: { driving: "Driving Directions", copyPass: "Copy Password", copied: "Copied ✅", watch: "Watch video", map: "Map", whatsapp: "Message on WhatsApp" },
+        labels: { address: "Address", checkin: "Check-in", checkout: "Check-out", wifiNetwork: "Network", wifiPassword: "Password" },
+        sections: {
+          parking: "Parking", home: "Home", pool: "Pool", quiet: "Quiet Hours",
+          supermarkets: "Supermarkets", local: "Local Grocery", fruit: "Fruit Stands",
+          breakfast: "Breakfast / Coffee", seafood: "Seafood", dinner: "Dinner", pizza: "Pizza",
+          pharmacies: "Pharmacies",
+          authorities: "Authorities (Real Emergencies)", property: "Property Issues (Managers)", owner: "Owner / Feedback"
         }
       },
       es: {
-        subtitle: "Toca un ícono para ver Wi-Fi, cómo llegar, check-in/out, guía de la casa y recomendaciones.",
+        subtitle: "Toca un ícono para bienvenida, cómo llegar, llegada, Wi‑Fi, videos, reglas y recomendaciones.",
         footer: "Tip: iPhone → Compartir → Agregar a pantalla de inicio (se siente como app).",
-        openMaps: "Abrir Google Maps",
-        copyPass: "Copiar contraseña",
-        copied: "Copiado ✅",
-        msgWhatsApp: "Enviar WhatsApp",
-        watchVideo: "Ver video",
-        rows: {
-          network:"Red", password:"Contraseña", address:"Dirección", parking:"Estacionamiento",
-          checkin:"Llegada", checkout:"Salida", doorcode:"Código",
-          quick:"Pasos rápidos", rules:"Reglas"
-        },
-        houseLabels: {
-          ac:"A/C", hot:"Agua caliente", trash:"Basura",
-          acRemote:"Control de A/C", wallSafe:"Caja fuerte"
+        buttons: { driving: "Cómo llegar (Auto)", copyPass: "Copiar contraseña", copied: "Copiado ✅", watch: "Ver video", map: "Mapa", whatsapp: "Enviar WhatsApp" },
+        labels: { address: "Dirección", checkin: "Llegada", checkout: "Salida", wifiNetwork: "Red", wifiPassword: "Contraseña" },
+        sections: {
+          parking: "Estacionamiento", home: "Casa", pool: "Piscina", quiet: "Silencio",
+          supermarkets: "Supermercados", local: "Tienda / OXXO", fruit: "Frutas (Colonia)",
+          breakfast: "Desayuno / Café", seafood: "Mariscos", dinner: "Cena", pizza: "Pizza",
+          pharmacies: "Farmacias",
+          authorities: "Autoridades (Emergencias reales)", property: "Problemas del depa (Administradores)", owner: "Propietario / Comentarios"
         }
       }
     };
 
     let lang = "en";
-    let currentPage = "wifi";
+    let currentPage = "home";
 
     const pageEl = document.getElementById("page");
     const buttons = [...document.querySelectorAll(".iconBtn")];
@@ -458,73 +540,135 @@
       document.documentElement.lang = lang;
     }
 
+    function bullets(list){
+      return `<ul class="clean">${(list||[]).map(x=>`<li>${x}</li>`).join("")}</ul>`;
+    }
+
     function pill(theme, k, v, mono=false){
+      const keyHtml = k ? `<div class="k">${k}</div>` : `<div class="k" style="display:none"></div>`;
       return `
         <div class="pill ${theme === 'coral' ? 'coral' : ''}">
-          <div class="k">${k}</div>
-          <div class="v ${mono ? 'mono' : ''}">${v}</div>
+          ${keyHtml}
+          <div class="v ${mono ? 'mono' : ''}" style="${k ? '' : 'text-align:left;'}">${v}</div>
         </div>
       `;
     }
 
-    function bullets(list){
-      return `<ul class="clean">${list.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+    function linkCard(name, link, pillText, pillStyle="teal", subText=""){
+      const pillClass = pillStyle === "coral" ? "linkPill coral" : "linkPill";
+      const safeSub = subText ? subText : (lang==="en" ? "Open in Maps" : "Abrir en Maps");
+      return `
+        <a class="linkCard" href="${link}" target="_blank" rel="noopener">
+          <div class="linkLeft">
+            <div class="linkTitle">${name}</div>
+            <div class="linkSub">${safeSub}</div>
+          </div>
+          <div class="${pillClass}">${pillText} ↗</div>
+        </a>
+      `;
     }
 
-    function btn(label, href, style="teal"){
-      if(!href) return "";
-      return `<a class="btn ${style === 'coral' ? 'coral' : ''}" href="${href}" target="_blank" rel="noopener">${label} ▶</a>`;
+    function makeAddress(){
+      const d = CONTENT.directions;
+      return `${d.addressLine1}, ${d.city}, ${d.state} ${d.zip}`;
     }
 
     function render(key){
       currentPage = key;
 
-      if(key === "wifi"){
-        const title = "📶 Wi-Fi";
-        const desc = (lang==="en")
-          ? "Connect using the info below or scan the QR code."
-          : "Conéctate con la información de abajo o escanea el código QR.";
+      if(key === "home"){
+        const title = "🏝️ " + (lang==="en" ? "Welcome" : "Bienvenidos");
+        const heroTitle = (lang==="en") ? "Welcome to Casa Dorado 11C" : "Bienvenidos a Casa Dorado 11C";
+        const heroLine = (lang==="en")
+          ? "Thank you for reserving with us. Use the icons to find everything you need during your stay."
+          : "Gracias por reservar con nosotros. Usa los íconos para encontrar todo lo que necesitas durante tu estancia.";
 
-        const rows = [
-          pill("teal", I18N[lang].rows.network, CONTENT.wifi.name),
-          pill("coral", I18N[lang].rows.password, CONTENT.wifi.pass, true),
+        const badges = [
+          pill("teal", I18N[lang].labels.checkin, CONTENT.arrival.checkinTime),
+          pill("teal", I18N[lang].labels.checkout, CONTENT.arrival.checkoutTime),
+          pill("coral", I18N[lang].labels.address, makeAddress())
         ].join("");
 
         pageEl.innerHTML = `
           <h2>${title}</h2>
-          <p class="meta">${desc}</p>
-
-          <div class="row">${rows}</div>
-
-          <!-- WIFI QR CODE -->
-          <div style="margin-top:16px; text-align:center;">
-            <img
-              src="wifi-qr.jpg"
-              alt="Wi-Fi QR Code"
-              style="
-                width:180px;
-                max-width:100%;
-                border-radius:18px;
-                box-shadow:0 10px 22px rgba(0,0,0,.15);
-              "
-            />
-            <p class="meta" style="margin-top:8px;">
-              ${lang==="en" ? "Scan to connect automatically" : "Escanea para conectarte automáticamente"}
-            </p>
+          <div class="hero">
+            <p class="heroTitle">${heroTitle}</p>
+            <p class="heroLine">${heroLine}</p>
           </div>
-
+          <div class="row">${badges}</div>
           <div class="btnRow">
-            <a class="btn coral" href="#" id="copyBtn">${I18N[lang].copyPass}</a>
+            <a class="btn" href="#" data-jump="directions">${lang==="en" ? "Open Directions" : "Abrir cómo llegar"} ↗</a>
+            <a class="btn coral" href="#" data-jump="arrival">${lang==="en" ? "Arrival & Departure" : "Llegada y salida"} ↗</a>
           </div>
         `;
+        pageEl.querySelectorAll("[data-jump]").forEach(a=>{
+          a.addEventListener("click", (e)=>{
+            e.preventDefault();
+            const target = a.getAttribute("data-jump");
+            const btn = buttons.find(b => b.dataset.page === target);
+            if(btn) btn.click();
+          });
+        });
+        return;
+      }
 
+      if(key === "directions"){
+        const title = "🗺️ " + (lang==="en" ? "Directions to the Condo" : "Cómo llegar al condominio");
+        const desc = (lang==="en")
+          ? "Tap the button below to open Google Maps for driving directions."
+          : "Toca el botón para abrir Google Maps y obtener indicaciones en auto.";
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="row">${pill("teal", I18N[lang].labels.address, makeAddress())}</div>
+          <div class="btnRow">
+            <a class="btn" href="${CONTENT.directions.mapLink}" target="_blank" rel="noopener">${I18N[lang].buttons.driving} ↗</a>
+          </div>
+        `;
+        return;
+      }
+
+      if(key === "arrival"){
+        const title = "🧳 " + (lang==="en" ? "Arrival & Departure" : "Llegada y salida");
+        const desc = (lang==="en")
+          ? "Everything in one place for a smooth check-in and check-out."
+          : "Todo en un solo lugar para una llegada y salida sin complicaciones.";
+        const rows = [
+          pill("teal", I18N[lang].labels.checkin, CONTENT.arrival.checkinTime),
+          pill("teal", I18N[lang].labels.checkout, CONTENT.arrival.checkoutTime),
+          pill("teal", (lang==="en" ? "Arrival notes" : "Notas de llegada"), bullets(lang==="en" ? CONTENT.arrival.notesEN : CONTENT.arrival.notesES)),
+          pill("coral", (lang==="en" ? "Check-out checklist" : "Checklist de salida"), bullets(lang==="en" ? CONTENT.arrival.checkoutEN : CONTENT.arrival.checkoutES))
+        ].join("");
+        pageEl.innerHTML = `<h2>${title}</h2><p class="meta">${desc}</p><div class="row">${rows}</div>`;
+        return;
+      }
+
+      if(key === "wifi"){
+        const title = "📶 Wi‑Fi";
+        const desc = (lang==="en") ? "Connect using the info below or scan the QR code." : "Conéctate con la información de abajo o escanea el código QR.";
+        const rows = [
+          pill("teal", I18N[lang].labels.wifiNetwork, CONTENT.wifi.name),
+          pill("coral", I18N[lang].labels.wifiPassword, CONTENT.wifi.pass, true)
+        ].join("");
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="row">${rows}</div>
+          <div style="margin-top:16px; text-align:center;">
+            <img src="wifi-qr.jpg" alt="Wi‑Fi QR Code" style="width:180px; max-width:100%; border-radius:18px; box-shadow:0 10px 22px rgba(0,0,0,.15);" />
+            <p class="meta" style="margin-top:8px;">${lang==="en" ? "Scan to connect automatically" : "Escanea para conectarte automáticamente"}</p>
+          </div>
+          <div class="btnRow">
+            <a class="btn coral" href="#" id="copyBtn">${I18N[lang].buttons.copyPass}</a>
+          </div>
+        `;
         document.getElementById("copyBtn").addEventListener("click", async (e)=>{
           e.preventDefault();
           try{
             await navigator.clipboard.writeText(CONTENT.wifi.pass);
             const btnEl = e.target;
-            const original = I18N[lang].copyPass;
-            btnEl.textContent = I18N[lang].copied;
+            const original = I18N[lang].buttons.copyPass;
+            btnEl.textContent = I18N[lang].buttons.copied;
             setTimeout(()=> btnEl.textContent = original, 1400);
           }catch{
             alert(lang==="en"
@@ -536,143 +680,132 @@
         return;
       }
 
-      if(key === "maps"){
-        const title = "🗺️ " + (lang==="en" ? "Directions" : "Cómo llegar");
-        const desc = (lang==="en") ? "Tap to open the map, then review parking notes." : "Toca para abrir el mapa y revisa notas de estacionamiento.";
-        const rows = [
-          pill("teal", I18N[lang].rows.address, CONTENT.maps.address),
-          pill("teal", I18N[lang].rows.parking, (lang==="en" ? bullets(CONTENT.maps.parkingBulletsEN) : bullets(CONTENT.maps.parkingBulletsES)))
-        ].join("");
-        pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
-          <div class="row">${rows}</div>
-          <div class="btnRow">
-            <a class="btn" href="${CONTENT.maps.link}" target="_blank" rel="noopener">${I18N[lang].openMaps} ↗</a>
-          </div>
-        `;
-        return;
-      }
-
-      if(key === "checkin"){
-        const title = "🔑 " + (lang==="en" ? "Check-in" : "Llegada");
-        const desc = (lang==="en")
-          ? "Welcome! Here are the essentials to get you settled."
-          : "¡Bienvenidos! Aquí está lo esencial para entrar sin problema.";
-        const rows = [
-          pill("teal", I18N[lang].rows.checkin, CONTENT.checkin.time),
-          pill("coral", I18N[lang].rows.doorcode, CONTENT.checkin.doorCode, true),
-          pill("teal", I18N[lang].rows.quick, bullets(lang==="en" ? CONTENT.checkin.bulletsEN : CONTENT.checkin.bulletsES))
-        ].join("");
-
-        pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
-          <div class="row">${rows}</div>
-          <div class="btnRow">
-            ${CONTENT.checkin.youtubeDoorHowTo ? `<a class="btn coral" href="${CONTENT.checkin.youtubeDoorHowTo}" target="_blank" rel="noopener">${I18N[lang].watchVideo} ▶</a>` : ""}
-          </div>
-        `;
-        return;
-      }
-
-      if(key === "checkout"){
-        const title = "✅ " + (lang==="en" ? "Check-out" : "Salida");
-        const desc = (lang==="en") ? "Thank you for staying with us — safe travels!" : "Gracias por hospedarte — ¡buen viaje!";
-        const rows = [
-          pill("teal", I18N[lang].rows.checkout, CONTENT.checkout.time),
-          pill("teal", I18N[lang].rows.quick, bullets(lang==="en" ? CONTENT.checkout.bulletsEN : CONTENT.checkout.bulletsES))
-        ].join("");
-
-        pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
-          <div class="row">${rows}</div>
-        `;
-        return;
-      }
-
       if(key === "house"){
-        const title = "🏠 " + (lang==="en" ? "House Guide" : "Guía de la casa");
-        const desc = (lang==="en") ? "Quick how-tos for common items." : "Cómo usar cosas comunes.";
-
-        const rows = [
-          pill("teal", I18N[lang].houseLabels.ac, bullets(lang==="en" ? CONTENT.house.acEN : CONTENT.house.acES)),
-          pill("teal", I18N[lang].houseLabels.hot, bullets(lang==="en" ? CONTENT.house.hotWaterEN : CONTENT.house.hotWaterES)),
-          pill("teal", I18N[lang].houseLabels.trash, bullets(lang==="en" ? CONTENT.house.trashEN : CONTENT.house.trashES))
-        ].join("");
-
-        const v = CONTENT.house.videos || {};
-        pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
-          <div class="row">${rows}</div>
-
-          <div class="btnRow">
-            ${btn(`${I18N[lang].watchVideo}: ${I18N[lang].houseLabels.acRemote}`, v.acRemote, "teal")}
-            ${btn(`${I18N[lang].watchVideo}: ${I18N[lang].houseLabels.wallSafe}`, v.wallSafe, "coral")}
-            ${btn(`${I18N[lang].watchVideo}: ${I18N[lang].houseLabels.trash}`, v.trash, "teal")}
-          </div>
-        `;
+        const title = "🎥 " + (lang==="en" ? "Video House Guide" : "Guía en video");
+        const desc = (lang==="en") ? "Tap a video for quick how‑tos." : "Toca un video para ver cómo usar cosas de la casa.";
+        const vids = (CONTENT.houseGuideVideos || []).map((v,i)=>{
+          const name = (lang==="en" ? v.titleEN : v.titleES);
+          return linkCard(name, v.link, I18N[lang].buttons.watch, i%2 ? "coral" : "teal", (lang==="en" ? "Watch on YouTube" : "Ver en YouTube"));
+        }).join("");
+        pageEl.innerHTML = `<h2>${title}</h2><p class="meta">${desc}</p><div class="linkGrid">${vids}</div>`;
         return;
       }
 
       if(key === "rules"){
         const title = "📌 " + (lang==="en" ? "House Rules" : "Reglas de la casa");
         const desc = (lang==="en") ? "A few friendly rules to keep everyone comfortable." : "Unas reglas sencillas para que todos estén a gusto.";
-        const rows = pill("coral", I18N[lang].rows.rules, bullets(lang==="en" ? CONTENT.rules.bulletsEN : CONTENT.rules.bulletsES));
-        pageEl.innerHTML = `<h2>${title}</h2><p class="meta">${desc}</p><div class="row">${rows}</div>`;
+        const parking = bullets(lang==="en" ? CONTENT.rules.parkingEN : CONTENT.rules.parkingES);
+        const home = bullets(lang==="en" ? CONTENT.rules.homeEN : CONTENT.rules.homeES);
+        const pool = bullets(lang==="en" ? CONTENT.rules.poolEN : CONTENT.rules.poolES);
+        const quiet = bullets(lang==="en" ? CONTENT.rules.quietEN : CONTENT.rules.quietES);
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="sectionTitle">${I18N[lang].sections.parking}</div>
+          <div class="row">${pill("teal", "", parking)}</div>
+          <div class="sectionTitle">${I18N[lang].sections.home}</div>
+          <div class="row">${pill("coral", "", home)}</div>
+          <div class="sectionTitle">${I18N[lang].sections.pool}</div>
+          <div class="row">${pill("teal", "", pool)}</div>
+          <div class="sectionTitle">${I18N[lang].sections.quiet}</div>
+          <div class="row">${pill("coral", "", quiet)}</div>
+        `;
         return;
       }
 
       if(key === "shopping"){
         const title = "🛒 " + (lang==="en" ? "Shopping" : "Compras");
-        const desc = (lang==="en") ? "Helpful nearby places." : "Lugares útiles cercanos.";
-        const links = (CONTENT.shopping.places || [])
-          .filter(p => p.name && p.link)
-          .map((p,i)=> `<a class="btn ${i%2===1?'coral':''}" href="${p.link}" target="_blank" rel="noopener">${p.name} ↗</a>`)
-          .join("");
+        const desc = (lang==="en") ? "Food shopping categories near you." : "Categorías de compras de comida cerca de ti.";
+
+        const makeCards = (arr) => `<div class="linkGrid">${
+          (arr||[]).map((p,i)=> linkCard(p.name, p.link, (lang==="en"?"Directions":"Cómo llegar"), i%2 ? "coral":"teal")).join("")
+        }</div>`;
 
         pageEl.innerHTML = `
           <h2>${title}</h2>
           <p class="meta">${desc}</p>
-          <div class="btnRow">${links}</div>
+
+          <div class="sectionTitle">${I18N[lang].sections.supermarkets}</div>
+          ${makeCards(CONTENT.shopping.supermarkets)}
+
+          <div class="sectionTitle">${I18N[lang].sections.local}</div>
+          ${makeCards(CONTENT.shopping.localGroceries)}
+
+          <div class="sectionTitle">${I18N[lang].sections.fruit}</div>
+          ${makeCards(CONTENT.shopping.fruitStands)}
         `;
         return;
       }
 
       if(key === "food"){
-        const title = "🍽️ " + (lang==="en" ? "Food" : "Comida");
-        const desc = (lang==="en") ? "Our favorites." : "Nuestros favoritos.";
-        const links = (CONTENT.food.spots || [])
-          .filter(s => s.name && s.link)
-          .map((s,i)=> `<a class="btn ${i%2===1?'coral':''}" href="${s.link}" target="_blank" rel="noopener">${s.name} ↗</a>`)
-          .join("");
+        const title = "🍽️ " + (lang==="en" ? "Restaurant Guide" : "Guía de restaurantes");
+        const desc = (lang==="en") ? "Top picks, organized for quick decisions." : "Recomendaciones organizadas para decidir rápido.";
+
+        const makeCards = (arr) => `<div class="linkGrid">${
+          (arr||[]).map((p,i)=> linkCard(p.name, p.link, I18N[lang].buttons.map, i%2 ? "coral":"teal")).join("")
+        }</div>`;
 
         pageEl.innerHTML = `
           <h2>${title}</h2>
           <p class="meta">${desc}</p>
-          <div class="btnRow">${links}</div>
+
+          <div class="sectionTitle">${I18N[lang].sections.breakfast}</div>
+          ${makeCards(CONTENT.restaurants.breakfast)}
+
+          <div class="sectionTitle">${I18N[lang].sections.seafood}</div>
+          ${makeCards(CONTENT.restaurants.seafood)}
+
+          <div class="sectionTitle">${I18N[lang].sections.dinner}</div>
+          ${makeCards(CONTENT.restaurants.dinner)}
+
+          <div class="sectionTitle">${I18N[lang].sections.pizza}</div>
+          ${makeCards(CONTENT.restaurants.pizza)}
         `;
         return;
       }
 
-      if(key === "help"){
-        const title = "🆘 " + (lang==="en" ? "Help" : "Ayuda");
-        const desc = (lang==="en") ? "If you need anything, I’m happy to help." : "Si necesitas algo, con gusto te ayudo.";
-        const rows = [
-          pill("teal", (lang==="en" ? "Host" : "Anfitrión"), CONTENT.help.hostName),
-          pill("coral", "WhatsApp", "+" + CONTENT.help.whatsappE164, true),
-          pill("teal", (lang==="en" ? "Emergency" : "Emergencias"), CONTENT.help.emergency)
-        ].join("");
+      if(key === "medical"){
+        const title = "🩺 " + (lang==="en" ? "Medical Assistance" : "Asistencia médica");
+        const desc = (lang==="en") ? "Pharmacies and medical help." : "Farmacias y apoyo médico.";
+        const cards = (CONTENT.medical.pharmacies || []).map((p,i)=> linkCard(p.name, p.link, (lang==="en"?"Directions":"Cómo llegar"), i%2 ? "coral":"teal")).join("");
+        pageEl.innerHTML = `
+          <h2>${title}</h2>
+          <p class="meta">${desc}</p>
+          <div class="sectionTitle">${I18N[lang].sections.pharmacies}</div>
+          <div class="linkGrid">${cards}</div>
+        `;
+        return;
+      }
+
+      if(key === "sos"){
+        const title = "🆘 " + (lang==="en" ? "SOS" : "Ayuda");
+        const desc = (lang==="en") ? "Choose the right contact type for faster help." : "Elige el contacto correcto para recibir ayuda más rápido.";
+
+        const auth = (lang==="en" ? CONTENT.sos.authoritiesEN : CONTENT.sos.authoritiesES);
+        const authRows = (auth||[]).map((x,i)=> pill(i%2 ? "coral":"teal", x.label, x.value, true)).join("");
+
+        const pmCards = (CONTENT.sos.propertyManagers || []).map((m,i)=>{
+          const label = `${m.name} (WhatsApp)`;
+          return linkCard(label, `https://wa.me/${String(m.whatsappE164).replace(/\D/g,'')}`, I18N[lang].buttons.whatsapp, i%2 ? "coral":"teal",
+                         (lang==="en" ? "Repairs / condo issues" : "Reparaciones / problemas del depa"));
+        }).join("");
+
+        const owner = CONTENT.sos.owner || {};
+        const ownerCard = linkCard(`${owner.name} (WhatsApp)`, `https://wa.me/${String(owner.whatsappE164).replace(/\D/g,'')}`, I18N[lang].buttons.whatsapp, "coral",
+                                  (lang==="en" ? "Owner questions / feedback" : "Preguntas / comentarios al propietario"));
 
         pageEl.innerHTML = `
           <h2>${title}</h2>
           <p class="meta">${desc}</p>
-          <div class="row">${rows}</div>
-          <div class="btnRow">
-            <a class="btn" href="https://wa.me/${CONTENT.help.whatsappE164}" target="_blank" rel="noopener">${I18N[lang].msgWhatsApp} ↗</a>
-          </div>
+
+          <div class="sectionTitle">${I18N[lang].sections.authorities}</div>
+          <div class="row">${authRows}</div>
+
+          <div class="sectionTitle">${I18N[lang].sections.property}</div>
+          <div class="linkGrid">${pmCards}</div>
+
+          <div class="sectionTitle">${I18N[lang].sections.owner}</div>
+          <div class="linkGrid">${ownerCard}</div>
         `;
         return;
       }
@@ -693,7 +826,7 @@
     });
 
     setChrome();
-    render("wifi");
+    render("home");
   </script>
 </body>
 </html>
