@@ -3,27 +3,52 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#fbf5ec" />
   <title>Casa Dorado 11C</title>
 
   <style>
     :root{
-      /* Beach theme */
+      /* Brand / beach */
       --sand:#fbf5ec;
       --foam:#ffffff;
-      --ink:#1f2a2e;
-      --muted:#516167;
+      --ink:#172126;
+      --muted:#4b5c62;
 
       --teal:#18a7a5;
       --turq:#2cc7c2;
       --coral:#ff6f61;
 
-      --stroke:rgba(31,42,46,.10);
-      --shadow:0 14px 36px rgba(13, 32, 32, .18);
-      --radius:26px;
-    }
-    *{ box-sizing:border-box; }
+      --stroke:rgba(23,33,38,.12);
+      --shadow:0 10px 22px rgba(13, 32, 32, .12);
+      --shadow-soft:0 6px 14px rgba(13, 32, 32, .10);
 
-    /* Luxury animated background layer */
+      --r-xl:22px;
+      --r-lg:18px;
+      --r-md:14px;
+
+      --s-1:4px;
+      --s-2:8px;
+      --s-3:12px;
+      --s-4:16px;
+      --s-5:24px;
+
+      --tap:44px;
+
+      /* layout */
+      --maxw:520px;
+      --navh:64px;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--sand);
+      color: var(--ink);
+    }
+
+    /* Background */
     .bg{
       position: fixed;
       inset: 0;
@@ -34,339 +59,567 @@
       background-size: cover;
       background-position: center;
       transform: scale(1.05);
-      animation: luxuryZoom 28s ease-in-out infinite alternate;
-      will-change: transform;
     }
-    @keyframes luxuryZoom{
-      from { transform: scale(1.05); }
-      to   { transform: scale(1.12); }
+    @media (prefers-reduced-motion: no-preference){
+      .bg{ animation: luxuryZoom 28s ease-in-out infinite alternate; will-change: transform; }
+      @keyframes luxuryZoom{ from { transform: scale(1.05);} to { transform: scale(1.10);} }
     }
-
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background: var(--sand);
-      color: var(--ink);
-      display:flex;
-      justify-content:center;
-      padding:16px;
+    @media (prefers-reduced-motion: reduce){
+      .bg{ animation:none; }
     }
 
-    .phone{
-      width:min(460px, 100%);
-      background: rgba(255,255,255,.62);
+    /* App frame */
+    .app{
+      position:relative;
+      z-index:1;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 12px 12px calc(var(--navh) + 16px);
+    }
+
+    .surface{
+      background: rgba(255,255,255,.88);
       border: 1px solid var(--stroke);
-      border-radius: 34px;
+      border-radius: 28px;
       box-shadow: var(--shadow);
       overflow:hidden;
       backdrop-filter: blur(6px);
-      position: relative;
-      z-index: 1;
     }
 
-    .topbar{
-      padding:16px 18px 12px;
+    /* Top bar */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 5;
       background:
-        linear-gradient(180deg, rgba(44,199,194,.16), rgba(255,255,255,0) 70%),
-        linear-gradient(180deg, rgba(255,111,97,.10), rgba(255,255,255,0) 75%);
+        linear-gradient(180deg, rgba(44,199,194,.14), rgba(255,255,255,0) 70%),
+        rgba(255,255,255,.92);
       border-bottom: 1px solid var(--stroke);
+      backdrop-filter: blur(10px);
+    }
+    .topbar{
       display:flex;
-      gap:12px;
       align-items:flex-start;
       justify-content:space-between;
+      gap: var(--s-3);
+      padding: 14px 14px 10px;
     }
-    .topbar-left{ min-width: 0; }
+    .top-left{ min-width:0; }
     .title{
-      font-size: 20px;
-      font-weight: 950;
-      letter-spacing:.2px;
       margin:0;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing:.2px;
+      line-height:1.15;
     }
     .subtitle{
       margin:6px 0 0;
-      color: var(--muted);
-      font-size: 13.5px;
+      font-size: 13px;
       line-height:1.35;
+      color: var(--muted);
     }
-    .langToggle{
+
+    .top-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex:0 0 auto;
+    }
+
+    button{
+      font: inherit;
+    }
+    .chip{
+      height: 38px;
+      border-radius: 999px;
+      padding: 0 12px;
       border:1px solid var(--stroke);
       background: var(--foam);
-      border-radius: 16px;
-      padding:8px 10px;
-      font-weight:950;
-      font-size:12.5px;
+      color: var(--ink);
+      font-weight: 850;
+      font-size: 12.5px;
       cursor:pointer;
-      box-shadow: 0 10px 22px rgba(13, 32, 32, .10);
+      box-shadow: var(--shadow-soft);
       -webkit-tap-highlight-color: transparent;
       user-select:none;
-      white-space:nowrap;
     }
-    .langToggle:active{ transform: scale(.99); }
-
-    .main{
-      display:grid;
-      grid-template-columns: 78px 1fr;
-      min-height: calc(100vh - 140px);
+    .chip:active{ transform: scale(.99); }
+    .chip:focus-visible{
+      outline: 3px solid rgba(24,167,165,.35);
+      outline-offset: 2px;
     }
-
-    .rail{
-      padding:12px 10px;
-      border-right:1px solid var(--stroke);
-      background: linear-gradient(180deg, rgba(24,167,165,.10), transparent 50%);
-      overflow-y:auto;
-      -webkit-overflow-scrolling: touch;
+    .chip.primary{
+      border-color: rgba(24,167,165,.35);
+      background: rgba(44,199,194,.14);
     }
-    .iconBtn{
-      width:56px;
-      height:56px;
-      margin:10px auto;
-      border-radius: 18px;
-      border:1px solid var(--stroke);
-      background: var(--foam);
-      display:grid;
-      place-items:center;
-      cursor:pointer;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-      transition: transform .08s ease, border-color .08s ease, box-shadow .08s ease;
-      box-shadow: 0 10px 22px rgba(13, 32, 32, .10);
-      font-size: 22px;
-    }
-    .iconBtn:active{ transform: scale(.98); }
-    .iconBtn.active{
-      border-color: rgba(24,167,165,.55);
-      box-shadow: 0 14px 26px rgba(13, 32, 32, .14);
-      background: linear-gradient(180deg, rgba(44,199,194,.18), #fff 65%);
+    .chip.coral{
+      border-color: rgba(255,111,97,.45);
+      background: rgba(255,111,97,.14);
     }
 
-    .content{ padding:16px; }
+    main{
+      padding: 14px;
+    }
 
+    /* Cards */
     .card{
       border:1px solid var(--stroke);
-      background: rgba(255,255,255,.82);
-      border-radius: var(--radius);
-      padding:16px 16px 14px;
-      box-shadow: 0 14px 28px rgba(13, 32, 32, .12);
-      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,.92);
+      border-radius: var(--r-xl);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
     }
-
-    h2{
+    .stack{ display:flex; flex-direction:column; gap: 12px; }
+    .h2{
       margin:0 0 8px;
-      font-size: 18px;
+      font-size: 16px;
+      font-weight: 900;
       letter-spacing:.2px;
     }
     .meta{
-      margin:0 0 12px;
+      margin:0 0 10px;
       color: var(--muted);
       font-size: 13px;
       line-height:1.45;
     }
 
-    .hero{
-      border-radius: 22px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.55);
-      background:
-        linear-gradient(180deg, rgba(24,167,165,.18), rgba(255,255,255,0) 60%),
-        rgba(255,255,255,.35);
-      box-shadow: 0 14px 28px rgba(13, 32, 32, .10);
-      padding: 14px 14px 12px;
-      margin: 6px 0 12px;
-    }
-    .heroTitle{
-      margin:0;
-      font-size: 18px;
-      font-weight: 950;
-      letter-spacing:.2px;
-    }
-    .heroLine{
-      margin:8px 0 0;
-      font-size: 13.5px;
-      color: rgba(31,42,46,.75);
-      line-height: 1.45;
-    }
-
-    .row{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      margin: 10px 0 0;
-    }
-
-    .pill{
+    /* Key/Value rows */
+    .kv{
       display:flex;
       justify-content:space-between;
-      gap:10px;
-      padding:10px 12px;
-      border-radius: 16px;
+      align-items:flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--r-lg);
+      border: 1px solid rgba(24,167,165,.18);
       background: linear-gradient(180deg, rgba(44,199,194,.10), rgba(255,255,255,0));
-      border:1px solid rgba(24,167,165,.22);
       font-size: 13.5px;
     }
-    .pill.coral{
+    .kv.coral{
+      border: 1px solid rgba(255,111,97,.22);
       background: linear-gradient(180deg, rgba(255,111,97,.12), rgba(255,255,255,0));
-      border:1px solid rgba(255,111,97,.25);
     }
-    .pill .k{
-      color: rgba(31,42,46,.74);
-      font-weight:900;
+    .k{
+      color: rgba(23,33,38,.72);
+      font-weight: 900;
       min-width: 92px;
+      flex:0 0 auto;
     }
-    .pill .v{
+    .v{
       text-align:right;
-      font-weight:650;
+      font-weight: 650;
+      flex: 1 1 auto;
     }
     .mono{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      letter-spacing:.2px;
     }
+    .v.left{ text-align:left; }
 
-    ul.clean{ margin:0; padding-left:18px; color:var(--ink); }
-    ul.clean li{ margin:6px 0; }
-    .pill ul.clean{ text-align:left; padding-left:18px; margin:0; }
-    .pill ul.clean li{ text-align:left; }
+    /* Quick actions */
+    .actions{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .action{
+      min-height: var(--tap);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-start;
+      padding: 12px;
+      border-radius: var(--r-xl);
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow-soft);
+      text-decoration:none;
+      color: var(--ink);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .action:active{ transform: scale(.99); }
+    .action strong{
+      display:block;
+      font-size: 13.5px;
+      font-weight: 900;
+      line-height:1.1;
+    }
+    .action span{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 2px;
+      line-height:1.2;
+    }
+    .badge{
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      background: rgba(44,199,194,.14);
+      border: 1px solid rgba(24,167,165,.22);
+      flex: 0 0 auto;
+      font-size: 18px;
+    }
+    .badge.coral{
+      background: rgba(255,111,97,.14);
+      border: 1px solid rgba(255,111,97,.22);
+    }
 
     /* Link cards */
-    .linkGrid{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      margin-top:10px;
-    }
+    .linkGrid{ display:flex; flex-direction:column; gap: 10px; }
     .linkCard{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
-      flex-wrap: wrap;
-      align-items: center;
-      padding:14px 14px;
-      border-radius:18px;
+      gap: 12px;
+      padding: 14px;
+      border-radius: var(--r-xl);
       border:1px solid var(--stroke);
-      background: rgba(255,255,255,.86);
+      background: rgba(255,255,255,.92);
       text-decoration:none;
       color: var(--ink);
-      box-shadow: 0 10px 20px rgba(13, 32, 32, .10);
+      box-shadow: var(--shadow-soft);
       -webkit-tap-highlight-color: transparent;
     }
     .linkCard:active{ transform: scale(.99); }
-    .linkLeft{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      min-width:0;
-    }
+    .linkLeft{ min-width:0; }
     .linkTitle{
-      font-weight: 950;
-      font-size: 15.5px;
+      font-weight: 900;
+      font-size: 14px;
       letter-spacing:.2px;
-      white-space: normal;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
       line-height: 1.15;
-      max-height: 2.4em;
-
     }
     .linkSub{
+      margin-top: 4px;
       font-size: 12.5px;
-      color: rgba(31,42,46,.62);
+      color: var(--muted);
+      line-height:1.25;
     }
     .linkPill{
-      flex: 0 0 auto;
-      padding:10px 12px;
+      padding: 10px 12px;
       border-radius: 999px;
-      font-weight: 950;
+      font-weight: 900;
       font-size: 12px;
       border: 1px solid rgba(24,167,165,.35);
       background: rgba(44,199,194,.16);
+      flex: 0 0 auto;
+      white-space:nowrap;
     }
     .linkPill.coral{
       border: 1px solid rgba(255,111,97,.40);
       background: rgba(255,111,97,.16);
     }
 
-    .sectionTitle{
-      margin: 14px 0 6px;
-      font-size: 14px;
-      font-weight: 950;
-      letter-spacing:.2px;
-      color: rgba(31,42,46,.78);
+    /* Accordions */
+    details{
+      border: 1px solid var(--stroke);
+      border-radius: var(--r-xl);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow-soft);
+      overflow:hidden;
     }
-
-    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-    .btn{
-      display:inline-flex;
-      justify-content:center;
+    summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 14px;
+      display:flex;
       align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(24,167,165,.38);
-      background: rgba(44,199,194,.16);
-      color: var(--ink);
-      text-decoration:none;
-      font-weight: 950;
-      font-size: 13.5px;
+      justify-content:space-between;
+      gap: 10px;
+      min-height: var(--tap);
       -webkit-tap-highlight-color: transparent;
-      user-select:none;
+      font-weight: 900;
+      font-size: 14px;
     }
-    .btn.coral{
-      border:1px solid rgba(255,111,97,.45);
-      background: rgba(255,111,97,.16);
+    summary::-webkit-details-marker{ display:none; }
+    .chev{
+      width: 28px; height: 28px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      border: 1px solid var(--stroke);
+      background: rgba(44,199,194,.10);
+      flex: 0 0 auto;
     }
-    .btn:active{ transform: scale(.99); }
+    details[open] .chev{ transform: rotate(180deg); }
+    .detailsBody{
+      padding: 0 14px 14px;
+      color: var(--ink);
+      font-size: 13.5px;
+      line-height:1.5;
+    }
+    ul.clean{ margin: 8px 0 0; padding-left: 18px; }
+    ul.clean li{ margin: 6px 0; }
 
-    footer{
-      padding:12px 18px 14px;
-      border-top:1px solid var(--stroke);
-      color: rgba(31,42,46,.58);
-      font-size:12px;
+    /* Wi-Fi QR */
+    .qrWrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .qr{
+      width: 180px;
+      max-width: 100%;
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--stroke);
+    }
+
+    /* Bottom nav */
+    .bottomNav{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      display:flex;
+      justify-content:center;
+      padding: 10px 12px 12px;
+      pointer-events:none;
+    }
+    .navBar{
+      pointer-events:auto;
+      width: min(var(--maxw), calc(100% - 24px));
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      border-radius: 22px;
+      display:grid;
+      grid-template-columns: repeat(5, 1fr);
+      min-height: var(--navh);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .navBtn{
+      border:0;
+      background: transparent;
+      padding: 8px 6px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap: 4px;
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+      color: rgba(23,33,38,.70);
+      font-weight: 850;
+      font-size: 11px;
+      min-height: var(--navh);
+    }
+    .navBtn .ico{ font-size: 18px; line-height:1; }
+    .navBtn[aria-current="page"]{
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(44,199,194,.18), rgba(255,255,255,0));
+    }
+    .navBtn:focus-visible{
+      outline: 3px solid rgba(24,167,165,.35);
+      outline-offset: -3px;
+    }
+
+    /* Modal (Search + More) */
+    .backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.40);
+      z-index: 20;
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      padding: 12px;
+    }
+    .backdrop.open{ display:flex; }
+    .sheet{
+      width: min(var(--maxw), 100%);
+      background: rgba(255,255,255,.96);
+      border: 1px solid var(--stroke);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      max-height: min(80dvh, 560px);
+      display:flex;
+      flex-direction:column;
+    }
+    .sheetHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(44,199,194,.12), rgba(255,255,255,0) 70%);
+    }
+    .sheetTitle{
+      margin:0;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .sheetBody{
+      padding: 12px 14px 14px;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .field{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      border: 1px solid var(--stroke);
+      background: #fff;
+      border-radius: 16px;
+      padding: 10px 12px;
+      box-shadow: var(--shadow-soft);
+    }
+    .field input{
+      border:0;
+      outline:0;
+      width:100%;
+      font-size: 14px;
+      background: transparent;
+    }
+    .hint{
+      margin: 10px 0 0;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height:1.35;
+    }
+    .list{
+      margin-top: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .miniBtn{
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow-soft);
+      cursor:pointer;
+      text-align:left;
+      -webkit-tap-highlight-color: transparent;
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .miniBtn span{
+      display:block;
+      font-weight: 700;
+      color: var(--muted);
+      font-size: 12.5px;
+      margin-top: 2px;
+    }
+    .rightMark{
+      flex: 0 0 auto;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(24,167,165,.35);
+      background: rgba(44,199,194,.14);
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .toast{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: calc(var(--navh) + 18px);
+      z-index: 30;
+      background: rgba(23,33,38,.92);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 13px;
+      display:none;
+      box-shadow: var(--shadow);
+      max-width: calc(100% - 24px);
       text-align:center;
-      background: linear-gradient(0deg, rgba(44,199,194,.10), transparent 70%);
     }
-  
-    @media (max-width: 380px){
-      .linkCard{ flex-direction: column; align-items: stretch; }
-      .linkPill{ width: 100%; text-align: center; }
+    .toast.show{ display:block; }
+
+    /* Small phones */
+    @media (max-width: 360px){
+      .actions{ grid-template-columns: 1fr; }
     }
-</style>
+  </style>
 </head>
 
 <body>
   <div class="bg" aria-hidden="true"></div>
 
-  <div class="phone">
-    <div class="topbar">
-      <div class="topbar-left">
-        <h1 class="title" id="propTitle"></h1>
-        <p class="subtitle" id="propSubtitle"></p>
-      </div>
-      <div class="langToggle" id="langToggle" aria-label="Language toggle">ES</div>
+  <div class="app">
+    <div class="surface" role="application" aria-label="Guest info hub">
+      <header>
+        <div class="topbar">
+          <div class="top-left">
+            <h1 class="title" id="propTitle"></h1>
+            <p class="subtitle" id="propSubtitle"></p>
+          </div>
+          <div class="top-actions">
+            <button class="chip primary" id="unitToggle" type="button" aria-label="Unit toggle"></button>
+            <button class="chip" id="langToggle" type="button" aria-label="Language toggle"></button>
+            <button class="chip coral" id="openSearch" type="button" aria-label="Search">🔎</button>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div id="page" class="stack"></div>
+      </main>
     </div>
-
-    <div class="main">
-      <nav class="rail" aria-label="Menu">
-        <div class="iconBtn active" data-page="home" title="Welcome">🏝️</div>
-        <div class="iconBtn" data-page="directions" title="Directions">🗺️</div>
-        <div class="iconBtn" data-page="arrival" title="Arrival & Departure">🧳</div>
-        <div class="iconBtn" data-page="wifi" title="Wi-Fi">📶</div>
-        <div class="iconBtn" data-page="house" title="Video House Guide">🎥</div>
-        <div class="iconBtn" data-page="rules" title="House Rules">📌</div>
-        <div class="iconBtn" data-page="shopping" title="Shopping">🛒</div>
-        <div class="iconBtn" data-page="food" title="Restaurants">🍽️</div>
-        <div class="iconBtn" data-page="medical" title="Medical Assistance">🩺</div>
-        <div class="iconBtn" data-page="sos" title="SOS">🆘</div>
-      </nav>
-
-      <section class="content">
-        <div class="card" id="page"></div>
-      </section>
-    </div>
-
-    <footer id="footerText"></footer>
   </div>
+
+  <!-- Bottom nav -->
+  <div class="bottomNav" aria-hidden="false">
+    <div class="navBar" role="navigation" aria-label="Primary">
+      <button class="navBtn" data-page="home" aria-current="page" type="button"><div class="ico">🏝️</div>Home</button>
+      <button class="navBtn" data-page="directions" type="button"><div class="ico">🗺️</div>Map</button>
+      <button class="navBtn" data-page="arrival" type="button"><div class="ico">🧳</div>Arrival</button>
+      <button class="navBtn" data-page="wifi" type="button"><div class="ico">📶</div>Wi-Fi</button>
+      <button class="navBtn" id="openMore" type="button"><div class="ico">➕</div>More</button>
+    </div>
+  </div>
+
+  <!-- Search sheet -->
+  <div class="backdrop" id="searchBackdrop" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="sheet" role="document">
+      <div class="sheetHead">
+        <p class="sheetTitle" id="searchTitle">Search</p>
+        <button class="chip" id="closeSearch" type="button">✕</button>
+      </div>
+      <div class="sheetBody">
+        <div class="field">
+          <span aria-hidden="true">🔎</span>
+          <input id="searchInput" type="search" placeholder="Search: Wi-Fi, trash, safe, checkout…" autocomplete="off" />
+        </div>
+        <p class="hint" id="searchHint"></p>
+        <div class="list" id="searchResults"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- More sheet -->
+  <div class="backdrop" id="moreBackdrop" role="dialog" aria-modal="true" aria-label="More menu">
+    <div class="sheet" role="document">
+      <div class="sheetHead">
+        <p class="sheetTitle" id="moreTitle">More</p>
+        <button class="chip" id="closeMore" type="button">✕</button>
+      </div>
+      <div class="sheetBody">
+        <div class="list" id="moreList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
     /**********************************************************
@@ -418,11 +671,11 @@
         { icon:"💡", titleEN:"Smart Lighting",         titleES:"Luces inteligentes",         link:"https://youtu.be/QDtUwEeHmGc" },
         { icon:"📺", titleEN:"Watch IPTV",             titleES:"Ver IPTV",                   link:"https://youtu.be/w78NTtRqdbI" },
         { icon:"❄️", titleEN:"A/C Remote",             titleES:"Control del A/C",            link:"https://youtu.be/UFgrTn4xALA" },
-        { icon:"💧", titleEN:"Bottled Drinking Water", titleES:"Agua embotellada",           link:"https://youtu.be/nwUs4Plp5dc" },
-        { icon:"🚮", titleEN:"Trash",                  titleES:"Basura",                     link:"https://youtu.be/jsMapNBDmdw" },
-        { icon:"🔐", titleEN:"Wall Safe",              titleES:"Caja fuerte",                link:"https://youtu.be/CS53-VqRZlE" }
-      ]
-      ,
+        { icon:"💧", titleEN:"Bottled Water",          titleES:"Agua embotellada",           link:"https://youtu.be/nwUs4Plp5dc" },
+        { id:"trash", icon:"🚮", titleEN:"Trash", titleES:"Basura", link:"https://youtu.be/jsMapNBDmdw",
+          subEN:"🔒 Padlock combo: 3548", subES:"🔒 Combinación del candado: 3548" },
+        { id:"safe", icon:"🔐", titleEN:"Wall Safe", titleES:"Caja fuerte", link:"https://youtu.be/DzP-1L-ezx8" }
+      ],
 
       rules: {
         parkingEN: [
@@ -508,16 +761,65 @@
       }
     };
 
+    // ---- Unit handling (11C / 11D) ----
+    const UNITS = {
+      "11c": {
+        label: "11C",
+        propertyName: "Casa Dorado 11C",
+        safeVideo: "https://youtu.be/DzP-1L-ezx8"
+      },
+      "11d": {
+        label: "11D",
+        propertyName: "Casa Dorado 11D",
+        safeVideo: "https://youtu.be/CS53-VqRZlE"
+      }
+    };
+
+    let unitKey = "11c";
+
+    function applyUnit(newKey){
+      unitKey = (newKey === "11d") ? "11d" : "11c";
+      const u = UNITS[unitKey];
+
+      CONTENT.propertyName = u.propertyName;
+      document.title = u.propertyName;
+
+      const safeItem = (CONTENT.houseGuideVideos || []).find(v => v.id === "safe");
+      if(safeItem) safeItem.link = u.safeVideo;
+
+      const unitToggle = document.getElementById("unitToggle");
+      if(unitToggle) unitToggle.textContent = u.label;
+
+      const url = new URL(window.location.href);
+      url.searchParams.set("unit", unitKey);
+      window.history.replaceState({}, "", url.toString());
+    }
+
+    function initUnitFromUrl(){
+      try{
+        const url = new URL(window.location.href);
+        const u = (url.searchParams.get("unit") || "").toLowerCase();
+        if(u === "11d" || u === "d") return "11d";
+      }catch(e){}
+      return "11c";
+    }
+
     /**********************************************************
      * APP (no need to edit below)
      **********************************************************/
     const I18N = {
       en: {
-        subtitle: "Tap an icon for welcome, directions, arrival, Wi‑Fi, videos, rules, and local tips.",
-        footer: "Tip: iPhone → Share → Add to Home Screen (feels like an app).",
-        buttons: { driving: "Driving Directions", copyPass: "Copy Password", copied: "Copied ✅", watch: "Watch video", map: "Map", whatsapp: "Message on WhatsApp" },
+        subtitle: "Everything you need for a smooth stay—fast, simple, mobile-friendly.",
+        searchTitle: "Search",
+        searchHint: "Try: Wi-Fi, trash, safe, checkout, parking, pool…",
+        moreTitle: "More",
+        footerTip: "Tip: iPhone → Share → Add to Home Screen (feels like an app).",
+        nav: { home:"Home", map:"Map", arrival:"Arrival", wifi:"Wi-Fi", more:"More" },
+        buttons: { driving: "Driving Directions", copy: "Copy", copied: "Copied ✅", watch: "Watch", map: "Map", whatsapp: "WhatsApp" },
         labels: { address: "Address", checkin: "Check-in", checkout: "Check-out", wifiNetwork: "Network", wifiPassword: "Password" },
         sections: {
+          quick: "Quick actions",
+          common: "Most common",
           parking: "Parking", home: "Home", pool: "Pool", quiet: "Quiet Hours",
           supermarkets: "Supermarkets", local: "Local Grocery", fruit: "Fruit Stands",
           breakfast: "Breakfast / Coffee", seafood: "Seafood", dinner: "Dinner", pizza: "Pizza",
@@ -526,11 +828,17 @@
         }
       },
       es: {
-        subtitle: "Toca un ícono para bienvenida, cómo llegar, llegada, Wi‑Fi, videos, reglas y recomendaciones.",
-        footer: "Tip: iPhone → Compartir → Agregar a pantalla de inicio (se siente como app).",
-        buttons: { driving: "Cómo llegar (Auto)", copyPass: "Copiar contraseña", copied: "Copiado ✅", watch: "Ver video", map: "Mapa", whatsapp: "Enviar WhatsApp" },
+        subtitle: "Todo lo esencial para tu estancia—rápido, simple y fácil en el celular.",
+        searchTitle: "Buscar",
+        searchHint: "Ejemplos: Wi-Fi, basura, caja fuerte, salida, estacionamiento…",
+        moreTitle: "Más",
+        footerTip: "Tip: iPhone → Compartir → Agregar a pantalla de inicio (se siente como app).",
+        nav: { home:"Inicio", map:"Mapa", arrival:"Llegada", wifi:"Wi-Fi", more:"Más" },
+        buttons: { driving: "Cómo llegar (Auto)", copy: "Copiar", copied: "Copiado ✅", watch: "Ver", map: "Mapa", whatsapp: "WhatsApp" },
         labels: { address: "Dirección", checkin: "Llegada", checkout: "Salida", wifiNetwork: "Red", wifiPassword: "Contraseña" },
         sections: {
+          quick: "Acciones rápidas",
+          common: "Más común",
           parking: "Estacionamiento", home: "Casa", pool: "Piscina", quiet: "Silencio",
           supermarkets: "Supermercados", local: "Tienda / OXXO", fruit: "Frutas (Colonia)",
           breakfast: "Desayuno / Café", seafood: "Mariscos", dinner: "Cena", pizza: "Pizza",
@@ -544,311 +852,650 @@
     let currentPage = "home";
 
     const pageEl = document.getElementById("page");
-    const buttons = [...document.querySelectorAll(".iconBtn")];
-    const langToggle = document.getElementById("langToggle");
     const propTitle = document.getElementById("propTitle");
     const propSubtitle = document.getElementById("propSubtitle");
-    const footerText = document.getElementById("footerText");
+    const langToggle = document.getElementById("langToggle");
+    const unitToggle = document.getElementById("unitToggle");
+    const toastEl = document.getElementById("toast");
+
+    // bottom nav
+    const navBtns = [...document.querySelectorAll(".navBtn[data-page]")];
+    const openMoreBtn = document.getElementById("openMore");
+
+    // sheets
+    const searchBackdrop = document.getElementById("searchBackdrop");
+    const moreBackdrop = document.getElementById("moreBackdrop");
+    const openSearchBtn = document.getElementById("openSearch");
+    const closeSearchBtn = document.getElementById("closeSearch");
+    const closeMoreBtn = document.getElementById("closeMore");
+    const searchInput = document.getElementById("searchInput");
+    const searchResults = document.getElementById("searchResults");
+    const searchTitle = document.getElementById("searchTitle");
+    const searchHint = document.getElementById("searchHint");
+    const moreTitle = document.getElementById("moreTitle");
+    const moreList = document.getElementById("moreList");
+
+    function toast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(()=> toastEl.classList.remove("show"), 1600);
+    }
 
     function setChrome(){
       propTitle.textContent = CONTENT.propertyName;
+      document.title = CONTENT.propertyName;
       propSubtitle.textContent = I18N[lang].subtitle;
-      footerText.textContent = I18N[lang].footer;
       langToggle.textContent = (lang === "en") ? "ES" : "EN";
       document.documentElement.lang = lang;
+
+      // bottom nav labels
+      const labels = I18N[lang].nav;
+      const mapBtn = document.querySelector('.navBtn[data-page="directions"]');
+      const homeBtn = document.querySelector('.navBtn[data-page="home"]');
+      const arrBtn = document.querySelector('.navBtn[data-page="arrival"]');
+      const wifiBtn = document.querySelector('.navBtn[data-page="wifi"]');
+      if(homeBtn) homeBtn.lastChild.nodeValue = labels.home;
+      if(mapBtn) mapBtn.lastChild.nodeValue = labels.map;
+      if(arrBtn) arrBtn.lastChild.nodeValue = labels.arrival;
+      if(wifiBtn) wifiBtn.lastChild.nodeValue = labels.wifi;
+      if(openMoreBtn) openMoreBtn.lastChild.nodeValue = labels.more;
+
+      searchTitle.textContent = I18N[lang].searchTitle;
+      searchHint.textContent = I18N[lang].searchHint;
+      moreTitle.textContent = I18N[lang].moreTitle;
+
+      // rebuild More list text when language changes
+      buildMoreList();
     }
-
-    function bullets(list){
-      return `<ul class="clean">${(list||[]).map(x=>`<li>${x}</li>`).join("")}</ul>`;
-    }
-
-    function pill(theme, k, v, mono=false){
-      const keyHtml = k ? `<div class="k">${k}</div>` : `<div class="k" style="display:none"></div>`;
-      return `
-        <div class="pill ${theme === 'coral' ? 'coral' : ''}">
-          ${keyHtml}
-          <div class="v ${mono ? 'mono' : ''}" style="${k ? '' : 'text-align:left;'}">${v}</div>
-        </div>
-      `;
-    }
-
-    function linkCard(name, link, pillText, pillStyle="teal", subText){
-      const pillClass = pillStyle === "coral" ? "linkPill coral" : "linkPill";
-      // subText behavior:
-      // - undefined/null  -> use default "Open in Maps"
-      // - "" (empty)      -> hide subtitle completely
-      const defaultSub = (lang==="en" ? "Open in Maps" : "Abrir en Maps");
-      const resolvedSub = (subText === undefined || subText === null) ? defaultSub : subText;
-
-      return `
-        <a class="linkCard" href="${link}" target="_blank" rel="noopener">
-          <div class="linkLeft">
-            <div class="linkTitle">${name}</div>
-            ${resolvedSub === "" ? "" : `<div class="linkSub">${resolvedSub}</div>`}
-          </div>
-          <div class="${pillClass}">${pillText} ↗</div>
-        </a>
-      `;
-    }
-
 
     function makeAddress(){
       const d = CONTENT.directions;
       return `${d.addressLine1}, ${d.city}, ${d.state} ${d.zip}`;
     }
 
-    function render(key){
-      currentPage = key;
+    function kv(theme, k, v, mono=false, left=false){
+      return `
+        <div class="kv ${theme==='coral'?'coral':''}">
+          <div class="k">${k}</div>
+          <div class="v ${mono?'mono':''} ${left?'left':''}">${v}</div>
+        </div>
+      `;
+    }
 
-      if(key === "home"){
-        const title = "🏝️ " + (lang==="en" ? "Welcome" : "Bienvenidos");
-        const heroTitle = (lang==="en") ? "Welcome to Casa Dorado 11C" : "Bienvenidos a Casa Dorado 11C";
-        const heroLine = (lang==="en")
-          ? "Thank you for reserving with us. Use the icons to find everything you need during your stay."
-          : "Gracias por reservar con nosotros. Usa los íconos para encontrar todo lo que necesitas durante tu estancia.";
+    function bullets(list){
+      return `<ul class="clean">${(list||[]).map(x=>`<li>${x}</li>`).join("")}</ul>`;
+    }
 
-        const badges = [
-          pill("teal", I18N[lang].labels.checkin, CONTENT.arrival.checkinTime),
-          pill("teal", I18N[lang].labels.checkout, CONTENT.arrival.checkoutTime),
-          pill("coral", I18N[lang].labels.address, makeAddress())
-        ].join("");
-
-        pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <div class="hero">
-            <p class="heroTitle">${heroTitle}</p>
-            <p class="heroLine">${heroLine}</p>
+    function linkCard(title, link, pillText, coral=false, subText=""){
+      return `
+        <a class="linkCard" href="${link}" target="_blank" rel="noopener">
+          <div class="linkLeft">
+            <div class="linkTitle">${title}</div>
+            ${subText ? `<div class="linkSub">${subText}</div>` : ""}
           </div>
-          <div class="row">${badges}</div>
-          <div class="btnRow">
-            <a class="btn" href="#" data-jump="directions">${lang==="en" ? "Open Directions" : "Abrir cómo llegar"} ↗</a>
-            <a class="btn coral" href="#" data-jump="arrival">${lang==="en" ? "Arrival & Departure" : "Llegada y salida"} ↗</a>
+          <div class="linkPill ${coral?'coral':''}">${pillText} ↗</div>
+        </a>
+      `;
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        return true;
+      }catch(e){
+        // fallback
+        try{
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly","");
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          const ok = document.execCommand("copy");
+          document.body.removeChild(ta);
+          return ok;
+        }catch{
+          return false;
+        }
+      }
+    }
+
+    function setActiveNav(page){
+      navBtns.forEach(b=>{
+        const is = b.dataset.page === page;
+        b.setAttribute("aria-current", is ? "page" : "false");
+      });
+    }
+
+    // Pages
+    function render(page){
+      currentPage = page;
+      setActiveNav(page);
+
+      if(page === "home"){
+        const t = (lang==="en") ? "Welcome" : "Bienvenidos";
+        const commonTitle = I18N[lang].sections.common;
+
+        const addr = makeAddress();
+        const checkin = CONTENT.arrival.checkinTime;
+        const checkout = CONTENT.arrival.checkoutTime;
+
+        // quick actions
+        const actions = `
+          <div class="actions" role="list">
+            <a class="action" href="${CONTENT.directions.mapLink}" target="_blank" rel="noopener" role="listitem">
+              <div class="badge">🗺️</div>
+              <div><strong>${lang==="en"?"Open Maps":"Abrir Maps"}</strong><span>${lang==="en"?"Driving directions":"Cómo llegar en auto"}</span></div>
+            </a>
+
+            <button class="action" type="button" role="listitem" data-jump="wifi">
+              <div class="badge">📶</div>
+              <div><strong>Wi-Fi</strong><span>${lang==="en"?"Network + password":"Red + contraseña"}</span></div>
+            </button>
+
+            <button class="action" type="button" role="listitem" data-jump="house" data-focus="trash">
+              <div class="badge">🚮</div>
+              <div><strong>${lang==="en"?"Trash":"Basura"}</strong><span>🔒 3548</span></div>
+            </button>
+
+            <button class="action" type="button" role="listitem" data-jump="sos">
+              <div class="badge">🛠️</div>
+              <div><strong>${lang==="en"?"Message managers":"WhatsApp admins"}</strong><span>${lang==="en"?"Fast help for condo issues":"Ayuda rápida"}</span></div>
+            </button>
           </div>
         `;
-        pageEl.querySelectorAll("[data-jump]").forEach(a=>{
-          a.addEventListener("click", (e)=>{
-            e.preventDefault();
-            const target = a.getAttribute("data-jump");
-            const btn = buttons.find(b => b.dataset.page === target);
-            if(btn) btn.click();
+
+        const commonVideos = (CONTENT.houseGuideVideos || []).filter(v => ["trash","safe"].includes(v.id) || /Door Lock/i.test(v.titleEN));
+        const commonCards = commonVideos.map((v,i)=>{
+          const name = (lang==="en" ? v.titleEN : v.titleES);
+          const sub = (lang==="en" ? (v.subEN||"") : (v.subES||""));
+          return linkCard(`${v.icon? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, i%2===1, sub);
+        }).join("");
+
+        pageEl.innerHTML = `
+          <section class="card">
+            <h2 class="h2">🏝️ ${t}</h2>
+            <p class="meta">${lang==="en"
+              ? "Use this page to find things fast (especially on your phone)."
+              : "Usa esta página para encontrar todo rápido (especialmente en tu celular)."
+            }</p>
+            <div class="stack">
+              ${kv("teal", I18N[lang].labels.checkin, checkin)}
+              ${kv("teal", I18N[lang].labels.checkout, checkout)}
+              <div class="kv coral">
+                <div class="k">${I18N[lang].labels.address}</div>
+                <div class="v left">${addr}</div>
+              </div>
+
+              <div>
+                <div class="meta" style="margin:10px 0 8px; font-weight:900; color: rgba(23,33,38,.80);">${I18N[lang].sections.quick}</div>
+                ${actions}
+              </div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2 class="h2">✨ ${commonTitle}</h2>
+            <p class="meta">${lang==="en" ? "The most-used items during stays." : "Lo más usado durante la estancia."}</p>
+            <div class="linkGrid">${commonCards}</div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+              <button class="chip primary" type="button" data-jump="arrival">${lang==="en"?"Arrival & Checkout":"Llegada y salida"}</button>
+              <button class="chip" type="button" data-jump="rules">${lang==="en"?"House rules":"Reglas"}</button>
+              <button class="chip" type="button" data-jump="food">${lang==="en"?"Restaurants":"Restaurantes"}</button>
+            </div>
+          </section>
+
+          <p class="meta" style="text-align:center; margin: 8px 0 0;">${I18N[lang].footerTip}</p>
+        `;
+
+        // wire jump buttons
+        pageEl.querySelectorAll("[data-jump]").forEach(el=>{
+          el.addEventListener("click", ()=>{
+            const target = el.getAttribute("data-jump");
+            if(target) go(target, el.getAttribute("data-focus"));
           });
         });
+
         return;
       }
 
-      if(key === "directions"){
-        const title = "🗺️ " + (lang==="en" ? "Directions to the Condo" : "Cómo llegar al condominio");
-        const desc = (lang==="en")
-          ? "Tap the button below to open Google Maps for driving directions."
-          : "Toca el botón para abrir Google Maps y obtener indicaciones en auto.";
+      if(page === "directions"){
+        const addr = makeAddress();
         pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
-          <div class="row">${pill("teal", I18N[lang].labels.address, makeAddress())}</div>
-          <div class="btnRow">
-            <a class="btn" href="${CONTENT.directions.mapLink}" target="_blank" rel="noopener">${I18N[lang].buttons.driving} ↗</a>
-          </div>
+          <section class="card">
+            <h2 class="h2">🗺️ ${lang==="en"?"Directions":"Cómo llegar"}</h2>
+            <p class="meta">${lang==="en"
+              ? "Tap to open Google Maps. You can also copy the address."
+              : "Toca para abrir Google Maps. También puedes copiar la dirección."
+            }</p>
+            <div class="stack">
+              ${kv("teal", I18N[lang].labels.address, `<span class="mono">${addr}</span>`, false, true)}
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
+                <a class="chip primary" href="${CONTENT.directions.mapLink}" target="_blank" rel="noopener">${I18N[lang].buttons.driving} ↗</a>
+                <button class="chip" type="button" id="copyAddress">${I18N[lang].buttons.copy}</button>
+              </div>
+            </div>
+          </section>
         `;
-        return;
-      }
-
-      if(key === "arrival"){
-        const title = "🧳 " + (lang==="en" ? "Arrival & Departure" : "Llegada y salida");
-        const desc = (lang==="en")
-          ? "Everything in one place for a smooth check-in and check-out."
-          : "Todo en un solo lugar para una llegada y salida sin complicaciones.";
-        const rows = [
-          pill("teal", I18N[lang].labels.checkin, CONTENT.arrival.checkinTime),
-          pill("teal", I18N[lang].labels.checkout, CONTENT.arrival.checkoutTime),
-          pill("teal", (lang==="en" ? "Arrival notes" : "Notas de llegada"), bullets(lang==="en" ? CONTENT.arrival.notesEN : CONTENT.arrival.notesES)),
-          pill("coral", (lang==="en" ? "Check-out checklist" : "Checklist de salida"), bullets(lang==="en" ? CONTENT.arrival.checkoutEN : CONTENT.arrival.checkoutES))
-        ].join("");
-        pageEl.innerHTML = `<h2>${title}</h2><p class="meta">${desc}</p><div class="row">${rows}</div>`;
-        return;
-      }
-
-      if(key === "wifi"){
-        const title = "📶 Wi‑Fi";
-        const desc = (lang==="en") ? "Connect using the info below or scan the QR code." : "Conéctate con la información de abajo o escanea el código QR.";
-        const rows = [
-          pill("teal", I18N[lang].labels.wifiNetwork, CONTENT.wifi.name),
-          pill("coral", I18N[lang].labels.wifiPassword, CONTENT.wifi.pass, true)
-        ].join("");
-        pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
-          <div class="row">${rows}</div>
-          <div style="margin-top:16px; text-align:center;">
-            <img src="wifi-qr.jpg" alt="Wi‑Fi QR Code" style="width:180px; max-width:100%; border-radius:18px; box-shadow:0 10px 22px rgba(0,0,0,.15);" />
-            <p class="meta" style="margin-top:8px;">${lang==="en" ? "Scan to connect automatically" : "Escanea para conectarte automáticamente"}</p>
-          </div>
-          <div class="btnRow">
-            <a class="btn coral" href="#" id="copyBtn">${I18N[lang].buttons.copyPass}</a>
-          </div>
-        `;
-        document.getElementById("copyBtn").addEventListener("click", async (e)=>{
-          e.preventDefault();
-          try{
-            await navigator.clipboard.writeText(CONTENT.wifi.pass);
-            const btnEl = e.target;
-            const original = I18N[lang].buttons.copyPass;
-            btnEl.textContent = I18N[lang].buttons.copied;
-            setTimeout(()=> btnEl.textContent = original, 1400);
-          }catch{
-            alert(lang==="en"
-              ? "Copy not supported here. Long-press the password to copy."
-              : "Aquí no se puede copiar. Mantén presionada la contraseña para copiar."
-            );
-          }
+        const copyBtn = document.getElementById("copyAddress");
+        copyBtn?.addEventListener("click", async ()=>{
+          const ok = await copyText(addr);
+          toast(ok ? I18N[lang].buttons.copied : (lang==="en"?"Copy failed":"No se pudo copiar"));
         });
         return;
       }
 
-      if(key === "house"){
-        const title = "🎥 " + (lang==="en" ? "Video House Guide" : "Guía en video");
-        const desc = (lang==="en") ? "Tap a video for quick how‑tos." : "Toca un video para ver cómo usar cosas de la casa.";
-        const vids = (CONTENT.houseGuideVideos || []).map((v,i)=>{
-          const name = (lang==="en" ? v.titleEN : v.titleES);
-          return linkCard(`${v.icon ? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, (i%2 ? "coral" : "teal"), "");
-        }).join("");
-        pageEl.innerHTML = `<h2>${title}</h2><p class="meta">${desc}</p><div class="linkGrid">${vids}</div>`;
+      if(page === "arrival"){
+        const notes = (lang==="en") ? CONTENT.arrival.notesEN : CONTENT.arrival.notesES;
+        const checklist = (lang==="en") ? CONTENT.arrival.checkoutEN : CONTENT.arrival.checkoutES;
+
+        pageEl.innerHTML = `
+          <section class="card">
+            <h2 class="h2">🧳 ${lang==="en"?"Arrival & Departure":"Llegada y salida"}</h2>
+            <p class="meta">${lang==="en"
+              ? "Everything in one place for a smooth check-in and check-out."
+              : "Todo en un solo lugar para una llegada y salida sin complicaciones."
+            }</p>
+
+            <div class="stack">
+              ${kv("teal", I18N[lang].labels.checkin, CONTENT.arrival.checkinTime)}
+              ${kv("coral", I18N[lang].labels.checkout, CONTENT.arrival.checkoutTime)}
+            </div>
+
+            <div class="stack" style="margin-top:12px;">
+              <details open>
+                <summary>${lang==="en"?"Arrival notes":"Notas de llegada"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">${bullets(notes)}</div>
+              </details>
+
+              <details>
+                <summary>${lang==="en"?"Check-out checklist":"Checklist de salida"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">${bullets(checklist)}</div>
+              </details>
+            </div>
+          </section>
+        `;
         return;
       }
 
-      if(key === "rules"){
-        const title = "📌 " + (lang==="en" ? "House Rules" : "Reglas de la casa");
-        const desc = (lang==="en") ? "A few friendly rules to keep everyone comfortable." : "Unas reglas sencillas para que todos estén a gusto.";
+      if(page === "wifi"){
+        pageEl.innerHTML = `
+          <section class="card">
+            <h2 class="h2">📶 Wi-Fi</h2>
+            <p class="meta">${lang==="en"
+              ? "Use the info below or scan the QR code."
+              : "Usa la información de abajo o escanea el código QR."
+            }</p>
+
+            <div class="stack">
+              ${kv("teal", I18N[lang].labels.wifiNetwork, `<span class="mono">${CONTENT.wifi.name}</span>`, false, true)}
+              ${kv("coral", I18N[lang].labels.wifiPassword, `<span class="mono">${CONTENT.wifi.pass}</span>`, false, true)}
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+              <button class="chip primary" type="button" id="copyWifiPass">${lang==="en"?"Copy password":"Copiar contraseña"}</button>
+              <button class="chip" type="button" id="copyWifiAll">${lang==="en"?"Copy network + pass":"Copiar red + contraseña"}</button>
+            </div>
+
+            <div class="qrWrap">
+              <img class="qr" src="wifi-qr.jpg" alt="Wi-Fi QR Code" loading="lazy" decoding="async" />
+              <p class="meta" style="margin:0;">${lang==="en"?"Scan to connect automatically":"Escanea para conectarte automáticamente"}</p>
+            </div>
+          </section>
+        `;
+
+        document.getElementById("copyWifiPass")?.addEventListener("click", async ()=>{
+          const ok = await copyText(CONTENT.wifi.pass);
+          toast(ok ? I18N[lang].buttons.copied : (lang==="en"?"Copy failed":"No se pudo copiar"));
+        });
+
+        document.getElementById("copyWifiAll")?.addEventListener("click", async ()=>{
+          const combo = `Wi-Fi: ${CONTENT.wifi.name}\nPassword: ${CONTENT.wifi.pass}`;
+          const ok = await copyText(combo);
+          toast(ok ? I18N[lang].buttons.copied : (lang==="en"?"Copy failed":"No se pudo copiar"));
+        });
+        return;
+      }
+
+      if(page === "house"){
+        const title = (lang==="en" ? "Video House Guide" : "Guía en video");
+        const desc  = (lang==="en" ? "Tap a video for quick how-tos." : "Toca un video para ver cómo usar cosas de la casa.");
+
+        const vids = (CONTENT.houseGuideVideos || []).map((v,i)=>{
+          const name = (lang==="en" ? v.titleEN : v.titleES);
+          const sub  = (lang==="en" ? (v.subEN||"") : (v.subES||""));
+          return linkCard(`${v.icon? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, i%2===1, sub);
+        }).join("");
+
+        pageEl.innerHTML = `
+          <section class="card" id="houseTop">
+            <h2 class="h2">🎥 ${title}</h2>
+            <p class="meta">${desc}</p>
+            <div class="linkGrid">${vids}</div>
+          </section>
+        `;
+
+        // if we came here from a focused jump (trash, etc)
+        if(window.__focusId){
+          const target = (CONTENT.houseGuideVideos||[]).find(v=>v.id===window.__focusId);
+          // just scroll top; link cards are in view
+          setTimeout(()=> document.getElementById("houseTop")?.scrollIntoView({behavior:"smooth", block:"start"}), 50);
+          window.__focusId = null;
+        }
+        return;
+      }
+
+      if(page === "rules"){
         const parking = bullets(lang==="en" ? CONTENT.rules.parkingEN : CONTENT.rules.parkingES);
         const home = bullets(lang==="en" ? CONTENT.rules.homeEN : CONTENT.rules.homeES);
         const pool = bullets(lang==="en" ? CONTENT.rules.poolEN : CONTENT.rules.poolES);
         const quiet = bullets(lang==="en" ? CONTENT.rules.quietEN : CONTENT.rules.quietES);
+
         pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
-          <div class="sectionTitle">${I18N[lang].sections.parking}</div>
-          <div class="row">${pill("teal", "", parking)}</div>
-          <div class="sectionTitle">${I18N[lang].sections.home}</div>
-          <div class="row">${pill("coral", "", home)}</div>
-          <div class="sectionTitle">${I18N[lang].sections.pool}</div>
-          <div class="row">${pill("teal", "", pool)}</div>
-          <div class="sectionTitle">${I18N[lang].sections.quiet}</div>
-          <div class="row">${pill("coral", "", quiet)}</div>
+          <section class="card">
+            <h2 class="h2">📌 ${lang==="en"?"House Rules":"Reglas de la casa"}</h2>
+            <p class="meta">${lang==="en"
+              ? "A few friendly rules to keep everyone comfortable."
+              : "Unas reglas sencillas para que todos estén a gusto."
+            }</p>
+
+            <div class="stack">
+              <details open>
+                <summary>${I18N[lang].sections.parking} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">${parking}</div>
+              </details>
+              <details>
+                <summary>${I18N[lang].sections.home} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">${home}</div>
+              </details>
+              <details>
+                <summary>${I18N[lang].sections.pool} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">${pool}</div>
+              </details>
+              <details>
+                <summary>${I18N[lang].sections.quiet} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">${quiet}</div>
+              </details>
+            </div>
+          </section>
         `;
         return;
       }
 
-      if(key === "shopping"){
-        const title = "🛒 " + (lang==="en" ? "Shopping" : "Compras");
-        const desc = (lang==="en") ? "Food shopping categories near you." : "Categorías de compras de comida cerca de ti.";
-
-        const makeCards = (arr) => `<div class="linkGrid">${
-          (arr||[]).map((p,i)=> linkCard(p.name, p.link, (lang==="en"?"Directions":"Cómo llegar"), i%2 ? "coral":"teal")).join("")
-        }</div>`;
+      if(page === "shopping"){
+        const makeCards = (arr) => (arr||[]).map((p,i)=> linkCard(p.name, p.link, (lang==="en"?"Map":"Mapa"), i%2===1)).join("");
 
         pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
+          <section class="card">
+            <h2 class="h2">🛒 ${lang==="en"?"Shopping":"Compras"}</h2>
+            <p class="meta">${lang==="en"?"Nearby places to buy food and essentials.":"Lugares cercanos para comprar comida y lo esencial."}</p>
 
-          <div class="sectionTitle">${I18N[lang].sections.supermarkets}</div>
-          ${makeCards(CONTENT.shopping.supermarkets)}
+            <details open>
+              <summary>${I18N[lang].sections.supermarkets} <span class="chev">⌄</span></summary>
+              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.shopping.supermarkets)}</div></div>
+            </details>
 
-          <div class="sectionTitle">${I18N[lang].sections.local}</div>
-          ${makeCards(CONTENT.shopping.localGroceries)}
+            <details>
+              <summary>${I18N[lang].sections.local} <span class="chev">⌄</span></summary>
+              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.shopping.localGroceries)}</div></div>
+            </details>
 
-          <div class="sectionTitle">${I18N[lang].sections.fruit}</div>
-          ${makeCards(CONTENT.shopping.fruitStands)}
+            <details>
+              <summary>${I18N[lang].sections.fruit} <span class="chev">⌄</span></summary>
+              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.shopping.fruitStands)}</div></div>
+            </details>
+          </section>
         `;
         return;
       }
 
-      if(key === "food"){
-        const title = "🍽️ " + (lang==="en" ? "Restaurant Guide" : "Guía de restaurantes");
-        const desc = (lang==="en") ? "Top picks, organized for quick decisions." : "Recomendaciones organizadas para decidir rápido.";
-
-        const makeCards = (arr) => `<div class="linkGrid">${
-          (arr||[]).map((p,i)=> linkCard(p.name, p.link, I18N[lang].buttons.map, i%2 ? "coral":"teal")).join("")
-        }</div>`;
+      if(page === "food"){
+        const makeCards = (arr) => (arr||[]).map((p,i)=> linkCard(p.name, p.link, I18N[lang].buttons.map, i%2===1)).join("");
 
         pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
+          <section class="card">
+            <h2 class="h2">🍽️ ${lang==="en"?"Restaurant Guide":"Guía de restaurantes"}</h2>
+            <p class="meta">${lang==="en"
+              ? "Top picks, organized for quick decisions."
+              : "Recomendaciones organizadas para decidir rápido."
+            }</p>
 
-          <div class="sectionTitle">${I18N[lang].sections.breakfast}</div>
-          ${makeCards(CONTENT.restaurants.breakfast)}
+            <details open>
+              <summary>${I18N[lang].sections.breakfast} <span class="chev">⌄</span></summary>
+              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.breakfast)}</div></div>
+            </details>
 
-          <div class="sectionTitle">${I18N[lang].sections.seafood}</div>
-          ${makeCards(CONTENT.restaurants.seafood)}
+            <details>
+              <summary>${I18N[lang].sections.seafood} <span class="chev">⌄</span></summary>
+              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.seafood)}</div></div>
+            </details>
 
-          <div class="sectionTitle">${I18N[lang].sections.dinner}</div>
-          ${makeCards(CONTENT.restaurants.dinner)}
+            <details>
+              <summary>${I18N[lang].sections.dinner} <span class="chev">⌄</span></summary>
+              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.dinner)}</div></div>
+            </details>
 
-          <div class="sectionTitle">${I18N[lang].sections.pizza}</div>
-          ${makeCards(CONTENT.restaurants.pizza)}
+            <details>
+              <summary>${I18N[lang].sections.pizza} <span class="chev">⌄</span></summary>
+              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.pizza)}</div></div>
+            </details>
+          </section>
         `;
         return;
       }
 
-      if(key === "medical"){
-        const title = "🩺 " + (lang==="en" ? "Medical Assistance" : "Asistencia médica");
-        const desc = (lang==="en") ? "Pharmacies and medical help." : "Farmacias y apoyo médico.";
-        const cards = (CONTENT.medical.pharmacies || []).map((p,i)=> linkCard(p.name, p.link, (lang==="en"?"Directions":"Cómo llegar"), i%2 ? "coral":"teal")).join("");
+      if(page === "medical"){
+        const cards = (CONTENT.medical.pharmacies || []).map((p,i)=> linkCard(p.name, p.link, (lang==="en"?"Map":"Mapa"), i%2===1)).join("");
         pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
-          <div class="sectionTitle">${I18N[lang].sections.pharmacies}</div>
-          <div class="linkGrid">${cards}</div>
+          <section class="card">
+            <h2 class="h2">🩺 ${lang==="en"?"Medical Assistance":"Asistencia médica"}</h2>
+            <p class="meta">${lang==="en"?"Pharmacies and medical help.":"Farmacias y apoyo médico."}</p>
+            <div class="linkGrid">${cards}</div>
+          </section>
         `;
         return;
       }
 
-      if(key === "sos"){
-        const title = "🆘 " + (lang==="en" ? "SOS" : "Ayuda");
-        const desc = (lang==="en") ? "Choose the right contact type for faster help." : "Elige el contacto correcto para recibir ayuda más rápido.";
-
+      if(page === "sos"){
         const auth = (lang==="en" ? CONTENT.sos.authoritiesEN : CONTENT.sos.authoritiesES);
-        const authRows = (auth||[]).map((x,i)=> pill(i%2 ? "coral":"teal", x.label, x.value, true)).join("");
+        const authRows = (auth||[]).map((x,i)=> kv(i%2===1 ? "coral":"teal", x.label, `<span class="mono">${x.value}</span>`, false, true)).join("");
 
         const pmCards = (CONTENT.sos.propertyManagers || []).map((m,i)=>{
           const label = `${m.name} (WhatsApp)`;
-          return linkCard(label, `https://wa.me/${String(m.whatsappE164).replace(/\D/g,'')}`, I18N[lang].buttons.whatsapp, i%2 ? "coral":"teal",
-                         (lang==="en" ? "Repairs / condo issues" : "Reparaciones / problemas del depa"));
+          const url = `https://wa.me/${String(m.whatsappE164).replace(/\\D/g,'')}`;
+          const sub = (lang==="en" ? "Repairs / condo issues" : "Reparaciones / problemas del depa");
+          return linkCard(label, url, I18N[lang].buttons.whatsapp, i%2===1, sub);
         }).join("");
 
         const owner = CONTENT.sos.owner || {};
-        const ownerCard = linkCard(`${owner.name} (WhatsApp)`, `https://wa.me/${String(owner.whatsappE164).replace(/\D/g,'')}`, I18N[lang].buttons.whatsapp, "coral",
-                                  (lang==="en" ? "Owner questions / feedback" : "Preguntas / comentarios al propietario"));
+        const ownerUrl = `https://wa.me/${String(owner.whatsappE164).replace(/\\D/g,'')}`;
+        const ownerSub = (lang==="en" ? "Owner questions / feedback" : "Preguntas / comentarios al propietario");
+        const ownerCard = linkCard(`${owner.name} (WhatsApp)`, ownerUrl, I18N[lang].buttons.whatsapp, true, ownerSub);
 
         pageEl.innerHTML = `
-          <h2>${title}</h2>
-          <p class="meta">${desc}</p>
+          <section class="card">
+            <h2 class="h2">🆘 ${lang==="en"?"SOS":"Ayuda"}</h2>
+            <p class="meta">${lang==="en"
+              ? "Pick the right contact for faster help."
+              : "Elige el contacto correcto para recibir ayuda más rápido."
+            }</p>
 
-          <div class="sectionTitle">${I18N[lang].sections.authorities}</div>
-          <div class="row">${authRows}</div>
+            <details open>
+              <summary>${I18N[lang].sections.authorities} <span class="chev">⌄</span></summary>
+              <div class="detailsBody">
+                <div class="stack">${authRows}</div>
+              </div>
+            </details>
 
-          <div class="sectionTitle">${I18N[lang].sections.property}</div>
-          <div class="linkGrid">${pmCards}</div>
+            <details>
+              <summary>${I18N[lang].sections.property} <span class="chev">⌄</span></summary>
+              <div class="detailsBody"><div class="linkGrid">${pmCards}</div></div>
+            </details>
 
-          <div class="sectionTitle">${I18N[lang].sections.owner}</div>
-          <div class="linkGrid">${ownerCard}</div>
+            <details>
+              <summary>${I18N[lang].sections.owner} <span class="chev">⌄</span></summary>
+              <div class="detailsBody"><div class="linkGrid">${ownerCard}</div></div>
+            </details>
+          </section>
         `;
         return;
       }
     }
 
-    buttons.forEach(b=>{
-      b.addEventListener("click", ()=>{
-        buttons.forEach(x=>x.classList.remove("active"));
-        b.classList.add("active");
-        render(b.dataset.page);
+    // Routing helper
+    function go(page, focusId){
+      if(focusId) window.__focusId = focusId;
+      render(page);
+      window.scrollTo({top: 0, behavior: "smooth"});
+      // close sheets if open
+      closeSheet(searchBackdrop);
+      closeSheet(moreBackdrop);
+    }
+
+    // More menu
+    const MORE_ITEMS = [
+      { page:"house", labelEN:"🎥 Videos", labelES:"🎥 Videos", hintEN:"How-to guides", hintES:"Guías rápidas" },
+      { page:"rules", labelEN:"📌 House rules", labelES:"📌 Reglas", hintEN:"Parking, pool, quiet hours", hintES:"Estacionamiento, piscina, silencio" },
+      { page:"shopping", labelEN:"🛒 Shopping", labelES:"🛒 Compras", hintEN:"Groceries + essentials", hintES:"Super + básicos" },
+      { page:"food", labelEN:"🍽️ Restaurants", labelES:"🍽️ Restaurantes", hintEN:"Top picks", hintES:"Recomendados" },
+      { page:"medical", labelEN:"🩺 Medical", labelES:"🩺 Médico", hintEN:"Pharmacies", hintES:"Farmacias" },
+      { page:"sos", labelEN:"🆘 SOS", labelES:"🆘 Ayuda", hintEN:"Contacts + emergencies", hintES:"Contactos + emergencias" }
+    ];
+
+    function buildMoreList(){
+      moreList.innerHTML = MORE_ITEMS.map(it=>{
+        const label = (lang==="en") ? it.labelEN : it.labelES;
+        const hint  = (lang==="en") ? it.hintEN : it.hintES;
+        return `
+          <button class="miniBtn" type="button" data-go="${it.page}">
+            <div>${label}<span>${hint}</span></div>
+            <div class="rightMark">→</div>
+          </button>
+        `;
+      }).join("");
+
+      moreList.querySelectorAll("[data-go]").forEach(b=>{
+        b.addEventListener("click", ()=> go(b.getAttribute("data-go")));
       });
+    }
+
+    // Search index (simple + useful)
+    function getSearchIndex(){
+      const addr = makeAddress();
+      const trash = (CONTENT.houseGuideVideos||[]).find(v=>v.id==="trash");
+      const safe  = (CONTENT.houseGuideVideos||[]).find(v=>v.id==="safe");
+
+      return [
+        { q: ["wifi","wi-fi","internet","contraseña","password","red"], label: "📶 Wi-Fi", hint: `${CONTENT.wifi.name} / ${CONTENT.wifi.pass}`, page:"wifi" },
+        { q: ["address","direccion","maps","mapa"], label: "🗺️ " + (lang==="en"?"Address / Maps":"Dirección / Maps"), hint: addr, page:"directions", copy: addr },
+        { q: ["trash","basura","padlock","candado","combo","combinacion","3548"], label: "🚮 " + (lang==="en"?"Trash padlock combo":"Combinación del candado"), hint: "🔒 3548", page:"house", copy:"3548", focus:"trash" },
+        { q: ["safe","caja fuerte"], label: "🔐 " + (lang==="en"?"Wall safe video":"Video caja fuerte"), hint: safe?.link || "", page:"house", focus:"safe" },
+        { q: ["checkout","check out","salida","check-out","check out"], label: "🧳 " + (lang==="en"?"Checkout checklist":"Checklist de salida"), hint: CONTENT.arrival.checkoutTime, page:"arrival" },
+        { q: ["parking","estacionamiento"], label: "🅿️ " + (lang==="en"?"Parking rules":"Reglas de estacionamiento"), hint: (lang==="en" ? CONTENT.rules.parkingEN[0] : CONTENT.rules.parkingES[0]), page:"rules" },
+        { q: ["pool","piscina"], label: "🏊 " + (lang==="en"?"Pool rules":"Reglas de la piscina"), hint: (lang==="en" ? CONTENT.rules.poolEN[0] : CONTENT.rules.poolES[0]), page:"rules" },
+        { q: ["emergency","911","emergencia","ayuda","sos"], label: "🆘 " + (lang==="en"?"SOS / contacts":"Ayuda / contactos"), hint: "911", page:"sos" }
+      ];
+    }
+
+    function renderSearchResults(term){
+      const t = term.trim().toLowerCase();
+      const items = getSearchIndex();
+
+      const filtered = !t ? items : items.filter(it=>{
+        const hay = (it.q||[]).join(" ") + " " + (it.label||"") + " " + (it.hint||"");
+        return hay.toLowerCase().includes(t);
+      });
+
+      searchResults.innerHTML = filtered.map(it=>{
+        const tag = it.copy ? (lang==="en"?"Copy":"Copiar") : "→";
+        return `
+          <button class="miniBtn" type="button" data-page="${it.page}" data-copy="${it.copy?1:0}" data-focus="${it.focus||""}" data-copytext="${(it.copy||"").replace(/"/g,'&quot;')}">
+            <div>${it.label}<span>${it.hint || ""}</span></div>
+            <div class="rightMark">${tag}</div>
+          </button>
+        `;
+      }).join("");
+
+      searchResults.querySelectorAll(".miniBtn").forEach(btn=>{
+        btn.addEventListener("click", async ()=>{
+          const page = btn.getAttribute("data-page");
+          const focus = btn.getAttribute("data-focus") || "";
+          const wantsCopy = btn.getAttribute("data-copy") === "1";
+          const copyTextValue = btn.getAttribute("data-copytext") || "";
+
+          if(wantsCopy && copyTextValue){
+            const ok = await copyText(copyTextValue);
+            toast(ok ? I18N[lang].buttons.copied : (lang==="en"?"Copy failed":"No se pudo copiar"));
+          }else{
+            go(page, focus || null);
+          }
+        });
+      });
+    }
+
+    // Sheet helpers
+    function openSheet(el){
+      el.classList.add("open");
+      // trap-ish: focus first input if search
+      if(el === searchBackdrop){
+        setTimeout(()=> searchInput.focus(), 50);
+      }
+    }
+    function closeSheet(el){
+      el.classList.remove("open");
+    }
+
+    // Events
+    navBtns.forEach(b=>{
+      b.addEventListener("click", ()=> go(b.dataset.page));
+    });
+
+    unitToggle.addEventListener("click", ()=>{
+      applyUnit(unitKey === "11c" ? "11d" : "11c");
+      setChrome();
+      render(currentPage);
+      toast(unitKey === "11c" ? "Unit 11C" : "Unit 11D");
     });
 
     langToggle.addEventListener("click", ()=>{
       lang = (lang==="en") ? "es" : "en";
       setChrome();
       render(currentPage);
+      // update search UI language
+      renderSearchResults(searchInput.value);
     });
 
+    openSearchBtn.addEventListener("click", ()=>{
+      openSheet(searchBackdrop);
+      searchInput.value = "";
+      renderSearchResults("");
+    });
+    closeSearchBtn.addEventListener("click", ()=> closeSheet(searchBackdrop));
+    searchBackdrop.addEventListener("click", (e)=>{
+      if(e.target === searchBackdrop) closeSheet(searchBackdrop);
+    });
+    searchInput.addEventListener("input", ()=> renderSearchResults(searchInput.value));
+
+    openMoreBtn.addEventListener("click", ()=> openSheet(moreBackdrop));
+    closeMoreBtn.addEventListener("click", ()=> closeSheet(moreBackdrop));
+    moreBackdrop.addEventListener("click", (e)=>{
+      if(e.target === moreBackdrop) closeSheet(moreBackdrop);
+    });
+
+    // ESC closes sheets
+    window.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape"){
+        closeSheet(searchBackdrop);
+        closeSheet(moreBackdrop);
+      }
+    });
+
+    // init
+    applyUnit(initUnitFromUrl());
+    buildMoreList();
     setChrome();
     render("home");
   </script>
