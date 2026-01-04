@@ -8,7 +8,6 @@
 
   <style>
     :root{
-      /* Brand / beach */
       --sand:#fbf5ec;
       --foam:#ffffff;
       --ink:#172126;
@@ -26,17 +25,9 @@
       --r-lg:18px;
       --r-md:14px;
 
-      --s-1:4px;
-      --s-2:8px;
-      --s-3:12px;
-      --s-4:16px;
-      --s-5:24px;
-
-      --tap:44px;
-
-      /* layout */
       --maxw:520px;
       --navh:64px;
+      --tap:44px;
     }
 
     *{ box-sizing:border-box; }
@@ -48,7 +39,6 @@
       color: var(--ink);
     }
 
-    /* Background */
     .bg{
       position: fixed;
       inset: 0;
@@ -68,7 +58,6 @@
       .bg{ animation:none; }
     }
 
-    /* App frame */
     .app{
       position:relative;
       z-index:1;
@@ -86,7 +75,6 @@
       backdrop-filter: blur(6px);
     }
 
-    /* Top bar */
     header{
       position: sticky;
       top: 0;
@@ -101,7 +89,7 @@
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
-      gap: var(--s-3);
+      gap: 12px;
       padding: 14px 14px 10px;
     }
     .top-left{ min-width:0; }
@@ -126,9 +114,7 @@
       flex:0 0 auto;
     }
 
-    button{
-      font: inherit;
-    }
+    button{ font: inherit; }
     .chip{
       height: 38px;
       border-radius: 999px;
@@ -142,6 +128,7 @@
       box-shadow: var(--shadow-soft);
       -webkit-tap-highlight-color: transparent;
       user-select:none;
+      white-space:nowrap;
     }
     .chip:active{ transform: scale(.99); }
     .chip:focus-visible{
@@ -157,11 +144,8 @@
       background: rgba(255,111,97,.14);
     }
 
-    main{
-      padding: 14px;
-    }
+    main{ padding: 14px; }
 
-    /* Cards */
     .card{
       border:1px solid var(--stroke);
       background: rgba(255,255,255,.92);
@@ -183,7 +167,6 @@
       line-height:1.45;
     }
 
-    /* Key/Value rows */
     .kv{
       display:flex;
       justify-content:space-between;
@@ -210,13 +193,12 @@
       font-weight: 650;
       flex: 1 1 auto;
     }
+    .v.left{ text-align:left; }
     .mono{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       letter-spacing:.2px;
     }
-    .v.left{ text-align:left; }
 
-    /* Quick actions */
     .actions{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -237,6 +219,7 @@
       text-decoration:none;
       color: var(--ink);
       -webkit-tap-highlight-color: transparent;
+      cursor:pointer;
     }
     .action:active{ transform: scale(.99); }
     .action strong{
@@ -268,7 +251,6 @@
       border: 1px solid rgba(255,111,97,.22);
     }
 
-    /* Link cards */
     .linkGrid{ display:flex; flex-direction:column; gap: 10px; }
     .linkCard{
       display:flex;
@@ -283,6 +265,7 @@
       color: var(--ink);
       box-shadow: var(--shadow-soft);
       -webkit-tap-highlight-color: transparent;
+      scroll-margin-top: 86px; /* helps focus scrolling under sticky header */
     }
     .linkCard:active{ transform: scale(.99); }
     .linkLeft{ min-width:0; }
@@ -313,7 +296,6 @@
       background: rgba(255,111,97,.16);
     }
 
-    /* Accordions */
     details{
       border: 1px solid var(--stroke);
       border-radius: var(--r-xl);
@@ -354,7 +336,6 @@
     ul.clean{ margin: 8px 0 0; padding-left: 18px; }
     ul.clean li{ margin: 6px 0; }
 
-    /* Wi-Fi QR */
     .qrWrap{
       display:flex;
       flex-direction:column;
@@ -370,7 +351,6 @@
       border: 1px solid var(--stroke);
     }
 
-    /* Bottom nav */
     .bottomNav{
       position: fixed;
       left: 0;
@@ -421,7 +401,6 @@
       outline-offset: -3px;
     }
 
-    /* Modal (Search + More) */
     .backdrop{
       position: fixed;
       inset: 0;
@@ -526,7 +505,9 @@
       font-size: 12px;
       font-weight: 900;
       color: var(--ink);
+      white-space:nowrap;
     }
+
     .toast{
       position: fixed;
       left: 50%;
@@ -545,7 +526,6 @@
     }
     .toast.show{ display:block; }
 
-    /* Small phones */
     @media (max-width: 360px){
       .actions{ grid-template-columns: 1fr; }
     }
@@ -577,7 +557,6 @@
     </div>
   </div>
 
-  <!-- Bottom nav -->
   <div class="bottomNav" aria-hidden="false">
     <div class="navBar" role="navigation" aria-label="Primary">
       <button class="navBtn" data-page="home" aria-current="page" type="button"><div class="ico">🏝️</div>Home</button>
@@ -588,7 +567,6 @@
     </div>
   </div>
 
-  <!-- Search sheet -->
   <div class="backdrop" id="searchBackdrop" role="dialog" aria-modal="true" aria-label="Search">
     <div class="sheet" role="document">
       <div class="sheetHead">
@@ -606,7 +584,6 @@
     </div>
   </div>
 
-  <!-- More sheet -->
   <div class="backdrop" id="moreBackdrop" role="dialog" aria-modal="true" aria-label="More menu">
     <div class="sheet" role="document">
       <div class="sheetHead">
@@ -666,14 +643,17 @@
       },
 
       houseGuideVideos: [
-        { icon:"🔒", titleEN:"Door Lock",              titleES:"Cerradura de la puerta",     link:"https://youtu.be/dZfc3S7i0bk" },
-        { icon:"🚪", titleEN:"Open Patio Gate",        titleES:"Abrir la puerta del patio", link:"https://youtu.be/s7U20fFmzC0" },
-        { icon:"💡", titleEN:"Smart Lighting",         titleES:"Luces inteligentes",         link:"https://youtu.be/QDtUwEeHmGc" },
-        { icon:"📺", titleEN:"Watch IPTV",             titleES:"Ver IPTV",                   link:"https://youtu.be/w78NTtRqdbI" },
-        { icon:"❄️", titleEN:"A/C Remote",             titleES:"Control del A/C",            link:"https://youtu.be/UFgrTn4xALA" },
-        { icon:"💧", titleEN:"Bottled Water",          titleES:"Agua embotellada",           link:"https://youtu.be/nwUs4Plp5dc" },
+        { icon:"🔒", titleEN:"Door Lock",       titleES:"Cerradura de la puerta",     link:"https://youtu.be/dZfc3S7i0bk" },
+        { icon:"🚪", titleEN:"Open Patio Gate", titleES:"Abrir la puerta del patio",  link:"https://youtu.be/s7U20fFmzC0" },
+        { icon:"💡", titleEN:"Smart Lighting",  titleES:"Luces inteligentes",         link:"https://youtu.be/QDtUwEeHmGc" },
+        { icon:"📺", titleEN:"Watch IPTV",      titleES:"Ver IPTV",                   link:"https://youtu.be/w78NTtRqdbI" },
+        { icon:"❄️", titleEN:"A/C Remote",      titleES:"Control del A/C",            link:"https://youtu.be/UFgrTn4xALA" },
+        { icon:"💧", titleEN:"Bottled Water",   titleES:"Agua embotellada",           link:"https://youtu.be/nwUs4Plp5dc" },
+
+        /* Trash combo is 3648 (consistent everywhere) */
         { id:"trash", icon:"🚮", titleEN:"Trash", titleES:"Basura", link:"https://youtu.be/jsMapNBDmdw",
-          subEN:"🔒 Padlock combo: 3548", subES:"🔒 Combinación del candado: 3548" },
+          subEN:"🔒 Padlock combo: 3648", subES:"🔒 Combinación del candado: 3648" },
+
         { id:"safe", icon:"🔐", titleEN:"Wall Safe", titleES:"Caja fuerte", link:"https://youtu.be/DzP-1L-ezx8" }
       ],
 
@@ -727,7 +707,7 @@
         seafood: [
           { name:"Los Koras", link:"https://www.google.com/maps/search/?api=1&query=Los+Koras+Puerto+Morelos" },
           { name:"La Playita", link:"https://www.google.com/maps/search/?api=1&query=La+Playita+Puerto+Morelos" },
-          { name:"El Picudo", link:"https://www.google.com/maps/search/?api=1&query=El+Picudo+Puerto+Morelos" }
+          { name:"El Picudo", link:"https://www.google.com/maps/search/?api=1&query=El Picudo Puerto Morelos" }
         ],
         dinner: [
           { name:"Punta Corcho", link:"https://www.google.com/maps/search/?api=1&query=Punta+Corcho+Puerto+Morelos" },
@@ -763,16 +743,8 @@
 
     // ---- Unit handling (11C / 11D) ----
     const UNITS = {
-      "11c": {
-        label: "11C",
-        propertyName: "Casa Dorado 11C",
-        safeVideo: "https://youtu.be/DzP-1L-ezx8"
-      },
-      "11d": {
-        label: "11D",
-        propertyName: "Casa Dorado 11D",
-        safeVideo: "https://youtu.be/CS53-VqRZlE"
-      }
+      "11c": { label: "11C", propertyName: "Casa Dorado 11C", safeVideo: "https://youtu.be/DzP-1L-ezx8" },
+      "11d": { label: "11D", propertyName: "Casa Dorado 11D", safeVideo: "https://youtu.be/CS53-VqRZlE" }
     };
 
     let unitKey = "11c";
@@ -788,7 +760,7 @@
       if(safeItem) safeItem.link = u.safeVideo;
 
       const unitToggle = document.getElementById("unitToggle");
-      if(unitToggle) unitToggle.textContent = u.label;
+      if(unitToggle) unitToggle.textContent = (lang==="en" ? `Unit ${u.label}` : `Unidad ${u.label}`);
 
       const url = new URL(window.location.href);
       url.searchParams.set("unit", unitKey);
@@ -858,11 +830,9 @@
     const unitToggle = document.getElementById("unitToggle");
     const toastEl = document.getElementById("toast");
 
-    // bottom nav
     const navBtns = [...document.querySelectorAll(".navBtn[data-page]")];
     const openMoreBtn = document.getElementById("openMore");
 
-    // sheets
     const searchBackdrop = document.getElementById("searchBackdrop");
     const moreBackdrop = document.getElementById("moreBackdrop");
     const openSearchBtn = document.getElementById("openSearch");
@@ -889,7 +859,9 @@
       langToggle.textContent = (lang === "en") ? "ES" : "EN";
       document.documentElement.lang = lang;
 
-      // bottom nav labels
+      const u = UNITS[unitKey];
+      unitToggle.textContent = (lang==="en" ? `Unit ${u.label}` : `Unidad ${u.label}`);
+
       const labels = I18N[lang].nav;
       const mapBtn = document.querySelector('.navBtn[data-page="directions"]');
       const homeBtn = document.querySelector('.navBtn[data-page="home"]');
@@ -905,7 +877,6 @@
       searchHint.textContent = I18N[lang].searchHint;
       moreTitle.textContent = I18N[lang].moreTitle;
 
-      // rebuild More list text when language changes
       buildMoreList();
     }
 
@@ -914,11 +885,11 @@
       return `${d.addressLine1}, ${d.city}, ${d.state} ${d.zip}`;
     }
 
-    function kv(theme, k, v, mono=false, left=false){
+    function kv(theme, k, v, left=false){
       return `
         <div class="kv ${theme==='coral'?'coral':''}">
           <div class="k">${k}</div>
-          <div class="v ${mono?'mono':''} ${left?'left':''}">${v}</div>
+          <div class="v ${left?'left':''}">${v}</div>
         </div>
       `;
     }
@@ -927,9 +898,10 @@
       return `<ul class="clean">${(list||[]).map(x=>`<li>${x}</li>`).join("")}</ul>`;
     }
 
-    function linkCard(title, link, pillText, coral=false, subText=""){
+    function linkCard(title, link, pillText, coral=false, subText="", id=""){
+      const safeId = (id || "").replace(/[^a-zA-Z0-9_-]/g, "");
       return `
-        <a class="linkCard" href="${link}" target="_blank" rel="noopener">
+        <a class="linkCard" ${safeId ? `id="${safeId}"` : ""} href="${link}" target="_blank" rel="noopener">
           <div class="linkLeft">
             <div class="linkTitle">${title}</div>
             ${subText ? `<div class="linkSub">${subText}</div>` : ""}
@@ -943,8 +915,7 @@
       try{
         await navigator.clipboard.writeText(text);
         return true;
-      }catch(e){
-        // fallback
+      }catch{
         try{
           const ta = document.createElement("textarea");
           ta.value = text;
@@ -969,7 +940,16 @@
       });
     }
 
-    // Pages
+    function scrollToFocusIfNeeded(){
+      if(!window.__focusId) return;
+      const id = String(window.__focusId || "").replace(/[^a-zA-Z0-9_-]/g, "");
+      const el = document.getElementById(id);
+      if(el){
+        el.scrollIntoView({behavior:"smooth", block:"start"});
+      }
+      window.__focusId = null;
+    }
+
     function render(page){
       currentPage = page;
       setActiveNav(page);
@@ -982,7 +962,6 @@
         const checkin = CONTENT.arrival.checkinTime;
         const checkout = CONTENT.arrival.checkoutTime;
 
-        // quick actions
         const actions = `
           <div class="actions" role="list">
             <a class="action" href="${CONTENT.directions.mapLink}" target="_blank" rel="noopener" role="listitem">
@@ -997,7 +976,7 @@
 
             <button class="action" type="button" role="listitem" data-jump="house" data-focus="trash">
               <div class="badge">🚮</div>
-              <div><strong>${lang==="en"?"Trash":"Basura"}</strong><span>🔒 3548</span></div>
+              <div><strong>${lang==="en"?"Trash":"Basura"}</strong><span>🔒 3648</span></div>
             </button>
 
             <button class="action" type="button" role="listitem" data-jump="sos">
@@ -1011,7 +990,7 @@
         const commonCards = commonVideos.map((v,i)=>{
           const name = (lang==="en" ? v.titleEN : v.titleES);
           const sub = (lang==="en" ? (v.subEN||"") : (v.subES||""));
-          return linkCard(`${v.icon? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, i%2===1, sub);
+          return linkCard(`${v.icon? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, i%2===1, sub, v.id || "");
         }).join("");
 
         pageEl.innerHTML = `
@@ -1023,8 +1002,8 @@
             }</p>
             <div class="stack">
               ${kv("teal", I18N[lang].labels.checkin, checkin)}
-              ${kv("teal", I18N[lang].labels.checkout, checkout)}
-              <div class="kv coral">
+              ${kv("coral", I18N[lang].labels.checkout, checkout)}
+              <div class="kv">
                 <div class="k">${I18N[lang].labels.address}</div>
                 <div class="v left">${addr}</div>
               </div>
@@ -1034,6 +1013,7 @@
                 ${actions}
               </div>
             </div>
+            <p class="meta" style="text-align:center; margin: 10px 0 0;">${I18N[lang].footerTip}</p>
           </section>
 
           <section class="card">
@@ -1047,11 +1027,8 @@
               <button class="chip" type="button" data-jump="food">${lang==="en"?"Restaurants":"Restaurantes"}</button>
             </div>
           </section>
-
-          <p class="meta" style="text-align:center; margin: 8px 0 0;">${I18N[lang].footerTip}</p>
         `;
 
-        // wire jump buttons
         pageEl.querySelectorAll("[data-jump]").forEach(el=>{
           el.addEventListener("click", ()=>{
             const target = el.getAttribute("data-jump");
@@ -1072,7 +1049,7 @@
               : "Toca para abrir Google Maps. También puedes copiar la dirección."
             }</p>
             <div class="stack">
-              ${kv("teal", I18N[lang].labels.address, `<span class="mono">${addr}</span>`, false, true)}
+              ${kv("teal", I18N[lang].labels.address, `<span class="mono">${addr}</span>`, true)}
               <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
                 <a class="chip primary" href="${CONTENT.directions.mapLink}" target="_blank" rel="noopener">${I18N[lang].buttons.driving} ↗</a>
                 <button class="chip" type="button" id="copyAddress">${I18N[lang].buttons.copy}</button>
@@ -1080,8 +1057,7 @@
             </div>
           </section>
         `;
-        const copyBtn = document.getElementById("copyAddress");
-        copyBtn?.addEventListener("click", async ()=>{
+        document.getElementById("copyAddress")?.addEventListener("click", async ()=>{
           const ok = await copyText(addr);
           toast(ok ? I18N[lang].buttons.copied : (lang==="en"?"Copy failed":"No se pudo copiar"));
         });
@@ -1131,8 +1107,8 @@
             }</p>
 
             <div class="stack">
-              ${kv("teal", I18N[lang].labels.wifiNetwork, `<span class="mono">${CONTENT.wifi.name}</span>`, false, true)}
-              ${kv("coral", I18N[lang].labels.wifiPassword, `<span class="mono">${CONTENT.wifi.pass}</span>`, false, true)}
+              ${kv("teal", I18N[lang].labels.wifiNetwork, `<span class="mono">${CONTENT.wifi.name}</span>`, true)}
+              ${kv("coral", I18N[lang].labels.wifiPassword, `<span class="mono">${CONTENT.wifi.pass}</span>`, true)}
             </div>
 
             <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
@@ -1167,7 +1143,7 @@
         const vids = (CONTENT.houseGuideVideos || []).map((v,i)=>{
           const name = (lang==="en" ? v.titleEN : v.titleES);
           const sub  = (lang==="en" ? (v.subEN||"") : (v.subES||""));
-          return linkCard(`${v.icon? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, i%2===1, sub);
+          return linkCard(`${v.icon? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, i%2===1, sub, v.id || "");
         }).join("");
 
         pageEl.innerHTML = `
@@ -1178,13 +1154,7 @@
           </section>
         `;
 
-        // if we came here from a focused jump (trash, etc)
-        if(window.__focusId){
-          const target = (CONTENT.houseGuideVideos||[]).find(v=>v.id===window.__focusId);
-          // just scroll top; link cards are in view
-          setTimeout(()=> document.getElementById("houseTop")?.scrollIntoView({behavior:"smooth", block:"start"}), 50);
-          window.__focusId = null;
-        }
+        setTimeout(scrollToFocusIfNeeded, 60);
         return;
       }
 
@@ -1301,17 +1271,29 @@
 
       if(page === "sos"){
         const auth = (lang==="en" ? CONTENT.sos.authoritiesEN : CONTENT.sos.authoritiesES);
-        const authRows = (auth||[]).map((x,i)=> kv(i%2===1 ? "coral":"teal", x.label, `<span class="mono">${x.value}</span>`, false, true)).join("");
+
+        /* IMPORTANT: NO tap-to-call for 911 to prevent accidental dialing */
+        const authRows = (auth||[]).map((x,i)=>`
+          <div class="kv ${i%2===1?'coral':''}">
+            <div class="k">${x.label}</div>
+            <div class="v left">
+              <span class="mono">${x.value}</span>
+              <div style="margin-top:6px; font-size:12.5px; color: var(--muted);">
+                ${lang==="en" ? "Use only for real emergencies." : "Úsalo solo para emergencias reales."}
+              </div>
+            </div>
+          </div>
+        `).join("");
 
         const pmCards = (CONTENT.sos.propertyManagers || []).map((m,i)=>{
           const label = `${m.name} (WhatsApp)`;
-          const url = `https://wa.me/${String(m.whatsappE164).replace(/\\D/g,'')}`;
+          const url = `https://wa.me/${String(m.whatsappE164).replace(/\D/g,'')}`;
           const sub = (lang==="en" ? "Repairs / condo issues" : "Reparaciones / problemas del depa");
           return linkCard(label, url, I18N[lang].buttons.whatsapp, i%2===1, sub);
         }).join("");
 
         const owner = CONTENT.sos.owner || {};
-        const ownerUrl = `https://wa.me/${String(owner.whatsappE164).replace(/\\D/g,'')}`;
+        const ownerUrl = `https://wa.me/${String(owner.whatsappE164).replace(/\D/g,'')}`;
         const ownerSub = (lang==="en" ? "Owner questions / feedback" : "Preguntas / comentarios al propietario");
         const ownerCard = linkCard(`${owner.name} (WhatsApp)`, ownerUrl, I18N[lang].buttons.whatsapp, true, ownerSub);
 
@@ -1325,9 +1307,7 @@
 
             <details open>
               <summary>${I18N[lang].sections.authorities} <span class="chev">⌄</span></summary>
-              <div class="detailsBody">
-                <div class="stack">${authRows}</div>
-              </div>
+              <div class="detailsBody"><div class="stack">${authRows}</div></div>
             </details>
 
             <details>
@@ -1345,17 +1325,14 @@
       }
     }
 
-    // Routing helper
     function go(page, focusId){
       if(focusId) window.__focusId = focusId;
       render(page);
       window.scrollTo({top: 0, behavior: "smooth"});
-      // close sheets if open
       closeSheet(searchBackdrop);
       closeSheet(moreBackdrop);
     }
 
-    // More menu
     const MORE_ITEMS = [
       { page:"house", labelEN:"🎥 Videos", labelES:"🎥 Videos", hintEN:"How-to guides", hintES:"Guías rápidas" },
       { page:"rules", labelEN:"📌 House rules", labelES:"📌 Reglas", hintEN:"Parking, pool, quiet hours", hintES:"Estacionamiento, piscina, silencio" },
@@ -1382,18 +1359,17 @@
       });
     }
 
-    // Search index (simple + useful)
     function getSearchIndex(){
       const addr = makeAddress();
-      const trash = (CONTENT.houseGuideVideos||[]).find(v=>v.id==="trash");
-      const safe  = (CONTENT.houseGuideVideos||[]).find(v=>v.id==="safe");
-
       return [
         { q: ["wifi","wi-fi","internet","contraseña","password","red"], label: "📶 Wi-Fi", hint: `${CONTENT.wifi.name} / ${CONTENT.wifi.pass}`, page:"wifi" },
         { q: ["address","direccion","maps","mapa"], label: "🗺️ " + (lang==="en"?"Address / Maps":"Dirección / Maps"), hint: addr, page:"directions", copy: addr },
-        { q: ["trash","basura","padlock","candado","combo","combinacion","3548"], label: "🚮 " + (lang==="en"?"Trash padlock combo":"Combinación del candado"), hint: "🔒 3548", page:"house", copy:"3548", focus:"trash" },
-        { q: ["safe","caja fuerte"], label: "🔐 " + (lang==="en"?"Wall safe video":"Video caja fuerte"), hint: safe?.link || "", page:"house", focus:"safe" },
-        { q: ["checkout","check out","salida","check-out","check out"], label: "🧳 " + (lang==="en"?"Checkout checklist":"Checklist de salida"), hint: CONTENT.arrival.checkoutTime, page:"arrival" },
+
+        /* Trash combo searchable + copyable (3648) */
+        { q: ["trash","basura","padlock","candado","combo","combinacion","3648"], label: "🚮 " + (lang==="en"?"Trash padlock combo":"Combinación del candado"), hint: "🔒 3648", page:"house", copy:"3648", focus:"trash" },
+
+        { q: ["safe","caja fuerte"], label: "🔐 " + (lang==="en"?"Wall safe video":"Video caja fuerte"), hint: (UNITS[unitKey].safeVideo || ""), page:"house", focus:"safe" },
+        { q: ["checkout","check out","salida"], label: "🧳 " + (lang==="en"?"Checkout checklist":"Checklist de salida"), hint: CONTENT.arrival.checkoutTime, page:"arrival" },
         { q: ["parking","estacionamiento"], label: "🅿️ " + (lang==="en"?"Parking rules":"Reglas de estacionamiento"), hint: (lang==="en" ? CONTENT.rules.parkingEN[0] : CONTENT.rules.parkingES[0]), page:"rules" },
         { q: ["pool","piscina"], label: "🏊 " + (lang==="en"?"Pool rules":"Reglas de la piscina"), hint: (lang==="en" ? CONTENT.rules.poolEN[0] : CONTENT.rules.poolES[0]), page:"rules" },
         { q: ["emergency","911","emergencia","ayuda","sos"], label: "🆘 " + (lang==="en"?"SOS / contacts":"Ayuda / contactos"), hint: "911", page:"sos" }
@@ -1403,7 +1379,6 @@
     function renderSearchResults(term){
       const t = term.trim().toLowerCase();
       const items = getSearchIndex();
-
       const filtered = !t ? items : items.filter(it=>{
         const hay = (it.q||[]).join(" ") + " " + (it.label||"") + " " + (it.hint||"");
         return hay.toLowerCase().includes(t);
@@ -1411,8 +1386,13 @@
 
       searchResults.innerHTML = filtered.map(it=>{
         const tag = it.copy ? (lang==="en"?"Copy":"Copiar") : "→";
+        const safeCopy = (it.copy||"").replace(/"/g,'&quot;');
         return `
-          <button class="miniBtn" type="button" data-page="${it.page}" data-copy="${it.copy?1:0}" data-focus="${it.focus||""}" data-copytext="${(it.copy||"").replace(/"/g,'&quot;')}">
+          <button class="miniBtn" type="button"
+            data-page="${it.page}"
+            data-copy="${it.copy?1:0}"
+            data-focus="${it.focus||""}"
+            data-copytext="${safeCopy}">
             <div>${it.label}<span>${it.hint || ""}</span></div>
             <div class="rightMark">${tag}</div>
           </button>
@@ -1436,19 +1416,14 @@
       });
     }
 
-    // Sheet helpers
     function openSheet(el){
       el.classList.add("open");
-      // trap-ish: focus first input if search
       if(el === searchBackdrop){
         setTimeout(()=> searchInput.focus(), 50);
       }
     }
-    function closeSheet(el){
-      el.classList.remove("open");
-    }
+    function closeSheet(el){ el.classList.remove("open"); }
 
-    // Events
     navBtns.forEach(b=>{
       b.addEventListener("click", ()=> go(b.dataset.page));
     });
@@ -1457,14 +1432,13 @@
       applyUnit(unitKey === "11c" ? "11d" : "11c");
       setChrome();
       render(currentPage);
-      toast(unitKey === "11c" ? "Unit 11C" : "Unit 11D");
+      toast(lang==="en" ? `Switched to Unit ${UNITS[unitKey].label}` : `Cambiado a Unidad ${UNITS[unitKey].label}`);
     });
 
     langToggle.addEventListener("click", ()=>{
       lang = (lang==="en") ? "es" : "en";
       setChrome();
       render(currentPage);
-      // update search UI language
       renderSearchResults(searchInput.value);
     });
 
@@ -1474,18 +1448,13 @@
       renderSearchResults("");
     });
     closeSearchBtn.addEventListener("click", ()=> closeSheet(searchBackdrop));
-    searchBackdrop.addEventListener("click", (e)=>{
-      if(e.target === searchBackdrop) closeSheet(searchBackdrop);
-    });
+    searchBackdrop.addEventListener("click", (e)=>{ if(e.target === searchBackdrop) closeSheet(searchBackdrop); });
     searchInput.addEventListener("input", ()=> renderSearchResults(searchInput.value));
 
     openMoreBtn.addEventListener("click", ()=> openSheet(moreBackdrop));
     closeMoreBtn.addEventListener("click", ()=> closeSheet(moreBackdrop));
-    moreBackdrop.addEventListener("click", (e)=>{
-      if(e.target === moreBackdrop) closeSheet(moreBackdrop);
-    });
+    moreBackdrop.addEventListener("click", (e)=>{ if(e.target === moreBackdrop) closeSheet(moreBackdrop); });
 
-    // ESC closes sheets
     window.addEventListener("keydown", (e)=>{
       if(e.key === "Escape"){
         closeSheet(searchBackdrop);
@@ -1493,7 +1462,6 @@
       }
     });
 
-    // init
     applyUnit(initUnitFromUrl());
     buildMoreList();
     setChrome();
