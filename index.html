@@ -39,23 +39,14 @@
       color: var(--ink);
     }
 
+    /* Keep a subtle backdrop; hero provides the main visual now */
     .bg{
       position: fixed;
       inset: 0;
       z-index: 0;
-      background:
-        linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
-        url("bg-pool.jpg");
-      background-size: cover;
-      background-position: center;
-      transform: scale(1.05);
-    }
-    @media (prefers-reduced-motion: no-preference){
-      .bg{ animation: luxuryZoom 28s ease-in-out infinite alternate; will-change: transform; }
-      @keyframes luxuryZoom{ from { transform: scale(1.05);} to { transform: scale(1.10);} }
-    }
-    @media (prefers-reduced-motion: reduce){
-      .bg{ animation:none; }
+      background: radial-gradient(1200px 800px at 40% 0%, rgba(44,199,194,.16), transparent 55%),
+                  radial-gradient(900px 700px at 90% 30%, rgba(255,111,97,.12), transparent 55%),
+                  linear-gradient(180deg, rgba(255,255,255,.0), rgba(255,255,255,.35));
     }
 
     .app{
@@ -199,46 +190,93 @@
       letter-spacing:.2px;
     }
 
-    .actions{
+    /* Hero */
+    .hero{
+      border: 1px solid var(--stroke);
+      border-radius: 26px;
+      overflow:hidden;
+      box-shadow: var(--shadow-soft);
+      background: #fff;
+    }
+    .heroMedia{
+      position:relative;
+      height: 190px;
+      background: #ddd;
+    }
+    .heroMedia img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+    }
+    .heroOverlay{
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.05) 55%, rgba(255,255,255,0));
+    }
+    .heroText{
+      position:absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      color:#fff;
+      text-shadow: 0 2px 14px rgba(0,0,0,.35);
+    }
+    .heroText h2{
+      margin:0;
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing:.2px;
+      line-height:1.15;
+    }
+    .heroText p{
+      margin:6px 0 0;
+      font-size: 13px;
+      line-height:1.25;
+      opacity:.95;
+    }
+
+    /* Tiles */
+    .tiles{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 12px;
     }
-    .action{
-      min-height: var(--tap);
+    .tile{
+      min-height: 90px;
       display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:flex-start;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
       padding: 12px;
-      border-radius: var(--r-xl);
+      border-radius: 22px;
       border:1px solid var(--stroke);
       background: rgba(255,255,255,.92);
       box-shadow: var(--shadow-soft);
-      text-decoration:none;
-      color: var(--ink);
       -webkit-tap-highlight-color: transparent;
       cursor:pointer;
+      text-align:left;
     }
-    .action:active{ transform: scale(.99); }
-    .action strong{
+    .tile:active{ transform: scale(.99); }
+    .tileLeft strong{
       display:block;
-      font-size: 13.5px;
-      font-weight: 900;
+      font-size: 14px;
+      font-weight: 950;
       line-height:1.1;
+      letter-spacing:.2px;
     }
-    .action span{
+    .tileLeft span{
       display:block;
+      margin-top: 4px;
       font-size: 12.5px;
       color: var(--muted);
-      margin-top: 2px;
       line-height:1.2;
     }
-    .badge{
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
+    .tileIco{
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
       display:grid;
       place-items:center;
       background: rgba(44,199,194,.14);
@@ -246,7 +284,7 @@
       flex: 0 0 auto;
       font-size: 18px;
     }
-    .badge.coral{
+    .tileIco.coral{
       background: rgba(255,111,97,.14);
       border: 1px solid rgba(255,111,97,.22);
     }
@@ -265,7 +303,7 @@
       color: var(--ink);
       box-shadow: var(--shadow-soft);
       -webkit-tap-highlight-color: transparent;
-      scroll-margin-top: 86px; /* helps focus scrolling under sticky header */
+      scroll-margin-top: 86px;
     }
     .linkCard:active{ transform: scale(.99); }
     .linkLeft{ min-width:0; }
@@ -325,6 +363,7 @@
       border: 1px solid var(--stroke);
       background: rgba(44,199,194,.10);
       flex: 0 0 auto;
+      transition: transform .18s ease;
     }
     details[open] .chev{ transform: rotate(180deg); }
     .detailsBody{
@@ -527,7 +566,7 @@
     .toast.show{ display:block; }
 
     @media (max-width: 360px){
-      .actions{ grid-template-columns: 1fr; }
+      .tiles{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -560,9 +599,9 @@
   <div class="bottomNav" aria-hidden="false">
     <div class="navBar" role="navigation" aria-label="Primary">
       <button class="navBtn" data-page="home" aria-current="page" type="button"><div class="ico">🏝️</div>Home</button>
-      <button class="navBtn" data-page="directions" type="button"><div class="ico">🗺️</div>Map</button>
       <button class="navBtn" data-page="arrival" type="button"><div class="ico">🧳</div>Arrival</button>
-      <button class="navBtn" data-page="wifi" type="button"><div class="ico">📶</div>Wi-Fi</button>
+      <button class="navBtn" data-page="condo" type="button"><div class="ico">🏠</div>Condo</button>
+      <button class="navBtn" data-page="local" type="button"><div class="ico">📍</div>Local</button>
       <button class="navBtn" id="openMore" type="button"><div class="ico">➕</div>More</button>
     </div>
   </div>
@@ -576,7 +615,7 @@
       <div class="sheetBody">
         <div class="field">
           <span aria-hidden="true">🔎</span>
-          <input id="searchInput" type="search" placeholder="Search: Wi-Fi, trash, safe, checkout…" autocomplete="off" />
+          <input id="searchInput" type="search" placeholder="Search: Wi-Fi, gate, trash, safe, checkout…" autocomplete="off" />
         </div>
         <p class="hint" id="searchHint"></p>
         <div class="list" id="searchResults"></div>
@@ -600,7 +639,7 @@
 
   <script>
     /**********************************************************
-     * EDIT ONLY THIS SECTION (CONTENT)
+     * CONTENT
      **********************************************************/
     const CONTENT = {
       propertyName: "Casa Dorado 11C",
@@ -608,11 +647,15 @@
       wifi: { name: "DoradoGuest", pass: "b13nv3n1d0" },
 
       directions: {
-        addressLine1: "CDA Las Nubes Edificio 11 Apt C",
+        addressLine1: "CDA Las Nubes MZ19 LT01 Edificio 11 Apt C",
         city: "Puerto Morelos",
         state: "Quintana Roo",
         zip: "77580",
         mapLink: "https://maps.app.goo.gl/Ufmdhn7Jatqre1Es5"
+      },
+
+      links: {
+        localbird: "https://localbird.io/"
       },
 
       arrival: {
@@ -620,13 +663,13 @@
         checkoutTime: "11:00 AM",
         notesEN: [
           "Your personal door code will be sent privately before arrival.",
-          "If you arrive early, you can drop luggage if the unit is ready.",
-          "Please lock the door whenever you leave."
+          "Check-in is after 3:00 PM.",
+          "If you arrive early, check with the property manager to see if you can drop luggage in the unit."
         ],
         notesES: [
           "Tu código personal se enviará por privado antes de tu llegada.",
-          "Si llegas temprano, puedes dejar maletas si la unidad ya está lista.",
-          "Por favor cierra con llave cada vez que salgas."
+          "La llegada es después de las 3:00 PM.",
+          "Si llegas temprano, consulta con el administrador para ver si puedes dejar maletas en la unidad."
         ],
         checkoutEN: [
           "Turn off A/C + lights",
@@ -643,14 +686,13 @@
       },
 
       houseGuideVideos: [
-        { icon:"🔒", titleEN:"Door Lock",       titleES:"Cerradura de la puerta",     link:"https://youtu.be/dZfc3S7i0bk" },
+        { id:"door", icon:"🔒", titleEN:"Door Lock",       titleES:"Cerradura de la puerta",     link:"https://youtu.be/dZfc3S7i0bk" },
         { icon:"🚪", titleEN:"Open Patio Gate", titleES:"Abrir la puerta del patio",  link:"https://youtu.be/s7U20fFmzC0" },
         { icon:"💡", titleEN:"Smart Lighting",  titleES:"Luces inteligentes",         link:"https://youtu.be/QDtUwEeHmGc" },
         { icon:"📺", titleEN:"Watch IPTV",      titleES:"Ver IPTV",                   link:"https://youtu.be/w78NTtRqdbI" },
         { icon:"❄️", titleEN:"A/C Remote",      titleES:"Control del A/C",            link:"https://youtu.be/UFgrTn4xALA" },
         { icon:"💧", titleEN:"Bottled Water",   titleES:"Agua embotellada",           link:"https://youtu.be/nwUs4Plp5dc" },
 
-        /* Trash combo is 3648 (consistent everywhere) */
         { id:"trash", icon:"🚮", titleEN:"Trash", titleES:"Basura", link:"https://youtu.be/jsMapNBDmdw",
           subEN:"🔒 Padlock combo: 3648", subES:"🔒 Combinación del candado: 3648" },
 
@@ -659,12 +701,10 @@
 
       rules: {
         parkingEN: [
-          "Only use the apartment’s assigned parking spot.",
-          "Please do not use any other spaces."
+          "Park only in the assigned spot for your apartment."
         ],
         parkingES: [
-          "Solo utiliza el cajón de estacionamiento asignado.",
-          "Por favor no uses otros cajones."
+          "Estaciona solo en el lugar asignado a tu departamento."
         ],
         homeEN: ["No smoking inside","No pets"],
         homeES: ["No fumar dentro","No mascotas"],
@@ -721,27 +761,23 @@
         ]
       },
 
-      medical: {
-        pharmacies: [
-          { name: "Live Pharmacy", link: "https://maps.app.goo.gl/BwRW93Syr668yhXt7" },
-          { name: "Farmacias Similares", link: "https://maps.app.goo.gl/xH5fbWHZ7GHYS38v8" }
-        ]
-      },
-
       sos: {
-        authoritiesEN: [{ label: "Emergency (Mexico)", value: "911" }],
-        authoritiesES: [{ label: "Emergencias (México)", value: "911" }],
-
         propertyManagers: [
           { name: "Gerardo Garcia", whatsappE164: "525587197202" },
           { name: "Abby Garcia", whatsappE164: "525529811958" }
         ],
-
         owner: { name: "Tony", whatsappE164: "13039751749" }
+      },
+
+      contacts: {
+        gate: { whatsappE164: "5219983956124" },
+        rentals: {
+          car: { name: "Luis", whatsappE164: "51992149573" },
+          bike: { name: "Priscilla", whatsappE164: "5219982315086" }
+        }
       }
     };
 
-    // ---- Unit handling (11C / 11D) ----
     const UNITS = {
       "11c": { label: "11C", propertyName: "Casa Dorado 11C", safeVideo: "https://youtu.be/DzP-1L-ezx8" },
       "11d": { label: "11D", propertyName: "Casa Dorado 11D", safeVideo: "https://youtu.be/CS53-VqRZlE" }
@@ -777,45 +813,35 @@
     }
 
     /**********************************************************
-     * APP (no need to edit below)
+     * APP
      **********************************************************/
     const I18N = {
       en: {
         subtitle: "Everything you need for a smooth stay—fast, simple, mobile-friendly.",
         searchTitle: "Search",
-        searchHint: "Try: Wi-Fi, trash, safe, checkout, parking, pool…",
+        searchHint: "Try: Wi-Fi, gate, trash, safe, checkout…",
         moreTitle: "More",
-        footerTip: "Tip: iPhone → Share → Add to Home Screen (feels like an app).",
-        nav: { home:"Home", map:"Map", arrival:"Arrival", wifi:"Wi-Fi", more:"More" },
-        buttons: { driving: "Driving Directions", copy: "Copy", copied: "Copied ✅", watch: "Watch", map: "Map", whatsapp: "WhatsApp" },
+        nav: { home:"Home", arrival:"Arrival", condo:"Condo", local:"Local", more:"More" },
+        buttons: { copy: "Copy", copied: "Copied ✅", watch: "Watch", map: "Map" },
         labels: { address: "Address", checkin: "Check-in", checkout: "Check-out", wifiNetwork: "Network", wifiPassword: "Password" },
         sections: {
-          quick: "Quick actions",
-          common: "Most common",
           parking: "Parking", home: "Home", pool: "Pool", quiet: "Quiet Hours",
           supermarkets: "Supermarkets", local: "Local Grocery", fruit: "Fruit Stands",
-          breakfast: "Breakfast / Coffee", seafood: "Seafood", dinner: "Dinner", pizza: "Pizza",
-          pharmacies: "Pharmacies",
-          authorities: "Authorities (Real Emergencies)", property: "Property Issues (Managers)", owner: "Owner / Feedback"
+          breakfast: "Breakfast / Coffee", seafood: "Seafood", dinner: "Dinner", pizza: "Pizza"
         }
       },
       es: {
         subtitle: "Todo lo esencial para tu estancia—rápido, simple y fácil en el celular.",
         searchTitle: "Buscar",
-        searchHint: "Ejemplos: Wi-Fi, basura, caja fuerte, salida, estacionamiento…",
+        searchHint: "Ejemplos: Wi-Fi, caseta, basura, caja fuerte, salida…",
         moreTitle: "Más",
-        footerTip: "Tip: iPhone → Compartir → Agregar a pantalla de inicio (se siente como app).",
-        nav: { home:"Inicio", map:"Mapa", arrival:"Llegada", wifi:"Wi-Fi", more:"Más" },
-        buttons: { driving: "Cómo llegar (Auto)", copy: "Copiar", copied: "Copiado ✅", watch: "Ver", map: "Mapa", whatsapp: "WhatsApp" },
+        nav: { home:"Inicio", arrival:"Llegada", condo:"Condo", local:"Local", more:"Más" },
+        buttons: { copy: "Copiar", copied: "Copiado ✅", watch: "Ver", map: "Mapa" },
         labels: { address: "Dirección", checkin: "Llegada", checkout: "Salida", wifiNetwork: "Red", wifiPassword: "Contraseña" },
         sections: {
-          quick: "Acciones rápidas",
-          common: "Más común",
           parking: "Estacionamiento", home: "Casa", pool: "Piscina", quiet: "Silencio",
           supermarkets: "Supermercados", local: "Tienda / OXXO", fruit: "Frutas (Colonia)",
-          breakfast: "Desayuno / Café", seafood: "Mariscos", dinner: "Cena", pizza: "Pizza",
-          pharmacies: "Farmacias",
-          authorities: "Autoridades (Emergencias reales)", property: "Problemas del depa (Administradores)", owner: "Propietario / Comentarios"
+          breakfast: "Desayuno / Café", seafood: "Mariscos", dinner: "Cena", pizza: "Pizza"
         }
       }
     };
@@ -863,19 +889,19 @@
       unitToggle.textContent = (lang==="en" ? `Unit ${u.label}` : `Unidad ${u.label}`);
 
       const labels = I18N[lang].nav;
-      const mapBtn = document.querySelector('.navBtn[data-page="directions"]');
       const homeBtn = document.querySelector('.navBtn[data-page="home"]');
-      const arrBtn = document.querySelector('.navBtn[data-page="arrival"]');
-      const wifiBtn = document.querySelector('.navBtn[data-page="wifi"]');
+      const arrBtn  = document.querySelector('.navBtn[data-page="arrival"]');
+      const conBtn  = document.querySelector('.navBtn[data-page="condo"]');
+      const locBtn  = document.querySelector('.navBtn[data-page="local"]');
       if(homeBtn) homeBtn.lastChild.nodeValue = labels.home;
-      if(mapBtn) mapBtn.lastChild.nodeValue = labels.map;
-      if(arrBtn) arrBtn.lastChild.nodeValue = labels.arrival;
-      if(wifiBtn) wifiBtn.lastChild.nodeValue = labels.wifi;
+      if(arrBtn)  arrBtn.lastChild.nodeValue  = labels.arrival;
+      if(conBtn)  conBtn.lastChild.nodeValue  = labels.condo;
+      if(locBtn)  locBtn.lastChild.nodeValue  = labels.local;
       if(openMoreBtn) openMoreBtn.lastChild.nodeValue = labels.more;
 
       searchTitle.textContent = I18N[lang].searchTitle;
-      searchHint.textContent = I18N[lang].searchHint;
-      moreTitle.textContent = I18N[lang].moreTitle;
+      searchHint.textContent  = I18N[lang].searchHint;
+      moreTitle.textContent   = I18N[lang].moreTitle;
 
       buildMoreList();
     }
@@ -950,81 +976,111 @@
       window.__focusId = null;
     }
 
+    function openSheet(el){
+      el.classList.add("open");
+      if(el === searchBackdrop){
+        setTimeout(()=> searchInput.focus(), 50);
+      }
+    }
+    function closeSheet(el){ el.classList.remove("open"); }
+
+    function initAccordion(root){
+      if (!root) return;
+
+      const details = [...root.querySelectorAll("details")];
+      details.forEach(d => d.open = false);
+
+      root.addEventListener("toggle", (e) => {
+        const opened = e.target;
+        if (!(opened instanceof HTMLDetailsElement)) return;
+        if (!opened.open) return;
+
+        const localGroup =
+          opened.closest(".detailsBody")?.querySelectorAll(":scope > details") ||
+          root.querySelectorAll("details");
+
+        [...localGroup].forEach(d => {
+          if (d !== opened) d.open = false;
+        });
+      }, true);
+    }
+
     function render(page){
       currentPage = page;
       setActiveNav(page);
 
       if(page === "home"){
-        const t = (lang==="en") ? "Welcome" : "Bienvenidos";
-        const commonTitle = I18N[lang].sections.common;
-
         const addr = makeAddress();
-        const checkin = CONTENT.arrival.checkinTime;
-        const checkout = CONTENT.arrival.checkoutTime;
-
-        const actions = `
-          <div class="actions" role="list">
-            <a class="action" href="${CONTENT.directions.mapLink}" target="_blank" rel="noopener" role="listitem">
-              <div class="badge">🗺️</div>
-              <div><strong>${lang==="en"?"Open Maps":"Abrir Maps"}</strong><span>${lang==="en"?"Driving directions":"Cómo llegar en auto"}</span></div>
-            </a>
-
-            <button class="action" type="button" role="listitem" data-jump="wifi">
-              <div class="badge">📶</div>
-              <div><strong>Wi-Fi</strong><span>${lang==="en"?"Network + password":"Red + contraseña"}</span></div>
-            </button>
-
-            <button class="action" type="button" role="listitem" data-jump="house" data-focus="trash">
-              <div class="badge">🚮</div>
-              <div><strong>${lang==="en"?"Trash":"Basura"}</strong><span>🔒 3648</span></div>
-            </button>
-
-            <button class="action" type="button" role="listitem" data-jump="sos">
-              <div class="badge">🛠️</div>
-              <div><strong>${lang==="en"?"Message managers":"WhatsApp admins"}</strong><span>${lang==="en"?"Fast help for condo issues":"Ayuda rápida"}</span></div>
-            </button>
-          </div>
-        `;
-
-        const commonVideos = (CONTENT.houseGuideVideos || []).filter(v => ["trash","safe"].includes(v.id) || /Door Lock/i.test(v.titleEN));
-        const commonCards = commonVideos.map((v,i)=>{
-          const name = (lang==="en" ? v.titleEN : v.titleES);
-          const sub = (lang==="en" ? (v.subEN||"") : (v.subES||""));
-          return linkCard(`${v.icon? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, i%2===1, sub, v.id || "");
-        }).join("");
-
         pageEl.innerHTML = `
           <section class="card">
-            <h2 class="h2">🏝️ ${t}</h2>
-            <p class="meta">${lang==="en"
-              ? "Use this page to find things fast (especially on your phone)."
-              : "Usa esta página para encontrar todo rápido (especialmente en tu celular)."
-            }</p>
-            <div class="stack">
-              ${kv("teal", I18N[lang].labels.checkin, checkin)}
-              ${kv("coral", I18N[lang].labels.checkout, checkout)}
+            <div class="hero">
+              <div class="heroMedia">
+                <img src="hero.webp" alt="${lang==="en"?"Pool and tropical garden":"Piscina y jardín tropical"}" loading="eager" decoding="async" />
+                <div class="heroOverlay" aria-hidden="true"></div>
+                <div class="heroText">
+                  <h2>${lang==="en"?"Welcome":"Bienvenidos"}</h2>
+                  <p>${lang==="en"?"Everything you need—right here on your phone.":"Todo lo que necesitas—en tu celular."}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="stack" style="margin-top:12px;">
+              ${kv("teal", I18N[lang].labels.checkin, CONTENT.arrival.checkinTime)}
+              ${kv("coral", I18N[lang].labels.checkout, CONTENT.arrival.checkoutTime)}
               <div class="kv">
                 <div class="k">${I18N[lang].labels.address}</div>
                 <div class="v left">${addr}</div>
               </div>
-
-              <div>
-                <div class="meta" style="margin:10px 0 8px; font-weight:900; color: rgba(23,33,38,.80);">${I18N[lang].sections.quick}</div>
-                ${actions}
-              </div>
             </div>
-            <p class="meta" style="text-align:center; margin: 10px 0 0;">${I18N[lang].footerTip}</p>
-          </section>
 
-          <section class="card">
-            <h2 class="h2">✨ ${commonTitle}</h2>
-            <p class="meta">${lang==="en" ? "The most-used items during stays." : "Lo más usado durante la estancia."}</p>
-            <div class="linkGrid">${commonCards}</div>
+            <div class="tiles" role="list" aria-label="${lang==="en"?"Quick tiles":"Accesos rápidos"}">
+              <button class="tile" type="button" role="listitem" data-jump="arrival">
+                <div class="tileLeft">
+                  <strong>🧳 ${lang==="en"?"Arrival":"Llegada"}</strong>
+                  <span>${lang==="en"?"Gate + check-in + airport transport":"Caseta + entrada + transporte"}</span>
+                </div>
+                <div class="tileIco">→</div>
+              </button>
 
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-              <button class="chip primary" type="button" data-jump="arrival">${lang==="en"?"Arrival & Checkout":"Llegada y salida"}</button>
-              <button class="chip" type="button" data-jump="rules">${lang==="en"?"House rules":"Reglas"}</button>
-              <button class="chip" type="button" data-jump="food">${lang==="en"?"Restaurants":"Restaurantes"}</button>
+              <button class="tile" type="button" role="listitem" data-jump="condo" data-focus="wifi">
+                <div class="tileLeft">
+                  <strong>📶 Wi-Fi</strong>
+                  <span>${lang==="en"?"Network + QR":"Red + QR"}</span>
+                </div>
+                <div class="tileIco">📶</div>
+              </button>
+
+              <button class="tile" type="button" role="listitem" data-jump="condo" data-focus="videos">
+                <div class="tileLeft">
+                  <strong>🎬 ${lang==="en"?"Videos":"Videos"}</strong>
+                  <span>${lang==="en"?"Door, A/C, safe, trash…":"Puerta, A/C, caja fuerte…"}</span>
+                </div>
+                <div class="tileIco">🎥</div>
+              </button>
+
+              <button class="tile" type="button" role="listitem" data-jump="local">
+                <div class="tileLeft">
+                  <strong>📍 ${lang==="en"?"Local guide":"Guía local"}</strong>
+                  <span>${lang==="en"?"Food, shopping, rentals":"Comida, compras, rentas"}</span>
+                </div>
+                <div class="tileIco">🗺️</div>
+              </button>
+
+              <button class="tile" type="button" role="listitem" data-jump="local" data-focus="checkout">
+                <div class="tileLeft">
+                  <strong>✅ ${lang==="en"?"Departure":"Salida"}</strong>
+                  <span>${lang==="en"?"Check-out checklist":"Checklist de salida"}</span>
+                </div>
+                <div class="tileIco coral">⏱️</div>
+              </button>
+
+              <button class="tile" type="button" role="listitem" data-jump="condo" data-focus="sos">
+                <div class="tileLeft">
+                  <strong>🆘 ${lang==="en"?"Help":"Ayuda"}</strong>
+                  <span>${lang==="en"?"WhatsApp managers":"WhatsApp administradores"}</span>
+                </div>
+                <div class="tileIco coral">💬</div>
+              </button>
             </div>
           </section>
         `;
@@ -1036,44 +1092,20 @@
           });
         });
 
+        initAccordion(pageEl);
         return;
       }
 
-      if(page === "directions"){
-        const addr = makeAddress();
-        pageEl.innerHTML = `
-          <section class="card">
-            <h2 class="h2">🗺️ ${lang==="en"?"Directions":"Cómo llegar"}</h2>
-            <p class="meta">${lang==="en"
-              ? "Tap to open Google Maps. You can also copy the address."
-              : "Toca para abrir Google Maps. También puedes copiar la dirección."
-            }</p>
-            <div class="stack">
-              ${kv("teal", I18N[lang].labels.address, `<span class="mono">${addr}</span>`, true)}
-              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
-                <a class="chip primary" href="${CONTENT.directions.mapLink}" target="_blank" rel="noopener">${I18N[lang].buttons.driving} ↗</a>
-                <button class="chip" type="button" id="copyAddress">${I18N[lang].buttons.copy}</button>
-              </div>
-            </div>
-          </section>
-        `;
-        document.getElementById("copyAddress")?.addEventListener("click", async ()=>{
-          const ok = await copyText(addr);
-          toast(ok ? I18N[lang].buttons.copied : (lang==="en"?"Copy failed":"No se pudo copiar"));
-        });
-        return;
-      }
-
+      /* ----- Arrival / Condo / Local blocks are EXACTLY the ones you requested ----- */
       if(page === "arrival"){
         const notes = (lang==="en") ? CONTENT.arrival.notesEN : CONTENT.arrival.notesES;
-        const checklist = (lang==="en") ? CONTENT.arrival.checkoutEN : CONTENT.arrival.checkoutES;
 
         pageEl.innerHTML = `
           <section class="card">
-            <h2 class="h2">🧳 ${lang==="en"?"Arrival & Departure":"Llegada y salida"}</h2>
+            <h2 class="h2">🧳 ${lang==="en"?"Arrival":"Llegada"}</h2>
             <p class="meta">${lang==="en"
-              ? "Everything in one place for a smooth check-in and check-out."
-              : "Todo en un solo lugar para una llegada y salida sin complicaciones."
+              ? "Quick essentials for getting in smoothly."
+              : "Lo esencial para entrar sin complicaciones."
             }</p>
 
             <div class="stack">
@@ -1082,43 +1114,164 @@
             </div>
 
             <div class="stack" style="margin-top:12px;">
-              <details open>
-                <summary>${lang==="en"?"Arrival notes":"Notas de llegada"} <span class="chev">⌄</span></summary>
-                <div class="detailsBody">${bullets(notes)}</div>
+              <details id="gate">
+                <summary>${lang==="en"?"Main gate instructions":"Instrucciones para la caseta"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <div class="kv">
+                    <div class="k">${lang==="en"?"At the gate":"En la caseta"}</div>
+                    <div class="v left">${lang==="en"
+                      ? "Tell the security guard your name and the condo unit you reserved."
+                      : "Dile al guardia tu nombre y la unidad que reservaste."
+                    }</div>
+                  </div>
+
+                  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                    <a class="chip primary" href="https://wa.me/${String(CONTENT.contacts.gate.whatsappE164).replace(/\D/g,'')}" target="_blank" rel="noopener">
+                      💬 ${lang==="en"?"WhatsApp gate":"WhatsApp caseta"} ↗
+                    </a>
+                  </div>
+                </div>
               </details>
 
-              <details>
-                <summary>${lang==="en"?"Check-out checklist":"Checklist de salida"} <span class="chev">⌄</span></summary>
-                <div class="detailsBody">${bullets(checklist)}</div>
+              <details id="checkin-notes">
+                <summary>${lang==="en"?"Check-in notes":"Notas de llegada"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  ${bullets(notes)}
+                  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                    <a class="chip primary" href="${(CONTENT.houseGuideVideos||[]).find(v=>v.id==="door")?.link || "#"}" target="_blank" rel="noopener">
+                      🎬 ${lang==="en"?"Watch door lock":"Ver cerradura"} ↗
+                    </a>
+                  </div>
+                </div>
+              </details>
+
+              <details id="transport">
+                <summary>${lang==="en"?"Transportation from the airport":"Transporte desde el aeropuerto"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <p class="meta" style="margin:0 0 10px;">${lang==="en"
+                    ? "For reliable transportation from the Cancún airport, you can contact the property manager (Gerardo) or use a trusted transfer service."
+                    : "Para transporte confiable desde el aeropuerto de Cancún, puedes contactar al administrador (Gerardo) o usar un servicio de traslados."
+                  }</p>
+
+                  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <a class="chip primary" href="https://usa-transfers.com/" target="_blank" rel="noopener">USA Transfers: ${lang==="en"?"Book":"Reservar"} ↗</a>
+                    <a class="chip primary" href="https://www.canadatransfers.com/" target="_blank" rel="noopener">Canada Transfers: ${lang==="en"?"Book":"Reservar"} ↗</a>
+                    <a class="chip" href="https://wa.me/${String(CONTENT.sos.propertyManagers[0].whatsappE164).replace(/\D/g,'')}" target="_blank" rel="noopener">💬 WhatsApp Gerardo ↗</a>
+                  </div>
+                </div>
+              </details>
+
+              <details id="departure">
+                <summary>${lang==="en"?"Departure (when it’s time)":"Salida (cuando llegue el momento)"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <p class="meta" style="margin:0 0 10px;">${lang==="en"
+                    ? "You’ll find the full check-out checklist under the Departure tile."
+                    : "La lista completa de salida está en el botón de “Salida”."
+                  }</p>
+                  <button class="chip primary" type="button" data-jump="local" data-focus="checkout">${lang==="en"?"Go to Departure":"Ir a salida"}</button>
+                </div>
               </details>
             </div>
           </section>
         `;
+
+        pageEl.querySelectorAll("[data-jump]").forEach(el=>{
+          el.addEventListener("click", ()=>{
+            const target = el.getAttribute("data-jump");
+            if(target) go(target, el.getAttribute("data-focus"));
+          });
+        });
+
+        initAccordion(pageEl);
+        setTimeout(scrollToFocusIfNeeded, 60);
         return;
       }
 
-      if(page === "wifi"){
+      if(page === "condo"){
+        const vids = (CONTENT.houseGuideVideos || []).map((v,i)=>{
+          const name = (lang==="en" ? v.titleEN : v.titleES);
+          const sub  = (lang==="en" ? (v.subEN||"") : (v.subES||""));
+          return linkCard(`${v.icon? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, i%2===1, sub, v.id || "");
+        }).join("");
+
         pageEl.innerHTML = `
-          <section class="card">
-            <h2 class="h2">📶 Wi-Fi</h2>
-            <p class="meta">${lang==="en"
-              ? "Use the info below or scan the QR code."
-              : "Usa la información de abajo o escanea el código QR."
-            }</p>
+          <section class="card" id="condoTop">
+            <h2 class="h2">🏠 ${lang==="en"?"Condo":"Condo"}</h2>
 
             <div class="stack">
-              ${kv("teal", I18N[lang].labels.wifiNetwork, `<span class="mono">${CONTENT.wifi.name}</span>`, true)}
-              ${kv("coral", I18N[lang].labels.wifiPassword, `<span class="mono">${CONTENT.wifi.pass}</span>`, true)}
-            </div>
+              <details id="wifi">
+                <summary>📶 Wi-Fi <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <div class="kv">
+                    <div class="k">${I18N[lang].labels.wifiNetwork}</div>
+                    <div class="v left"><span class="mono">${CONTENT.wifi.name}</span></div>
+                  </div>
+                  <div class="kv coral" style="margin-top:10px;">
+                    <div class="k">${I18N[lang].labels.wifiPassword}</div>
+                    <div class="v left"><span class="mono">${CONTENT.wifi.pass}</span></div>
+                  </div>
 
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-              <button class="chip primary" type="button" id="copyWifiPass">${lang==="en"?"Copy password":"Copiar contraseña"}</button>
-              <button class="chip" type="button" id="copyWifiAll">${lang==="en"?"Copy network + pass":"Copiar red + contraseña"}</button>
-            </div>
+                  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                    <button class="chip primary" type="button" id="copyWifiPass">${lang==="en"?"Copy password":"Copiar contraseña"}</button>
+                    <button class="chip" type="button" id="copyWifiAll">${lang==="en"?"Copy network + pass":"Copiar red + contraseña"}</button>
+                  </div>
 
-            <div class="qrWrap">
-              <img class="qr" src="wifi-qr.jpg" alt="Wi-Fi QR Code" loading="lazy" decoding="async" />
-              <p class="meta" style="margin:0;">${lang==="en"?"Scan to connect automatically":"Escanea para conectarte automáticamente"}</p>
+                  <div class="qrWrap">
+                    <img class="qr" src="qr.webp" alt="Wi-Fi QR code" loading="lazy" decoding="async" />
+                    <p class="meta" style="margin:0;">${lang==="en"?"Scan to connect":"Escanea para conectarte"}</p>
+                  </div>
+                </div>
+              </details>
+
+              <details id="videos">
+                <summary>🎬 ${lang==="en"?"How-to videos":"Videos (cómo usar)"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <div class="linkGrid">${vids}</div>
+                </div>
+              </details>
+
+              <details id="rules">
+                <summary>📌 ${lang==="en"?"House rules":"Reglas"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <details id="rules-parking">
+                    <summary>${I18N[lang].sections.parking} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody">${bullets(lang==="en"?CONTENT.rules.parkingEN:CONTENT.rules.parkingES)}</div>
+                  </details>
+                  <details id="rules-home">
+                    <summary>${I18N[lang].sections.home} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody">${bullets(lang==="en"?CONTENT.rules.homeEN:CONTENT.rules.homeES)}</div>
+                  </details>
+                  <details id="rules-pool">
+                    <summary>${I18N[lang].sections.pool} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody">${bullets(lang==="en"?CONTENT.rules.poolEN:CONTENT.rules.poolES)}</div>
+                  </details>
+                  <details id="rules-quiet">
+                    <summary>${I18N[lang].sections.quiet} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody">${bullets(lang==="en"?CONTENT.rules.quietEN:CONTENT.rules.quietES)}</div>
+                  </details>
+                </div>
+              </details>
+
+              <details id="sos">
+                <summary>🆘 ${lang==="en"?"Help & contacts":"Ayuda y contactos"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <div class="linkGrid">
+                    ${linkCard(`💬 ${CONTENT.sos.propertyManagers[0].name} (WhatsApp)`, `https://wa.me/${String(CONTENT.sos.propertyManagers[0].whatsappE164).replace(/\D/g,'')}`, "WhatsApp", false, (lang==="en"?"Property manager":"Administrador"))}
+                    ${linkCard(`💬 ${CONTENT.sos.propertyManagers[1].name} (WhatsApp)`, `https://wa.me/${String(CONTENT.sos.propertyManagers[1].whatsappE164).replace(/\D/g,'')}`, "WhatsApp", true, (lang==="en"?"Property manager":"Administrador"))}
+                    ${linkCard(`💬 ${CONTENT.sos.owner.name} (WhatsApp)`, `https://wa.me/${String(CONTENT.sos.owner.whatsappE164).replace(/\D/g,'')}`, "WhatsApp", false, (lang==="en"?"Owner / feedback":"Propietario / comentarios"))}
+                  </div>
+
+                  <div class="kv coral" style="margin-top:10px;">
+                    <div class="k">${lang==="en"?"Emergency":"Emergencias"}</div>
+                    <div class="v left">
+                      <span class="mono">911</span>
+                      <div style="margin-top:6px; font-size:12.5px; color: var(--muted);">
+                        ${lang==="en" ? "Use only for real emergencies." : "Úsalo solo para emergencias reales."}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </details>
             </div>
           </section>
         `;
@@ -1127,202 +1280,144 @@
           const ok = await copyText(CONTENT.wifi.pass);
           toast(ok ? I18N[lang].buttons.copied : (lang==="en"?"Copy failed":"No se pudo copiar"));
         });
-
         document.getElementById("copyWifiAll")?.addEventListener("click", async ()=>{
           const combo = `Wi-Fi: ${CONTENT.wifi.name}\nPassword: ${CONTENT.wifi.pass}`;
           const ok = await copyText(combo);
           toast(ok ? I18N[lang].buttons.copied : (lang==="en"?"Copy failed":"No se pudo copiar"));
         });
-        return;
-      }
 
-      if(page === "house"){
-        const title = (lang==="en" ? "Video House Guide" : "Guía en video");
-        const desc  = (lang==="en" ? "Tap a video for quick how-tos." : "Toca un video para ver cómo usar cosas de la casa.");
-
-        const vids = (CONTENT.houseGuideVideos || []).map((v,i)=>{
-          const name = (lang==="en" ? v.titleEN : v.titleES);
-          const sub  = (lang==="en" ? (v.subEN||"") : (v.subES||""));
-          return linkCard(`${v.icon? v.icon+" " : ""}${name}`, v.link, I18N[lang].buttons.watch, i%2===1, sub, v.id || "");
-        }).join("");
-
-        pageEl.innerHTML = `
-          <section class="card" id="houseTop">
-            <h2 class="h2">🎥 ${title}</h2>
-            <p class="meta">${desc}</p>
-            <div class="linkGrid">${vids}</div>
-          </section>
-        `;
-
+        initAccordion(pageEl);
         setTimeout(scrollToFocusIfNeeded, 60);
         return;
       }
 
-      if(page === "rules"){
-        const parking = bullets(lang==="en" ? CONTENT.rules.parkingEN : CONTENT.rules.parkingES);
-        const home = bullets(lang==="en" ? CONTENT.rules.homeEN : CONTENT.rules.homeES);
-        const pool = bullets(lang==="en" ? CONTENT.rules.poolEN : CONTENT.rules.poolES);
-        const quiet = bullets(lang==="en" ? CONTENT.rules.quietEN : CONTENT.rules.quietES);
-
-        pageEl.innerHTML = `
-          <section class="card">
-            <h2 class="h2">📌 ${lang==="en"?"House Rules":"Reglas de la casa"}</h2>
-            <p class="meta">${lang==="en"
-              ? "A few friendly rules to keep everyone comfortable."
-              : "Unas reglas sencillas para que todos estén a gusto."
-            }</p>
-
-            <div class="stack">
-              <details open>
-                <summary>${I18N[lang].sections.parking} <span class="chev">⌄</span></summary>
-                <div class="detailsBody">${parking}</div>
-              </details>
-              <details>
-                <summary>${I18N[lang].sections.home} <span class="chev">⌄</span></summary>
-                <div class="detailsBody">${home}</div>
-              </details>
-              <details>
-                <summary>${I18N[lang].sections.pool} <span class="chev">⌄</span></summary>
-                <div class="detailsBody">${pool}</div>
-              </details>
-              <details>
-                <summary>${I18N[lang].sections.quiet} <span class="chev">⌄</span></summary>
-                <div class="detailsBody">${quiet}</div>
-              </details>
-            </div>
-          </section>
-        `;
-        return;
-      }
-
-      if(page === "shopping"){
-        const makeCards = (arr) => (arr||[]).map((p,i)=> linkCard(p.name, p.link, (lang==="en"?"Map":"Mapa"), i%2===1)).join("");
-
-        pageEl.innerHTML = `
-          <section class="card">
-            <h2 class="h2">🛒 ${lang==="en"?"Shopping":"Compras"}</h2>
-            <p class="meta">${lang==="en"?"Nearby places to buy food and essentials.":"Lugares cercanos para comprar comida y lo esencial."}</p>
-
-            <details open>
-              <summary>${I18N[lang].sections.supermarkets} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.shopping.supermarkets)}</div></div>
-            </details>
-
-            <details>
-              <summary>${I18N[lang].sections.local} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.shopping.localGroceries)}</div></div>
-            </details>
-
-            <details>
-              <summary>${I18N[lang].sections.fruit} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.shopping.fruitStands)}</div></div>
-            </details>
-          </section>
-        `;
-        return;
-      }
-
-      if(page === "food"){
+      if(page === "local"){
+        const addr = makeAddress();
         const makeCards = (arr) => (arr||[]).map((p,i)=> linkCard(p.name, p.link, I18N[lang].buttons.map, i%2===1)).join("");
 
         pageEl.innerHTML = `
           <section class="card">
-            <h2 class="h2">🍽️ ${lang==="en"?"Restaurant Guide":"Guía de restaurantes"}</h2>
+            <h2 class="h2">📍 ${lang==="en"?"Local guide":"Guía local"}</h2>
             <p class="meta">${lang==="en"
-              ? "Top picks, organized for quick decisions."
-              : "Recomendaciones organizadas para decidir rápido."
+              ? "Food, essentials, rentals, and activities—organized for quick decisions."
+              : "Comida, básicos, rentas y actividades—organizado para decidir rápido."
             }</p>
 
-            <details open>
-              <summary>${I18N[lang].sections.breakfast} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.breakfast)}</div></div>
-            </details>
+            <div class="stack">
+              <details id="address">
+                <summary>🗺️ ${lang==="en"?"Address & map":"Dirección y mapa"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <div class="kv">
+                    <div class="k">${I18N[lang].labels.address}</div>
+                    <div class="v left"><span class="mono">${addr}</span></div>
+                  </div>
 
-            <details>
-              <summary>${I18N[lang].sections.seafood} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.seafood)}</div></div>
-            </details>
+                  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                    <button class="chip primary" type="button" id="copyAddress">${lang==="en"?"Copy address":"Copiar dirección"}</button>
+                    <a class="chip" href="${CONTENT.directions.mapLink}" target="_blank" rel="noopener">🗺️ ${lang==="en"?"Open map":"Abrir mapa"} ↗</a>
+                  </div>
 
-            <details>
-              <summary>${I18N[lang].sections.dinner} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.dinner)}</div></div>
-            </details>
+                  <p class="meta" style="margin-top:10px;">${lang==="en"
+                    ? "If you rented a car, use the map link above and follow GPS directions to Selva Escondida. At the gate, show your reservation and ask to enter for the unit. Park only in the assigned spot for your apartment."
+                    : "Si rentaste auto, usa el mapa y sigue el GPS a Selva Escondida. En la caseta, muestra tu reservación y pide entrar para tu unidad. Estaciona solo en el lugar asignado."
+                  }</p>
+                </div>
+              </details>
 
-            <details>
-              <summary>${I18N[lang].sections.pizza} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.pizza)}</div></div>
-            </details>
-          </section>
-        `;
-        return;
-      }
+              <details id="shopping">
+                <summary>🛒 ${lang==="en"?"Shopping":"Compras"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <details id="supermarkets">
+                    <summary>${I18N[lang].sections.supermarkets} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.shopping.supermarkets)}</div></div>
+                  </details>
+                  <details id="localGroceries">
+                    <summary>${I18N[lang].sections.local} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.shopping.localGroceries)}</div></div>
+                  </details>
+                  <details id="fruit">
+                    <summary>${I18N[lang].sections.fruit} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.shopping.fruitStands)}</div></div>
+                  </details>
+                </div>
+              </details>
 
-      if(page === "medical"){
-        const cards = (CONTENT.medical.pharmacies || []).map((p,i)=> linkCard(p.name, p.link, (lang==="en"?"Map":"Mapa"), i%2===1)).join("");
-        pageEl.innerHTML = `
-          <section class="card">
-            <h2 class="h2">🩺 ${lang==="en"?"Medical Assistance":"Asistencia médica"}</h2>
-            <p class="meta">${lang==="en"?"Pharmacies and medical help.":"Farmacias y apoyo médico."}</p>
-            <div class="linkGrid">${cards}</div>
-          </section>
-        `;
-        return;
-      }
+              <details id="food">
+                <summary>🍽️ ${lang==="en"?"Restaurants":"Restaurantes"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <details id="breakfast">
+                    <summary>${I18N[lang].sections.breakfast} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.breakfast)}</div></div>
+                  </details>
+                  <details id="seafood">
+                    <summary>${I18N[lang].sections.seafood} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.seafood)}</div></div>
+                  </details>
+                  <details id="dinner">
+                    <summary>${I18N[lang].sections.dinner} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.dinner)}</div></div>
+                  </details>
+                  <details id="pizza">
+                    <summary>${I18N[lang].sections.pizza} <span class="chev">⌄</span></summary>
+                    <div class="detailsBody"><div class="linkGrid">${makeCards(CONTENT.restaurants.pizza)}</div></div>
+                  </details>
+                </div>
+              </details>
 
-      if(page === "sos"){
-        const auth = (lang==="en" ? CONTENT.sos.authoritiesEN : CONTENT.sos.authoritiesES);
+              <details id="rentals">
+                <summary>🚗 ${lang==="en"?"Car & bike rentals":"Renta de auto y bici"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <div class="linkGrid">
+                    ${linkCard(`🚗 Luis (WhatsApp)`, `https://wa.me/${String(CONTENT.contacts.rentals.car.whatsappE164).replace(/\D/g,'')}`, "WhatsApp", false, (lang==="en"?"Car rental":"Renta de auto"))}
+                    ${linkCard(`🚲 Priscilla (WhatsApp)`, `https://wa.me/${String(CONTENT.contacts.rentals.bike.whatsappE164).replace(/\D/g,'')}`, "WhatsApp", true, (lang==="en"?"Bike rental":"Renta de bici"))}
+                  </div>
+                </div>
+              </details>
 
-        /* IMPORTANT: NO tap-to-call for 911 to prevent accidental dialing */
-        const authRows = (auth||[]).map((x,i)=>`
-          <div class="kv ${i%2===1?'coral':''}">
-            <div class="k">${x.label}</div>
-            <div class="v left">
-              <span class="mono">${x.value}</span>
-              <div style="margin-top:6px; font-size:12.5px; color: var(--muted);">
-                ${lang==="en" ? "Use only for real emergencies." : "Úsalo solo para emergencias reales."}
-              </div>
+              <details id="activities">
+                <summary>✨ ${lang==="en"?"Activities":"Actividades"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  <p class="meta" style="margin:0 0 10px;">${lang==="en"
+                    ? "Book experiences through Localbird."
+                    : "Reserva experiencias con Localbird."
+                  }</p>
+
+                  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <a class="chip primary" href="${CONTENT.links.localbird}" target="_blank" rel="noopener">Localbird: ${lang==="en"?"Explore & book":"Ver y reservar"} ↗</a>
+                  </div>
+
+                  <ul class="clean">
+                    <li>${lang==="en"?"Snorkeling at the Puerto Morelos reef":"Snorkel en el arrecife de Puerto Morelos"}</li>
+                    <li>${lang==="en"?"Cenotes day trip":"Excursión a cenotes"}</li>
+                    <li>${lang==="en"?"Catamaran / beach day":"Catamarán / día de playa"}</li>
+                    <li>${lang==="en"?"Chichén Itzá or Tulum ruins":"Chichén Itzá o Tulum"}</li>
+                  </ul>
+                </div>
+              </details>
+
+              <details id="checkout">
+                <summary>✅ ${lang==="en"?"Departure checklist":"Checklist de salida"} <span class="chev">⌄</span></summary>
+                <div class="detailsBody">
+                  ${bullets((lang==="en") ? CONTENT.arrival.checkoutEN : CONTENT.arrival.checkoutES)}
+                </div>
+              </details>
             </div>
-          </div>
-        `).join("");
-
-        const pmCards = (CONTENT.sos.propertyManagers || []).map((m,i)=>{
-          const label = `${m.name} (WhatsApp)`;
-          const url = `https://wa.me/${String(m.whatsappE164).replace(/\D/g,'')}`;
-          const sub = (lang==="en" ? "Repairs / condo issues" : "Reparaciones / problemas del depa");
-          return linkCard(label, url, I18N[lang].buttons.whatsapp, i%2===1, sub);
-        }).join("");
-
-        const owner = CONTENT.sos.owner || {};
-        const ownerUrl = `https://wa.me/${String(owner.whatsappE164).replace(/\D/g,'')}`;
-        const ownerSub = (lang==="en" ? "Owner questions / feedback" : "Preguntas / comentarios al propietario");
-        const ownerCard = linkCard(`${owner.name} (WhatsApp)`, ownerUrl, I18N[lang].buttons.whatsapp, true, ownerSub);
-
-        pageEl.innerHTML = `
-          <section class="card">
-            <h2 class="h2">🆘 ${lang==="en"?"SOS":"Ayuda"}</h2>
-            <p class="meta">${lang==="en"
-              ? "Pick the right contact for faster help."
-              : "Elige el contacto correcto para recibir ayuda más rápido."
-            }</p>
-
-            <details open>
-              <summary>${I18N[lang].sections.authorities} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="stack">${authRows}</div></div>
-            </details>
-
-            <details>
-              <summary>${I18N[lang].sections.property} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="linkGrid">${pmCards}</div></div>
-            </details>
-
-            <details>
-              <summary>${I18N[lang].sections.owner} <span class="chev">⌄</span></summary>
-              <div class="detailsBody"><div class="linkGrid">${ownerCard}</div></div>
-            </details>
           </section>
         `;
+
+        document.getElementById("copyAddress")?.addEventListener("click", async ()=>{
+          const ok = await copyText(addr);
+          toast(ok ? I18N[lang].buttons.copied : (lang==="en"?"Copy failed":"No se pudo copiar"));
+        });
+
+        initAccordion(pageEl);
+        setTimeout(scrollToFocusIfNeeded, 60);
         return;
       }
+
+      /* fallback */
+      pageEl.innerHTML = `<section class="card"><h2 class="h2">…</h2><p class="meta">Page not found.</p></section>`;
+      return;
     }
 
     function go(page, focusId){
@@ -1334,12 +1429,10 @@
     }
 
     const MORE_ITEMS = [
-      { page:"house", labelEN:"🎥 Videos", labelES:"🎥 Videos", hintEN:"How-to guides", hintES:"Guías rápidas" },
-      { page:"rules", labelEN:"📌 House rules", labelES:"📌 Reglas", hintEN:"Parking, pool, quiet hours", hintES:"Estacionamiento, piscina, silencio" },
-      { page:"shopping", labelEN:"🛒 Shopping", labelES:"🛒 Compras", hintEN:"Groceries + essentials", hintES:"Super + básicos" },
-      { page:"food", labelEN:"🍽️ Restaurants", labelES:"🍽️ Restaurantes", hintEN:"Top picks", hintES:"Recomendados" },
-      { page:"medical", labelEN:"🩺 Medical", labelES:"🩺 Médico", hintEN:"Pharmacies", hintES:"Farmacias" },
-      { page:"sos", labelEN:"🆘 SOS", labelES:"🆘 Ayuda", hintEN:"Contacts + emergencies", hintES:"Contactos + emergencias" }
+      { page:"home",   labelEN:"🏝️ Home",   labelES:"🏝️ Inicio",  hintEN:"Quick tiles", hintES:"Accesos rápidos" },
+      { page:"arrival",labelEN:"🧳 Arrival", labelES:"🧳 Llegada", hintEN:"Gate + transport", hintES:"Caseta + transporte" },
+      { page:"condo",  labelEN:"🏠 Condo",  labelES:"🏠 Condo",   hintEN:"Wi-Fi + videos + rules", hintES:"Wi-Fi + videos + reglas" },
+      { page:"local",  labelEN:"📍 Local",  labelES:"📍 Local",   hintEN:"Food + shopping + rentals", hintES:"Comida + compras + rentas" }
     ];
 
     function buildMoreList(){
@@ -1362,17 +1455,13 @@
     function getSearchIndex(){
       const addr = makeAddress();
       return [
-        { q: ["wifi","wi-fi","internet","contraseña","password","red"], label: "📶 Wi-Fi", hint: `${CONTENT.wifi.name} / ${CONTENT.wifi.pass}`, page:"wifi" },
-        { q: ["address","direccion","maps","mapa"], label: "🗺️ " + (lang==="en"?"Address / Maps":"Dirección / Maps"), hint: addr, page:"directions", copy: addr },
-
-        /* Trash combo searchable + copyable (3648) */
-        { q: ["trash","basura","padlock","candado","combo","combinacion","3648"], label: "🚮 " + (lang==="en"?"Trash padlock combo":"Combinación del candado"), hint: "🔒 3648", page:"house", copy:"3648", focus:"trash" },
-
-        { q: ["safe","caja fuerte"], label: "🔐 " + (lang==="en"?"Wall safe video":"Video caja fuerte"), hint: (UNITS[unitKey].safeVideo || ""), page:"house", focus:"safe" },
-        { q: ["checkout","check out","salida"], label: "🧳 " + (lang==="en"?"Checkout checklist":"Checklist de salida"), hint: CONTENT.arrival.checkoutTime, page:"arrival" },
-        { q: ["parking","estacionamiento"], label: "🅿️ " + (lang==="en"?"Parking rules":"Reglas de estacionamiento"), hint: (lang==="en" ? CONTENT.rules.parkingEN[0] : CONTENT.rules.parkingES[0]), page:"rules" },
-        { q: ["pool","piscina"], label: "🏊 " + (lang==="en"?"Pool rules":"Reglas de la piscina"), hint: (lang==="en" ? CONTENT.rules.poolEN[0] : CONTENT.rules.poolES[0]), page:"rules" },
-        { q: ["emergency","911","emergencia","ayuda","sos"], label: "🆘 " + (lang==="en"?"SOS / contacts":"Ayuda / contactos"), hint: "911", page:"sos" }
+        { q: ["wifi","wi-fi","internet","contraseña","password","red"], label: "📶 Wi-Fi", hint: `${CONTENT.wifi.name} / ${CONTENT.wifi.pass}`, page:"condo", focus:"wifi" },
+        { q: ["gate","caseta","security"], label: "🛡️ " + (lang==="en"?"Main gate":"Caseta"), hint: (lang==="en"?"Tell guard your name + unit":"Da tu nombre + unidad"), page:"arrival", focus:"gate" },
+        { q: ["transport","transfer","airport","aeropuerto"], label: "🛬 " + (lang==="en"?"Airport transportation":"Transporte aeropuerto"), hint: "USA / Canada Transfers", page:"arrival", focus:"transport" },
+        { q: ["address","direccion","maps","mapa"], label: "🗺️ " + (lang==="en"?"Address / map":"Dirección / mapa"), hint: addr, page:"local", focus:"address", copy: addr },
+        { q: ["trash","basura","padlock","candado","combo","combinacion","3648"], label: "🚮 " + (lang==="en"?"Trash combo":"Combinación basura"), hint: "🔒 3648", page:"condo", focus:"videos", copy:"3648" },
+        { q: ["safe","caja fuerte"], label: "🔐 " + (lang==="en"?"Safe video":"Video caja fuerte"), hint: UNITS[unitKey].safeVideo, page:"condo", focus:"videos" },
+        { q: ["checkout","check out","salida"], label: "✅ " + (lang==="en"?"Departure checklist":"Checklist salida"), hint: CONTENT.arrival.checkoutTime, page:"local", focus:"checkout" },
       ];
     }
 
@@ -1390,8 +1479,8 @@
         return `
           <button class="miniBtn" type="button"
             data-page="${it.page}"
-            data-copy="${it.copy?1:0}"
             data-focus="${it.focus||""}"
+            data-copy="${it.copy?1:0}"
             data-copytext="${safeCopy}">
             <div>${it.label}<span>${it.hint || ""}</span></div>
             <div class="rightMark">${tag}</div>
@@ -1415,14 +1504,6 @@
         });
       });
     }
-
-    function openSheet(el){
-      el.classList.add("open");
-      if(el === searchBackdrop){
-        setTimeout(()=> searchInput.focus(), 50);
-      }
-    }
-    function closeSheet(el){ el.classList.remove("open"); }
 
     navBtns.forEach(b=>{
       b.addEventListener("click", ()=> go(b.dataset.page));
